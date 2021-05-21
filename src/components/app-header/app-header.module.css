@@ -1,0 +1,21 @@
+
+.header {
+    height: 88px;
+    background: #1C1C21;
+}
+
+.site_nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.link_list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.link {
+}
