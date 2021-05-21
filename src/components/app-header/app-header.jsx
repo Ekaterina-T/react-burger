@@ -9,7 +9,7 @@ import {ProfileIcon}  from '@ya.praktikum/react-developer-burger-ui-components';
 
 function AppHeader(props) {
 
-    //need better way of applying somplext styles
+    //need better way of applying complex styles
     var navItemPadding = " pt-4 pr-5 pb-4 pl-5 ";
     var navLinkPadding = " ml-2 ";
     var navLinkText = " text text_type_main-default ";
