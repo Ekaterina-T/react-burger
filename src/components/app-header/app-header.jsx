@@ -1,18 +1,14 @@
 //import React from 'react';
 
 import styles from './app-header.module.css';
-
-import {Logo}  from '@ya.praktikum/react-developer-burger-ui-components';
-import {BurgerIcon}  from '@ya.praktikum/react-developer-burger-ui-components';
-import {ListIcon}  from '@ya.praktikum/react-developer-burger-ui-components';
-import {ProfileIcon}  from '@ya.praktikum/react-developer-burger-ui-components';
+import {Logo, BurgerIcon, ListIcon, ProfileIcon}  from '@ya.praktikum/react-developer-burger-ui-components';
 
 function AppHeader(props) {
 
     //need better way of applying complex styles
-    var navItemPadding = " pt-4 pr-5 pb-4 pl-5 ";
-    var navLinkPadding = " ml-2 ";
-    var navLinkText = " text text_type_main-default ";
+    const navItemPadding = " pt-4 pr-5 pb-4 pl-5 ";
+    const navLinkPadding = " ml-2 ";
+    const navLinkText = " text text_type_main-default ";
 
     return (
         <header  className = {styles.header}>
