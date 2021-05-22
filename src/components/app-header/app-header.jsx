@@ -1,45 +1,43 @@
-//import React from 'react';
-
 import styles from './app-header.module.css';
 import {Logo, BurgerIcon, ListIcon, ProfileIcon}  from '@ya.praktikum/react-developer-burger-ui-components';
+import React from 'react';
 
-function AppHeader(props) {
 
-    //need better way of applying complex styles
-    const navItemPadding = " pt-4 pr-5 pb-4 pl-5 ";
-    const navLinkPadding = " ml-2 ";
-    const navLinkText = " text text_type_main-default ";
+class AppHeader extends React.Component {
 
-    return (
-        <header  className = {styles.header}>
+    render() {
 
-            <nav className = {styles.site_nav}>
-
-                <ul className = {styles.link_list}>
-                    <li className={navItemPadding}> 
-                        <a className={ navLinkPadding + navLinkText } href="#">
-                            <BurgerIcon/> <span className={styles.link_text}>Конструктор </span>
+        return (
+            <header  className = {styles.header}>
+    
+                <nav className = {styles.site_nav}>
+    
+                    <ul className = {styles.link_list}>
+                        <li className={styles.nav_elem}> 
+                            <a className={ styles.nav_link } href="#">
+                                <BurgerIcon/> <span>Конструктор </span>
+                            </a> 
+                        </li>
+                        <li className={styles.nav_elem}> 
+                            <a className={ styles.nav_link} href="#">
+                                <ListIcon/> <span>Лента заказов </span>
+                            </a> 
+                        </li>
+                    </ul> 
+    
+                    <h1> <Logo /> <span className="visually-hidden">Stellar Burger</span></h1>   
+    
+                    <div className={styles.nav_elem}> 
+                        <a className={ styles.nav_link} href="#">
+                            <ProfileIcon /> <span> Личный кабинет </span>
                         </a> 
-                    </li>
-                    <li className={navItemPadding}> 
-                        <a className={navLinkPadding + navLinkText} href="#">
-                            <ListIcon/> <span className={styles.link_text}>Лента заказов </span>
-                        </a> 
-                    </li>
-                </ul> 
-
-                <h1> <Logo /> <span className="visually-hidden">Stellar Burger</span></h1>   
-
-                <div className={navItemPadding}> 
-                    <a className={navLinkPadding + navLinkText} href="#">
-                        <ProfileIcon /> <span className={styles.link_text}> Личный кабинет </span>
-                    </a> 
-                </div>
-
-            </nav>  
-
-        </header>
-    ); 
+                    </div>
+    
+                </nav>  
+    
+            </header>
+        );
+    } 
 }
 
 export default AppHeader;

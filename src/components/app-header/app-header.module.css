@@ -17,5 +17,15 @@
     justify-content: space-around;
 }
 
-.link {
+.nav_elem {
+    composes: pt-4 from '../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
+    composes: pr-5 from '../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
+    composes: pb-4 from '../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
+    composes: pl-5 from '../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
+}
+
+.nav_link {
+    composes: text from '../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
+    composes: text_type_main-default from '../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
+    composes: ml-2 from '../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
 }
