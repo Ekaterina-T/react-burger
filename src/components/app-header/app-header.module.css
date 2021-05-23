@@ -4,29 +4,30 @@
 
 .nav {
     display: flex;
+    justify-content: space-around;
 }
 
-.nav_items {
-    display: flex;
-    flex-direction: row;
-}
 
 .visibility_desktop {
     border: 1px solid green;
+    display: initial;
 }
 
 .visibility_mobile {
     border: 1px solid red;
+    display: none !important;
 }
 
 @media screen and (max-width: 1000px) {
 
     .visibility_mobile {
         border: 1px solid green;
+        display: initial;
     }
 
     .visibility_desktop {
         border: 1px solid red;
+        display: none;
     }
 
     .nav_items {

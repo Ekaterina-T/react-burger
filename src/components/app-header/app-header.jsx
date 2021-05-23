@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from './app-header.module.css';
-import {Button, Logo, BurgerIcon, ListIcon, ProfileIcon, CloseIcon, InfoIcon}  from '@ya.praktikum/react-developer-burger-ui-components';
+import {Logo, BurgerIcon, ListIcon, ProfileIcon, CloseIcon, InfoIcon, MenuIcon }  from '@ya.praktikum/react-developer-burger-ui-components';
+import MenuItem from './menu-item/menu-item';
+import MenuUL from './menu-ul/menu-ul';
 
 class AppHeader extends React.Component {
 
@@ -14,6 +16,17 @@ class AppHeader extends React.Component {
 
     render() {
 
+        const menu_items = [
+            {id: "constructor", title: "Конструктор", href: "#", iconSec: <BurgerIcon type="secondary"/>, iconPri:  <BurgerIcon type="primary"/> }, 
+            {id: "orders", title: "Лента заказов", href: "#", iconSec: <ListIcon type="secondary"/>, iconPri:  <ListIcon type="primary"/> }, 
+            {id: "logo_desktop", title: "", href: "#", iconSec: <Logo type="secondary"/>, iconPri:  <Logo type="primary"/> }, 
+            {id: "profile", title: "Личный кабинет", href: "#", iconSec: <ProfileIcon type="secondary"/>, iconPri:  <ProfileIcon type="primary"/>, subitems: [
+                {id: "account", title: "Профиль" }, 
+                {id: "history", title: "История заказов" }, 
+                {id: "logout", title: "Выход" }
+            ] }, 
+        ];
+
         return (
             <header  className = {styles.header}>    
 
@@ -23,33 +36,7 @@ class AppHeader extends React.Component {
 
                     <div className={styles.visibility_mobile}><Logo/></div>
 
-                    <ul className={styles.nav_items}>
-
-                        <li>
-                            <Button type="secondary" size="medium"><BurgerIcon />Конструктор </Button>
-                        </li>
-
-                        <li>
-                            <a id="orders" href="#"><ListIcon /><span>Лента заказов </span></a> 
-                        </li>
-
-                        <li className={styles.visibility_desktop}> <a id="logo_desktop" href="#"><Logo /></a> </li>   
-                    
-                        <li>
-                            <a id="profile" href="#"><ProfileIcon /><span> Личный кабинет </span></a> 
-                            <ul>
-                                <li>
-                                    <a id="account" href="#"><span>Профиль </span></a> 
-                                </li>
-                                <li>
-                                    <a id="history" href="#"><span>История заказов </span></a> 
-                                </li>
-                                <li>
-                                    <a id="logout" href="#"><span>Выход </span></a> 
-                                </li>
-                            </ul>
-                        </li> 
-                    </ul>  
+                    <MenuUL data={menu_items} type="main" setDefault={true}/>
                     
                     <div className={styles.visibility_mobile}><CloseIcon/></div>
                     <div className={styles.visibility_mobile}><InfoIcon/></div>
