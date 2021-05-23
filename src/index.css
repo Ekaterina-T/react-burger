@@ -11,3 +11,70 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+body {
+  font-size: 14px;
+  color: #F2F2F3;
+}
+
+ul {
+  list-style: none;
+}
+
+
+a {
+  text-decoration: none;
+}
+
+
+/* ------ SCROLL ----- */
+
+/* webkit styles */
+::-webkit-scrollbar { 
+  /* 1 - скроллбар */ 
+  width: 10px;
+  }
+  
+  ::-webkit-scrollbar-button { 
+  /* 2 - кнопка */ 
+  }
+  
+  ::-webkit-scrollbar-track { 
+  /* 3 - трек */
+  background-color: #2F2F37;
+  }
+  ::-webkit-scrollbar-track-piece { 
+  /* 4 - видимая часть трека */ 
+  }
+  
+  ::-webkit-scrollbar-thumb { 
+  /* 5 - ползунок */ 
+  width: 2px;
+  border: 3px solid #8585AD;
+  background-color: #8585AD;
+  }
+  ::-webkit-scrollbar-corner { 
+  /* 6 - уголок */ 
+  }
+  ::-webkit-resizer  { 
+  /* 7 - изменение размеров */ 
+  }
+  

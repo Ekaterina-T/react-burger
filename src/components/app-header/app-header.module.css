@@ -1,31 +1,41 @@
-
 .header {
-    height: 88px;
     background: #1C1C21;
 }
 
-.site_nav {
+.nav {
+    display: flex;
+}
+
+.nav_items {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
 }
 
-.link_list {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+.visibility_desktop {
+    border: 1px solid green;
 }
 
-.nav_elem {
-    composes: pt-4 from '../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
-    composes: pr-5 from '../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
-    composes: pb-4 from '../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
-    composes: pl-5 from '../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
+.visibility_mobile {
+    border: 1px solid red;
 }
 
-.nav_link {
-    composes: text from '../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
-    composes: text_type_main-default from '../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
-    composes: ml-2 from '../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
+@media screen and (max-width: 1000px) {
+
+    .visibility_mobile {
+        border: 1px solid green;
+    }
+
+    .visibility_desktop {
+        border: 1px solid red;
+    }
+
+    .nav_items {
+        display: flex;
+        flex-direction: column-reverse;
+        width: 100vw;
+        height: calc(100vh - 56px);
+        position:fixed;
+        top: 56px;
+    }
+    
 }

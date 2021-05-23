@@ -1,39 +1,59 @@
-import styles from './app-header.module.css';
-import {Logo, BurgerIcon, ListIcon, ProfileIcon}  from '@ya.praktikum/react-developer-burger-ui-components';
 import React from 'react';
-
+import styles from './app-header.module.css';
+import {Button, Logo, BurgerIcon, ListIcon, ProfileIcon, CloseIcon, InfoIcon}  from '@ya.praktikum/react-developer-burger-ui-components';
 
 class AppHeader extends React.Component {
+
+    constructor (props) {        
+        super(props);
+
+        this.state = {
+            activePageId: 'constructor'
+        }
+    }
 
     render() {
 
         return (
-            <header  className = {styles.header}>
+            <header  className = {styles.header}>    
+
+                <h1 className="visually-hidden"><span>Stellar Burger</span></h1>              
     
-                <nav className = {styles.site_nav}>
-    
-                    <ul className = {styles.link_list}>
-                        <li className={styles.nav_elem}> 
-                            <a className={ styles.nav_link } href="#">
-                                <BurgerIcon/> <span>Конструктор </span>
-                            </a> 
+                <nav className = {styles.nav}>
+
+                    <div className={styles.visibility_mobile}><Logo/></div>
+
+                    <ul className={styles.nav_items}>
+
+                        <li>
+                            <Button type="secondary" size="medium"><BurgerIcon />Конструктор </Button>
                         </li>
-                        <li className={styles.nav_elem}> 
-                            <a className={ styles.nav_link} href="#">
-                                <ListIcon/> <span>Лента заказов </span>
-                            </a> 
+
+                        <li>
+                            <a id="orders" href="#"><ListIcon /><span>Лента заказов </span></a> 
                         </li>
-                    </ul> 
-    
-                    <h1> <Logo /> <span className="visually-hidden">Stellar Burger</span></h1>   
-    
-                    <div className={styles.nav_elem}> 
-                        <a className={ styles.nav_link} href="#">
-                            <ProfileIcon /> <span> Личный кабинет </span>
-                        </a> 
-                    </div>
-    
-                </nav>  
+
+                        <li className={styles.visibility_desktop}> <a id="logo_desktop" href="#"><Logo /></a> </li>   
+                    
+                        <li>
+                            <a id="profile" href="#"><ProfileIcon /><span> Личный кабинет </span></a> 
+                            <ul>
+                                <li>
+                                    <a id="account" href="#"><span>Профиль </span></a> 
+                                </li>
+                                <li>
+                                    <a id="history" href="#"><span>История заказов </span></a> 
+                                </li>
+                                <li>
+                                    <a id="logout" href="#"><span>Выход </span></a> 
+                                </li>
+                            </ul>
+                        </li> 
+                    </ul>  
+                    
+                    <div className={styles.visibility_mobile}><CloseIcon/></div>
+                    <div className={styles.visibility_mobile}><InfoIcon/></div>
+                </nav> 
     
             </header>
         );
