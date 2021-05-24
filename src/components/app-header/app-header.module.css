@@ -4,7 +4,7 @@
 
 .nav {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
 }
 
 
@@ -15,10 +15,10 @@
 
 .visibility_mobile {
     border: 1px solid red;
-    display: none !important;
+    display: none;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1200px) {
 
     .visibility_mobile {
         border: 1px solid green;
@@ -28,15 +28,5 @@
     .visibility_desktop {
         border: 1px solid red;
         display: none;
-    }
-
-    .nav_items {
-        display: flex;
-        flex-direction: column-reverse;
-        width: 100vw;
-        height: calc(100vh - 56px);
-        position:fixed;
-        top: 56px;
-    }
-    
+    }   
 }

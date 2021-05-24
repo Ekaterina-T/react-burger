@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './app-header.module.css';
-import {Logo, BurgerIcon, ListIcon, ProfileIcon, CloseIcon, InfoIcon, MenuIcon }  from '@ya.praktikum/react-developer-burger-ui-components';
+import {Logo, BurgerIcon, ListIcon, ProfileIcon, CloseIcon}  from '@ya.praktikum/react-developer-burger-ui-components';
+import {MenuIcon} from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/menu-icon';
 import MenuUL from './menu-ul/menu-ul';
 
 class AppHeader extends React.Component {
@@ -23,7 +24,7 @@ class AppHeader extends React.Component {
                 {id: "account", title: "Профиль" }, 
                 {id: "history", title: "История заказов" }, 
                 {id: "logout", title: "Выход" }
-            ] }, 
+            ] }
         ];
 
         return (
@@ -38,7 +39,7 @@ class AppHeader extends React.Component {
                     <MenuUL data={menu_items} type="main" setDefault={true}/>
                     
                     <div className={styles.visibility_mobile}><CloseIcon/></div>
-                    <div className={styles.visibility_mobile}><MenuIcon type="primary" /></div>
+                    <div className={styles.visibility_mobile}><MenuIcon /></div>
                 </nav> 
     
             </header>

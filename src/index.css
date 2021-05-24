@@ -77,4 +77,8 @@ a {
   ::-webkit-resizer  { 
   /* 7 - изменение размеров */ 
   }
+
+  .constructor-element__price {
+    margin-left: auto;
+  }
   
