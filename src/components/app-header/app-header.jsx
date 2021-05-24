@@ -38,7 +38,7 @@ class AppHeader extends React.Component {
                     <MenuUL data={menu_items} type="main" setDefault={true}/>
                     
                     <div className={styles.visibility_mobile}><CloseIcon/></div>
-                    <div className={styles.visibility_mobile}><CloseIcon  type="primary" /></div>
+                    <div className={styles.visibility_mobile}><MenuIcon type="primary" /></div>
                 </nav> 
     
             </header>
