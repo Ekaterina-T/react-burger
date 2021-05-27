@@ -1,0 +1,19 @@
+.constructor {
+    composes: pt-25 from global;  
+    composes: ml-5 from global;  
+    composes: mr-5 from global;  
+    box-sizing: border-box;
+}
+
+.main_area {
+    display: flex; 
+    flex-direction: column;
+    gap: 10px;
+}
+
+.scrollable_area {
+    composes: main_area;
+    composes: pr-2 from global;  
+    max-height: 500px;
+    overflow-y: scroll;  
+}

@@ -1,0 +1,43 @@
+.card {
+    composes: pl-4 from global;
+    composes: mb-8 from global;
+    composes: mr-3 from global;
+
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    max-width: 270px;
+    cursor: pointer;
+}
+
+.image {
+    composes: mr-4 from global;
+    composes: ml-4 from global;
+
+    width: 240px;
+    height: 120px;
+}
+
+.price {
+    composes: pt-1 from global;
+    composes: pb-1 from global;
+    display: flex;
+    justify-content: center;
+}
+
+.price_num {
+    composes: pr-1 from global;
+    composes: text from global;
+    composes: text_type_digits-default from global;
+}
+
+.name {
+    composes: text from global;
+    composes: text_type_main-default from global;
+    text-align: center;
+}
+
+.btn_wrapper {
+    composes: visibility_mobile from '../../app-header/app-header.module.css';
+    text-align: center;
+}

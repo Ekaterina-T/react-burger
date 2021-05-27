@@ -1,0 +1,13 @@
+.ingredients {
+    composes: pt-6 from global;
+    composes: mb-2 from global;
+    composes: pl-4 from global;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.title {
+    composes: text from global;
+    composes: text_type_main-medium from global;
+}
