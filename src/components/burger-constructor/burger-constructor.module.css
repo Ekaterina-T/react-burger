@@ -1,7 +1,5 @@
 .constructor {
-    composes: pt-25 from global;  
-    composes: ml-5 from global;  
-    composes: mr-5 from global;  
+    composes: pt-25 ml-5 mr-5 from global;
     box-sizing: border-box;
 }
 
@@ -17,3 +15,8 @@
     max-height: 500px;
     overflow-y: scroll;  
 }
+
+:global(.constructor-element__price) {
+    margin-left: auto;
+}
+  

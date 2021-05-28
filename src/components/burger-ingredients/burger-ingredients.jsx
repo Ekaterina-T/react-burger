@@ -3,18 +3,14 @@ import styles from './burger-ingredients.module.css';
 import IngredientGroup from './ingredient-group/ingredient-group';
 import Ingredient from './ingredient/ingredient';
 import TabMenu from './tab-menu/tab-menu';
-import {ingredients, ingredientGroups} from '../../utils/data';
+import {ingredients} from '../../utils/data';
+import {ingredientGroups} from '../../utils/constants';
 import PropTypes from 'prop-types';
 import {isImageLink} from '../../utils/prop-type-custom-checks';
 
 
 
 class BurgerIngredients extends React.Component {
-    
-    /*constructor(props) {
-        super(props);
-    } */
-
 
     render() {
 
@@ -34,10 +30,9 @@ class BurgerIngredients extends React.Component {
                         <IngredientGroup key={group.type} data={group}>                        
                             { ingredients
                                 .filter(ingredient => ingredient.type === group.type)
-                                .map((ingredient)=>{
+                                .map((ingredient, index)=>{
 
-                                    const ingredinetIndexInCart = cart.findIndex( item => item._id === ingredient._id);
-                                    ingredient.count = ingredinetIndexInCart < 0 ? 0 : cart[ingredinetIndexInCart].count;
+                                    ingredient.count = cart.filter( item => item._id === ingredient._id).length;
                                     
                                     return (
                                         <Ingredient key={ingredient._id} data={ingredient} updateCart={this.props.addIngredientToCart} />

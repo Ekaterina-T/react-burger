@@ -1,0 +1,52 @@
+.nav_item {
+    composes: text text_type_main-default pl-5 pr-5 mt-4 mb-4 from global;
+}
+
+.profile_item {
+    composes: nav_item;
+    margin-left: auto;
+}
+
+@media screen and (max-width: 1200px) {
+    .profile_item {
+        margin-left: 0;
+    }
+}
+
+.logo_desktop_item {
+    composes: nav_item;
+}
+
+@media screen and (max-width: 1200px) {
+
+    .logo_desktop_item {
+        display: none;
+    }   
+}
+
+.nav_link {
+    color: #8585AD;
+    display: flex;
+}
+
+.nav_link:hover{
+    color: #F2F2F3;
+}
+
+.nav_link:hover svg{
+    fill: #F2F2F3;
+}
+
+.logo_desktop_item:hover svg {
+    fill: none;
+}
+
+.nav_link_active {
+    composes: nav_link;
+    color: #F2F2F3;
+}
+
+.link_text {
+    composes: pl-2 from global;
+}
+

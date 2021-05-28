@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './app.css';
 
 import AppHeader from '../app-header/app-header.jsx';
 import Cart from '../cart/cart';
@@ -12,6 +12,7 @@ function App() {
       <main>
         <Cart />
       </main>
+      <div id="modals"></div>
     </>
   );
 }

@@ -78,7 +78,26 @@ a {
   /* 7 - изменение размеров */ 
   }
 
-  .constructor-element__price {
-    margin-left: auto;
-  }
+/* ------ Mobile vs desktop view ----- */
   
+.visibility_desktop {
+  display: initial;
+}
+
+.visibility_mobile {
+  display: none;
+}
+
+@media screen and (max-width: 1200px) {
+
+  .visibility_mobile {
+      display: initial;
+  }
+
+  .visibility_desktop {
+      display: none;
+  }   
+}
+
+  
+.constructor :global(.constructor-element__price)

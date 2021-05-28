@@ -1,4 +1,4 @@
-.menu_main {
+.main_nav {
     position: static;
     display: flex;
     flex-direction: row;
@@ -7,18 +7,18 @@
     margin: auto;
 }
 
-.menu_nested {
+.nested_nav {
     border: 1px solid red;
     display: none;
 }
 
 @media screen and (max-width: 1200px) {
 
-    .menu_main {
+    .main_nav {
         position: absolute;
         top: 56px;
         width: 100vw;
-        height: 100vh;
+        height: calc(100vh - 56px);
         z-index: 1;
         background: #1C1C21;
         display: flex;
@@ -27,8 +27,7 @@
         justify-content: flex-end;
     }
 
-    .menu_nested {
-        border: 1px solid green;
+    .nested_nav {
         display: flex;
         flex-direction: column;
     }   

@@ -7,17 +7,37 @@ import PropTypes from 'prop-types';
 
 class BurgerConstructor extends React.Component {
 
-    removeIngredient = () => {
-        this.props.removeFromCart(this.props.key);
-    }
-
     render() {
 
         const ingredients = this.props.cart;
-        const cartIsEmpty = ingredients.length === 0;
-        const showCart = !cartIsEmpty;
-        const lastItemIndex = ingredients.length - 1; 
-        const total = cartIsEmpty ? 0: ingredients.reduce((acc, ingredient) => acc + ingredient.price * ingredient.count, 0); 
+        const showCart = ingredients.length > 0;
+        const total = showCart ? ingredients.reduce((acc, ingredient) => acc + ingredient.price, 0) : 0; 
+
+        const buns = ingredients
+                    .filter((ingredient) => (ingredient.type === "bun"))
+                    .map((bun, index) => (
+                        <ConstructorElement 
+                                key = {bun.key}
+                                type={index === 0 ? "top" : "bottom"}
+                                isLocked={true} 
+                                text={bun.name} 
+                                price={bun.price} 
+                                thumbnail={bun.image} 
+                                handleClose={this.props.removeIngredientFromCart(bun.key)}/>
+                    ));
+
+        const fillings = ingredients
+                        .filter((ingredient) => (ingredient.type !== "bun"))
+                        .map((filling, index) => (
+                            <ConstructorElement 
+                                key = {filling.key}
+                                isLocked={false} 
+                                text={filling.name} 
+                                price={filling.price} 
+                                thumbnail={filling.image} 
+                                handleClose={this.props.removeIngredientFromCart(filling.key)}/>
+                            ));
+     
 
         return (
            
@@ -27,41 +47,9 @@ class BurgerConstructor extends React.Component {
                     <>
                         <div className = {styles.main_area}>
 
-                            <ConstructorElement 
-                                key = {ingredients[0]._id}
-                                type="top"
-                                isLocked={false} 
-                                text={ingredients[0].name} 
-                                price={ingredients[0].price} 
-                                thumbnail={ingredients[0].image} 
-                                handleClose={this.props.removeIngredientFromCart}/>
-
-                            <div className={styles.scrollable_area}>
-                                { ingredients
-                                .filter((ingredient, index) => (index>0 && index < ingredients.length-1))
-                                .map((ingredient) => (
-                                    <ConstructorElement 
-                                        key = {ingredient._id}
-                                        isLocked={false} 
-                                        text={ingredient.name} 
-                                        price={ingredient.price} 
-                                        thumbnail={ingredient.image} 
-                                        handleClose={this.props.removeIngredientFromCart}/>
-                                    ))
-                                }
-                            </div>
-
-                            {
-                                lastItemIndex > 0 && 
-                                <ConstructorElement 
-                                    key = {ingredients[lastItemIndex]._id}
-                                    type="bottom"
-                                    isLocked={false} 
-                                    text={ingredients[lastItemIndex].name} 
-                                    price={ingredients[lastItemIndex].price} 
-                                    thumbnail={ingredients[lastItemIndex].image} 
-                                    handleClose={this.props.removeIngredientFromCart}/>
-                            }
+                            { buns.length > 0 && buns[0] }
+                            <div className={styles.scrollable_area}> {fillings} </div>
+                            { buns.length > 0 && buns[1] }
 
                         </div>
                         <BurgerConstructorTotal total={total}/>

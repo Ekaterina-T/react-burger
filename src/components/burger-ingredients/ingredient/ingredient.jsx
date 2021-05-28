@@ -6,14 +6,9 @@ import {isImageLink} from '../../../utils/prop-type-custom-checks';
 
 class Ingredient extends React.Component {
 
-    /*
-    constructor(props) {
-        super(props);
-    }*/
-
     addIngredient = () => {
         const ingredient = this.props.data;
-        this.props.updateCart({...ingredient, count: ingredient.count+1});
+        this.props.updateCart(ingredient);
     }
 
     render() {

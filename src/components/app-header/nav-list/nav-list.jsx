@@ -1,9 +1,9 @@
 import React from 'react';
-import styles from './menu-ul.module.css';
-import MenuItem from '../menu-item/menu-item';
+import styles from './nav-list.module.css';
+import NavItem from '../nav-item/nav-item';
 import PropTypes from 'prop-types';
 
-class MenuUL extends React.Component {
+class NavList extends React.Component {
 
     constructor (props) {        
         super(props);
@@ -15,12 +15,13 @@ class MenuUL extends React.Component {
 
     render() {
 
-        const {data, type} = { ...this.props};
+        const data = this.props.data;
+        const type = this.props.type;
 
         return (            
-            <ul className={ type === 'main' ? styles.menu_main : styles.menu_nested}> 
+            <ul className={ type === 'main' ? styles.main_nav : styles.nested_nav}> 
                 { data.map( item => (
-                    <MenuItem 
+                    <NavItem 
                     key={item.id} 
                     data={item} />
                 ))}
@@ -29,10 +30,10 @@ class MenuUL extends React.Component {
     } 
 }
 
-MenuUL.propTypes = {
+NavList.propTypes = {
     data: PropTypes.arrayOf(PropTypes.object),
     type: PropTypes.oneOf(["main", "nested"]).isRequired
 };
 
-export default MenuUL;
+export default NavList;
 

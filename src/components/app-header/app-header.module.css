@@ -6,27 +6,3 @@
     display: flex;
     justify-content: flex-start;
 }
-
-
-.visibility_desktop {
-    border: 1px solid green;
-    display: initial;
-}
-
-.visibility_mobile {
-    border: 1px solid red;
-    display: none;
-}
-
-@media screen and (max-width: 1200px) {
-
-    .visibility_mobile {
-        border: 1px solid green;
-        display: initial;
-    }
-
-    .visibility_desktop {
-        border: 1px solid red;
-        display: none;
-    }   
-}

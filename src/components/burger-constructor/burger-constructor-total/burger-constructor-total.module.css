@@ -1,7 +1,5 @@
 .constructor_total {
-    composes: mt-10 from global;
-    composes: text from global;
-    composes: text_type_digits-medium from global;
+    composes: mt-10 text text_type_digits-medium from global;
     display: flex;
     align-items: center;
     justify-content: flex-end;

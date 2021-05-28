@@ -1,6 +1,6 @@
 import React from 'react';
 import {Tab}  from '@ya.praktikum/react-developer-burger-ui-components';
-import {ingredientGroups} from '../../../utils/data'
+import {ingredientGroups} from '../../../utils/constants'
 
 
 const TabMenu = () => {

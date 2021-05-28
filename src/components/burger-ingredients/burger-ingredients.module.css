@@ -1,15 +1,11 @@
 .ingredients {
     box-sizing: border-box;
     width: 600px; 
-    composes: ml-5 from global;  
-    composes: mr-5 from global;  
+    composes: ml-5 mr-5 from global;  
 }
 
 .title {
-    composes: text from global;
-    composes: text_type_main-large from global;
-    composes: pt-10 from global;
-    composes: pb-5 from global;
+    composes: text text_type_main-large pt-10 pb-5 from global;
 }
 
 .ingredient_groups {     

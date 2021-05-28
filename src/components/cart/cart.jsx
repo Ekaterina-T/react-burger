@@ -11,34 +11,49 @@ class Cart extends React.Component {
 
     addIngredient = (ingredient) => {
 
-        const currentIngredientIndex = this.state.items.findIndex(
-            (item) => item._id === ingredient._id
-        );
+        const assignUniqueKeysTo = (ingredients) => {
 
-        if(currentIngredientIndex < 0) {
-
-            this.setState(prevState => ({ 
-                ...prevState,
-                items: [...prevState.items, ingredient]
-                })
-            );
-
-        } else {
-            const updatedCart = [...this.state.items];
-            updatedCart[currentIngredientIndex] = ingredient;
-            this.setState({items: updatedCart});
+            ingredients.map( (item, index) => { 
+                item.key = item._id+'_'+index;
+                return item;
+            });    
+            return ingredients;
         }
+
+        const addTwoBunsTo = (prevState) => {
+            //buns are added or replaced in pairs
+            let ingredients = [...prevState.items].filter( item => item.type !== "bun");
+            ingredients.push({...ingredient}); //need ingredient copy to assign unique keys
+            ingredients.push({...ingredient});
+
+            return ingredients;
+        }
+
+        this.setState(prevState => {
+
+            let updatedItems = []; 
+
+            if(ingredient.type === "bun") {
+                updatedItems = addTwoBunsTo(prevState);
+            } else {
+                updatedItems = [...prevState.items, {...ingredient}];
+            }
+            
+            return { items: assignUniqueKeysTo(updatedItems) };
+        });        
     }
 
-    removeIngredient = (ingredientID) => {
-
-        const removedIngredientIndex = this.state.items.findIndex(
-            (item) => item._id === ingredientID
-        );
-
-        const updatedCart = [...this.state.items];
-        updatedCart.splice(removedIngredientIndex, 1);
-        this.setState({items: updatedCart});        
+    removeIngredient = (ingredientKey) => {
+        //callback function for handleClose event
+        return () => {
+            const removedIngredientIndex = this.state.items.findIndex(
+                (item) => item.key === ingredientKey
+            );
+    
+            const updatedCart = [...this.state.items];
+            updatedCart.splice(removedIngredientIndex, 1);
+            this.setState({items: updatedCart});
+        }
     }
 
     render() {
