@@ -3,27 +3,23 @@ import styles from './ingredient-group.module.css';
 import PropTypes from 'prop-types';
 
 
-class IngredientGroup extends React.Component {
+const IngredientGroup = (props) => {
 
-    render() {
+    const {type, name} = props.data;
 
-        const {type, name} = {...this.props.data};
+    return ( 
+        <section key={type} className={styles.group}>
 
-        return ( 
-            <section key={type} className={styles.group}>
-    
-                <header>
-                    <h3 className={styles.title}>{name}</h3>
-                </header>
-    
-                <ul className={styles.ingredients}>
-                    {this.props.children}
-                </ul>    
-                  
-            </section>                       
-        );
+            <header>
+                <h3 className={styles.title}>{name}</h3>
+            </header>
 
-    } 
+            <ul className={styles.ingredients}>
+                {props.children}
+            </ul>    
+                
+        </section>                       
+    );
 }
 
 

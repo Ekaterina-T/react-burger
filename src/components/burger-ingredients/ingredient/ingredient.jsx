@@ -6,67 +6,52 @@ import {isImageLink} from '../../../utils/prop-type-custom-checks';
 import Modal from '../../modal/modal';
 import IngredientDetails from '../../modal/ingredient-details/ingredient-details';
 
-class Ingredient extends React.Component {
+const Ingredient = (props) => {
 
-    constructor(props) {
-        super(props);
+    const [isModalVisible, setIsModalVisible] = React.useState(false);
 
-        this.state = {isModalVisible: false}
+    const addIngredient = (e) => {
+        const ingredient = props.data;
+        props.updateCart(ingredient);
     }
 
-
-    addIngredient = (e) => {
-        const ingredient = this.props.data;
-        this.props.updateCart(ingredient);
+    const openModal = (e) => {
+        setIsModalVisible(true);
     }
 
-    openModal = (e) => {
-        e.preventDefault();
-        this.setState( prevState => (
-            {...prevState, isModalVisible: true})
-        );
-    }
-
-    closeModal = (e) => {
-        
+    const closeModal = (e) => {
         e.stopPropagation();
-        this.setState( prevState => (
-            {...prevState, isModalVisible: false})
-        );
+        setIsModalVisible(false);
     }
     
     //temp function until procedure of adding ingredient is defined
-    handleIngredientClick = (e) => {
+    const handleIngredientClick = (e) => {
         //add new ingredient
         if(e.target.nodeName === 'BUTTON') {
-            this.addIngredient(e);
+            addIngredient(e);
         } else { //view details
-            this.openModal(e);
+            openModal(e);
         }
     }
 
-    render() {
+    const {image, name, price, count} = props.data;
 
-        const {image, name, price, count} = this.props.data;
-    
-        return (
-           <li className={styles.card} onClick={this.handleIngredientClick}>
-    
-               { count>0 && <Counter count={count}  size="default"/> }
-               <img src={image} alt={name} className={styles.image}/>
-               <div className={styles.price}> <span className={styles.price_num}>{price}</span> <CurrencyIcon/> </div>
-               <div className={styles.name}>{name}</div>
-               <div class_name={styles.btn_wrapper}><Button type="secondary" size="medium">Добавить</Button></div>
-                {this.state.isModalVisible && 
-                    <Modal key="ingredient" onClose={this.closeModal}> 
-                        <IngredientDetails data={this.props.data}/>
-                    </Modal>
-                }
-    
-            </li>
-        );
+    return (
+        <li className={styles.card} onClick={handleIngredientClick}>
 
-    } 
+            { count>0 && <Counter count={count}  size="default"/> }
+            <img src={image} alt={name} className={styles.image}/>
+            <div className={styles.price}> <span className={styles.price_num}>{price}</span> <CurrencyIcon/> </div>
+            <div className={styles.name}>{name}</div>
+            <div class_name={styles.btn_wrapper}><Button type="secondary" size="medium">Добавить</Button></div>
+            { isModalVisible && 
+                <Modal key="ingredient" onClose={closeModal}> 
+                    <IngredientDetails data={props.data}/>
+                </Modal>
+            }
+
+        </li>
+    );
 }
 
 Ingredient.propTypes = {
@@ -74,7 +59,8 @@ Ingredient.propTypes = {
         image: isImageLink,
         name: PropTypes.string.isRequired,
         price: PropTypes.number.isRequired,
-        count:PropTypes.number.isRequired
+        count: PropTypes.number.isRequired,
+        updateCart: PropTypes.func.isRequired
         }
     ).isRequired
     

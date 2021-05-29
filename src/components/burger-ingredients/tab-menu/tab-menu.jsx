@@ -5,7 +5,8 @@ import {ingredientGroups} from '../../../utils/constants'
 
 const TabMenu = () => {
     
-    const [current, setCurrent] = React.useState('one')
+    const [current, setCurrent] = React.useState('one');
+    
     return (
         <div style={{ display: 'flex' }}>
             { ingredientGroups.map( ingredientGroup => (

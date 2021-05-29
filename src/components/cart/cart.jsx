@@ -2,14 +2,11 @@ import React from 'react';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 
-class Cart extends React.Component {
+const Cart = (props) => {
 
-    constructor(props) {
-        super(props);
-        this.state = {items: []}
-    }
+    const [items, setItems] = React.useState([]);
 
-    addIngredient = (ingredient) => {
+    const addIngredient = (ingredient) => {
 
         const assignUniqueKeysTo = (ingredients) => {
 
@@ -20,50 +17,49 @@ class Cart extends React.Component {
             return ingredients;
         }
 
-        const addTwoBunsTo = (prevState) => {
+        const addTwoBunsTo = (items) => {
             //buns are added or replaced in pairs
-            let ingredients = [...prevState.items].filter( item => item.type !== "bun");
+            let ingredients = items.filter( item => item.type !== "bun");
             ingredients.push({...ingredient}); //need ingredient copy to assign unique keys
             ingredients.push({...ingredient});
 
             return ingredients;
         }
 
-        this.setState(prevState => {
+        setItems(prevState => {
 
             let updatedItems = []; 
 
             if(ingredient.type === "bun") {
-                updatedItems = addTwoBunsTo(prevState);
+                updatedItems = addTwoBunsTo([...prevState]);
             } else {
-                updatedItems = [...prevState.items, {...ingredient}];
+                updatedItems = [...prevState, {...ingredient}];
             }
             
-            return { items: assignUniqueKeysTo(updatedItems) };
+            return assignUniqueKeysTo(updatedItems);
         });        
     }
 
-    removeIngredient = (ingredientKey) => {
+    const removeIngredient = (ingredientKey) => {
         //callback function for handleClose event
         return () => {
-            const removedIngredientIndex = this.state.items.findIndex(
+            const removedIngredientIndex = items.findIndex(
                 (item) => item.key === ingredientKey
             );
     
-            const updatedCart = [...this.state.items];
+            const updatedCart = [...items];
             updatedCart.splice(removedIngredientIndex, 1);
-            this.setState({items: updatedCart});
+            setItems(updatedCart);
         }
     }
 
-    render() {
-        return (
-            <>
-                <BurgerIngredients addIngredientToCart={this.addIngredient} cart={this.state.items}/>
-                <BurgerConstructor removeIngredientFromCart = {this.removeIngredient} cart={this.state.items}/>
-            </>
-        );
-    }
+ 
+    return (
+        <>
+            <BurgerIngredients addIngredientToCart={addIngredient} cart={items}/>
+            <BurgerConstructor removeIngredientFromCart = {removeIngredient} cart={items}/>
+        </>
+    );
 }
 
 export default Cart;

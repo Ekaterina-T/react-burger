@@ -3,40 +3,38 @@ import styles from './ingredient-details.module.css';
 import PropTypes from 'prop-types';
 import {isImageLink} from '../../../utils/prop-type-custom-checks';
 
-class IngredientDetails extends React.Component {
+const IngredientDetails = (props) => {
+   
+    const {name, calories, proteins, fat, carbohydrates, image_large} = props.data;
 
-    render() {
-        
-        const {name, calories, proteins, fat, carbohydrates, image_large} = this.props.data;
+    const nutritionItems = [
+        {title: "Калории, ккал", value: calories},
+        {title: "Белки, г", value: proteins},
+        {title: "Жиры, г", value: fat},
+        {title: "Углеводы, г", value: carbohydrates}
+    ];
 
-        const nutritionItems = [
-            {title: "Калории, ккал", value: calories},
-            {title: "Белки, г", value: proteins},
-            {title: "Жиры, г", value: fat},
-            {title: "Углеводы, г", value: carbohydrates}
-        ];
+    return (
 
-        return (
+        <section className={styles.details_section}>
 
-            <section className={styles.details_section}>
+            <header className={styles.details_header}>Детали ингредиента</header>
+            <img src={image_large} alt={name}/>
+            <h4 className={styles.details_title}>{name}</h4>
 
-                <header className={styles.details_header}>Детали ингредиента</header>
-                <img src={image_large} alt={name}/>
-                <h4 className={styles.details_title}>{name}</h4>
+            <dl className={styles.nutrition_info}>
 
-                <dl className={styles.nutrition_info}>
+                { nutritionItems.map( item => (
+                    <div className={styles.nutrition_item}>
+                        <dt className={styles.nutrition_title}> {item.title} </dt> 
+                        <dd className={styles.nutrition_val}> {item.value} </dd>
+                    </div>
+                    ))
+                }                  
+            </dl>
+        </section>
+    );
 
-                    { nutritionItems.map( item => (
-                        <div className={styles.nutrition_item}>
-                            <dt className={styles.nutrition_title}> {item.title} </dt> 
-                            <dd className={styles.nutrition_val}> {item.value} </dd>
-                        </div>
-                        ))
-                    }                  
-                </dl>
-            </section>
-        );
-    }
 } 
 
 export default IngredientDetails

@@ -6,50 +6,35 @@ import {CurrencyIcon, Button}  from '@ya.praktikum/react-developer-burger-ui-com
 //import { render } from '@testing-library/react';
 import PropTypes from 'prop-types';
 
-class BurgerConstructorTotal extends React.Component {
+const BurgerConstructorTotal = (props) => {
 
-    constructor(props) {
-        super(props);
+    const [isModalVisible, setIsModalVisible] = React.useState(false);
 
-        this.state = {isModalVisible: false};
-    }
-
-    openModal = (e) => {
-        e.preventDefault();
-        this.setState( prevState => (
-            {...prevState, isModalVisible: true})
-        );
+    const openModal = (e) => {
+        setIsModalVisible(true);
     }
     
-    closeModal = (e) => {
-
+    const closeModal = (e) => {
         e.stopPropagation();
-        this.setState( prevState => (
-            {...prevState, isModalVisible: false})
-        ); 
+        setIsModalVisible(false);
     }
 
-    render() {
+    const {total} = props;
 
-        const {total} = {...this.props};
-
-        return (
-
-           <section className={styles.constructor_total}>
-               <span> {total} </span> 
-               <CurrencyIcon/>
-               <div className={styles.button_wrapper}>
-                   <Button onClick={this.openModal}>Оформить заказ</Button >
-                   {this.state.isModalVisible && 
-                        <Modal key="total" onClose={this.closeModal}> 
-                            <OrderDetails orderId="034536" />
-                        </Modal>
-                    }
-               </div>                 
-            </section>
-        );
-
-    } 
+    return (
+        <section className={styles.constructor_total}>
+            <span> {total} </span> 
+            <CurrencyIcon/>
+            <div className={styles.button_wrapper}>
+                <Button onClick={openModal}>Оформить заказ</Button >
+                { isModalVisible && 
+                    <Modal key="total" onClose={closeModal}> 
+                        <OrderDetails orderId="034536" />
+                    </Modal>
+                }
+            </div>                 
+        </section>
+    );
 }
 
 BurgerConstructorTotal.propTypes = {

@@ -5,11 +5,9 @@ import {CloseIcon}  from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import PropTypes from 'prop-types';
 
-class Modal extends React.Component {
+const Modal = (props) => {
 
-  render() {
-    const { children, onClose } = this.props;
-
+    const { children, onClose } = props;
     const modalRoot = document.querySelector("#modals");
   
     return ReactDOM.createPortal(
@@ -24,7 +22,7 @@ class Modal extends React.Component {
         ), 
         modalRoot
     );
-  }
+
 } 
 
 export default Modal
