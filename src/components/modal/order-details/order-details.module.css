@@ -21,6 +21,5 @@
 }
 
 .common_notes_sec {
-    composes: text text_type_main-default from global;
-    color: #8585AD;
+    composes: text text_type_main-default text_color_inactive from global;
 }

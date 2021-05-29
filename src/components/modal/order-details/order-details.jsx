@@ -1,11 +1,12 @@
 import React from 'react';
-import styles from './order-confirm.module.css';
+import styles from './order-details.module.css';
+import PropTypes from 'prop-types';
 
-class OrderConfirm extends React.Component {
+class OrderDetails extends React.Component {
 
     render() {
 
-        const orderId = this.props.orderId;   
+        const {orderId} = this.props;   
 
         return (
 
@@ -41,4 +42,8 @@ class OrderConfirm extends React.Component {
     }
 } 
 
-export default OrderConfirm
+export default OrderDetails
+
+OrderDetails.propTypes = {
+    orderId: PropTypes.number
+}

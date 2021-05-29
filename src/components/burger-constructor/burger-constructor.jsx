@@ -10,6 +10,7 @@ class BurgerConstructor extends React.Component {
     render() {
 
         const ingredients = this.props.cart;
+        
         const showCart = ingredients.length > 0;
         const total = showCart ? ingredients.reduce((acc, ingredient) => acc + ingredient.price, 0) : 0; 
 
