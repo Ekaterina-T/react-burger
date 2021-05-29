@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './burger-constructor-total.module.css';
 import Modal from '../../modal/modal';
+import OrderConfirm from '../../modal/order-confirm/order-confirm';
 import {CurrencyIcon, Button}  from '@ya.praktikum/react-developer-burger-ui-components';
 //import { render } from '@testing-library/react';
 import PropTypes from 'prop-types';
@@ -24,7 +25,8 @@ class BurgerConstructorTotal extends React.Component {
             );
         }
         
-        const closeModal = () => {
+        const closeModal = (e) => {
+            e.preventDefault();
             this.setState( prevState => (
                 {...prevState, isModalVisible: false})
             );
@@ -32,16 +34,14 @@ class BurgerConstructorTotal extends React.Component {
     
         return (
 
-
            <section className={styles.constructor_total}>
                <span> {total} </span> 
                <CurrencyIcon/>
                <div className={styles.button_wrapper}>
                    <Button onClick={openModal}>Оформить заказ</Button >
                    {this.state.isModalVisible && 
-                        <Modal header="Внимание!" onClose={closeModal}> 
-                            <p>Спасибо за внимание!</p>
-                            <p>Открывай меня, если станет скучно :)</p>
+                        <Modal onClose={closeModal}> 
+                            <OrderConfirm orderId="034536" />
                         </Modal>
                     }
                </div>                 

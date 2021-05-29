@@ -12,7 +12,7 @@
 .scrollable_area {
     composes: main_area;
     composes: pr-2 from global;  
-    max-height: 500px;
+    max-height: 440px;
     overflow-y: scroll;  
 }
 
