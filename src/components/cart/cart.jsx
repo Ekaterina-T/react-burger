@@ -6,6 +6,8 @@ const Cart = (props) => {
 
     const [items, setItems] = React.useState([]);
 
+    const rowData = props.rowData; 
+
     const addIngredient = (ingredient) => {
 
         const assignUniqueKeysTo = (ingredients) => {
@@ -56,7 +58,7 @@ const Cart = (props) => {
  
     return (
         <>
-            <BurgerIngredients addIngredientToCart={addIngredient} cart={items}/>
+            <BurgerIngredients rowData={rowData} addIngredientToCart={addIngredient} cart={items}/>
             <BurgerConstructor removeIngredientFromCart = {removeIngredient} cart={items}/>
         </>
     );

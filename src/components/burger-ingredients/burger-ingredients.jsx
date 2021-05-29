@@ -3,7 +3,7 @@ import styles from './burger-ingredients.module.css';
 import IngredientGroup from './ingredient-group/ingredient-group';
 import Ingredient from './ingredient/ingredient';
 import TabMenu from './tab-menu/tab-menu';
-import {ingredients} from '../../utils/data';
+//import {ingredients} from '../../utils/data';
 import {ingredientGroups} from '../../utils/constants';
 import PropTypes from 'prop-types';
 import {isImageLink} from '../../utils/prop-type-custom-checks';
@@ -11,6 +11,7 @@ import {isImageLink} from '../../utils/prop-type-custom-checks';
 const BurgerIngredients = (props) => {
 
     const {cart, addIngredientToCart} = props; 
+    const ingredients = props.rowData;
 
     return (
         <article className={styles.ingredients}>
