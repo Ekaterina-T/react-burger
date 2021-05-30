@@ -28,7 +28,7 @@ const BurgerConstructorTotal = (props) => {
             <div className={styles.button_wrapper}>
                 <Button onClick={openModal}>Оформить заказ</Button >
                 { isModalVisible && 
-                    <Modal key="total" onClose={closeModal}> 
+                    <Modal key="order" type="order" onClose={closeModal}> 
                         <OrderDetails orderId="034536" />
                     </Modal>
                 }

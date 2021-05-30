@@ -4,6 +4,7 @@ import styles from './burger-constructor.module.css';
 import {ConstructorElement}  from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerConstructorTotal  from './burger-constructor-total/burger-constructor-total';
 import PropTypes from 'prop-types';
+import {isImageLink} from '../../utils/prop-type-custom-checks';
 
 const BurgerConstructor = (props) => {
 
@@ -58,7 +59,13 @@ const BurgerConstructor = (props) => {
 }
 
 BurgerConstructor.propTypes = {
-    cart: PropTypes.arrayOf(PropTypes.object)
+    cart: PropTypes.arrayOf(PropTypes.shape({
+        key: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        image: isImageLink
+    })),
+    removeIngredientFromCart: PropTypes.func.isRequired
 };
 
 export default BurgerConstructor;

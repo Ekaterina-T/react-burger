@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 
 const NavItem = (props) => {
 
-    const {id, title, icon, subitems, href} = {...props.data};
+    const {title, icon, cssClass, subitems, href} = props.data;
     const hasSubItems = !!subitems;
 
     return (            
-        <li className={ id==='profile' ? styles.profile_item : (id==='logo_desktop' ? styles.logo_desktop_item: styles.nav_item )}>                
+        <li className={ !!cssClass ? styles[cssClass] : styles.nav_item}>               
             <a href={href} className={styles.nav_link} >
                 {icon}
                 {props.children}

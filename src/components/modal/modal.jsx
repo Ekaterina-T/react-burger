@@ -7,14 +7,14 @@ import PropTypes from 'prop-types';
 
 const Modal = (props) => {
 
-    const { children, onClose } = props;
+    const { children, onClose, onPressEsc, type} = props;
     const modalRoot = document.querySelector("#modals");
   
     return ReactDOM.createPortal(
         (
             <>
-                <article className={styles.modal}>
-                    <div className={styles.close_btn}><CloseIcon onClick={onClose}/></div>
+                <article className={styles.modal} >
+                    <div className={styles["close_btn_"+type]}><CloseIcon onClick={onClose}/></div>
                     {children}
                 </article>
                 <ModalOverlay onClose={onClose}/>
@@ -28,6 +28,7 @@ const Modal = (props) => {
 export default Modal
 
 Modal.propTypes = {
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  type: PropTypes.oneOf(["ingredient", "order"])
 };
 

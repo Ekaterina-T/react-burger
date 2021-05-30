@@ -61,7 +61,7 @@ BurgerIngredients.propTypes = {
         __v: PropTypes.number
       })
     ),
-    addIngredientToCart: PropTypes.func
+    addIngredientToCart: PropTypes.func.isRequired
 };
 
 export default BurgerIngredients;

@@ -10,9 +10,20 @@
 }
 
 .close_btn {
-    composes: mt-15 mr-10 from global;
+    composes: mr-10 from global;
     position: absolute;
     top: 0px;
     right: 0px;
     cursor: pointer;
+}
+
+.close_btn_ingredient {
+    composes: close_btn;
+    composes: mt-10 from global;
+    padding-top: 10px;
+}
+
+.close_btn_order {
+    composes: close_btn;
+    composes: mt-15 from global;
 }

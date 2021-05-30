@@ -5,7 +5,6 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 const Cart = (props) => {
 
     const [items, setItems] = React.useState([]);
-
     const rowData = props.rowData; 
 
     const addIngredient = (ingredient) => {
@@ -29,7 +28,7 @@ const Cart = (props) => {
         }
 
         setItems(prevState => {
-
+            
             let updatedItems = []; 
 
             if(ingredient.type === "bun") {
@@ -55,7 +54,6 @@ const Cart = (props) => {
         }
     }
 
- 
     return (
         <>
             <BurgerIngredients rowData={rowData} addIngredientToCart={addIngredient} cart={items}/>

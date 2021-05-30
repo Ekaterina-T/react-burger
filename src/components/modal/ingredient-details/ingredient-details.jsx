@@ -8,10 +8,10 @@ const IngredientDetails = (props) => {
     const {name, calories, proteins, fat, carbohydrates, image_large} = props.data;
 
     const nutritionItems = [
-        {title: "Калории, ккал", value: calories},
-        {title: "Белки, г", value: proteins},
-        {title: "Жиры, г", value: fat},
-        {title: "Углеводы, г", value: carbohydrates}
+        {id: "calories", title: "Калории, ккал", value: calories},
+        {id: "proteins", title: "Белки, г", value: proteins},
+        {id: "fat", title: "Жиры, г", value: fat},
+        {id: "carbohydrates", title: "Углеводы, г", value: carbohydrates}
     ];
 
     return (
@@ -25,7 +25,7 @@ const IngredientDetails = (props) => {
             <dl className={styles.nutrition_info}>
 
                 { nutritionItems.map( item => (
-                    <div className={styles.nutrition_item}>
+                    <div key={item.id} className={styles.nutrition_item}>
                         <dt className={styles.nutrition_title}> {item.title} </dt> 
                         <dd className={styles.nutrition_val}> {item.value} </dd>
                     </div>

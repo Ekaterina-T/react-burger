@@ -12,7 +12,7 @@ const Ingredient = (props) => {
 
     const addIngredient = (e) => {
         const ingredient = props.data;
-        props.updateCart(ingredient);
+        updateCart(ingredient);
     }
 
     const openModal = (e) => {
@@ -35,6 +35,7 @@ const Ingredient = (props) => {
     }
 
     const {image, name, price, count} = props.data;
+    const updateCart = props.updateCart;
 
     return (
         <li className={styles.card} onClick={handleIngredientClick}>
@@ -43,9 +44,9 @@ const Ingredient = (props) => {
             <img src={image} alt={name} className={styles.image}/>
             <div className={styles.price}> <span className={styles.price_num}>{price}</span> <CurrencyIcon/> </div>
             <div className={styles.name}>{name}</div>
-            <div class_name={styles.btn_wrapper}><Button type="secondary" size="medium">Добавить</Button></div>
+            <div className={styles.add_btn}><Button type="secondary" size="medium">Добавить</Button></div>
             { isModalVisible && 
-                <Modal key="ingredient" onClose={closeModal}> 
+                <Modal key="ingredient" type="ingredient" onClose={closeModal}> 
                     <IngredientDetails data={props.data}/>
                 </Modal>
             }
@@ -59,10 +60,10 @@ Ingredient.propTypes = {
         image: isImageLink,
         name: PropTypes.string.isRequired,
         price: PropTypes.number.isRequired,
-        count: PropTypes.number.isRequired,
-        updateCart: PropTypes.func.isRequired
+        count: PropTypes.number.isRequired
         }
-    ).isRequired
+    ).isRequired,
+    updateCart: PropTypes.func.isRequired
     
 };
 

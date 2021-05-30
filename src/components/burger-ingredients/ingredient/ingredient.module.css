@@ -1,6 +1,5 @@
 .card {
     composes: pl-4 mb-8 mr-3 from global;
-
     position: relative;
     display: inline-block;
     box-sizing: border-box;
@@ -8,9 +7,9 @@
     cursor: pointer;
 }
 
+
 .image {
     composes: mr-4 ml-4 from global;
-
     width: 240px;
     height: 120px;
 }
@@ -30,7 +29,6 @@
     text-align: center;
 }
 
-.btn_wrapper {
-    composes: visibility_mobile from '../../app-header/app-header.module.css';
+.add_btn {
     text-align: center;
 }

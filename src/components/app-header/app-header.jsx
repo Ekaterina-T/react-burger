@@ -9,8 +9,8 @@ const AppHeader = (props) => {
     const menu_items = [
         {id: "constructor", title: "Конструктор", href: "#", icon: <BurgerIcon type="secondary"/> }, 
         {id: "orders", title: "Лента заказов", href: "#", icon: <ListIcon type="secondary"/> }, 
-        {id: "logo_desktop", title: "", href: "#", icon: <Logo type="secondary"/> }, 
-        {id: "profile", title: "Личный кабинет", href: "#", icon: <ProfileIcon type="secondary"/>, subitems: [
+        {id: "logo_desktop", title: "", href: "#", icon: <Logo type="secondary"/>, cssClass: "logo_desktop_item" }, 
+        {id: "profile", title: "Личный кабинет", href: "#", icon: <ProfileIcon type="secondary"/>, cssClass: "profile_item", subitems: [
             {id: "account", title: "Профиль" }, 
             {id: "history", title: "История заказов" }, 
             {id: "logout", title: "Выход" }
