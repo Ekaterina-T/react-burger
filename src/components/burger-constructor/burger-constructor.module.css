@@ -1,0 +1,22 @@
+.constructor {
+    composes: pt-25 ml-5 mr-5 from global;
+    box-sizing: border-box;
+}
+
+.main_area {
+    display: flex; 
+    flex-direction: column;
+    gap: 10px;
+}
+
+.scrollable_area {
+    composes: main_area;
+    composes: pr-2 from global;  
+    max-height: 440px;
+    overflow-y: scroll;  
+}
+
+:global(.constructor-element__price) {
+    margin-left: auto;
+}
+  

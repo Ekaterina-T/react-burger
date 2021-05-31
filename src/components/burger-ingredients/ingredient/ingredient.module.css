@@ -1,0 +1,36 @@
+.card {
+    composes: pl-4 mb-8 mr-3 from global;
+
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    max-width: 270px;
+    cursor: pointer;
+}
+
+.image {
+    composes: mr-4 ml-4 from global;
+
+    width: 240px;
+    height: 120px;
+}
+
+.price {
+    composes: pt-1 pb-1 from global;
+    display: flex;
+    justify-content: center;
+}
+
+.price_num {
+    composes: pr-1 text text_type_digits-default from global;
+}
+
+.name {
+    composes: text text_type_main-default from global;
+    text-align: center;
+}
+
+.btn_wrapper {
+    composes: visibility_mobile from '../../app-header/app-header.module.css';
+    text-align: center;
+}

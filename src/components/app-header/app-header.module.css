@@ -1,0 +1,8 @@
+.header {
+    background: #1C1C21;
+}
+
+.nav {
+    display: flex;
+    justify-content: flex-start;
+}

@@ -1,0 +1,34 @@
+.main_nav {
+    position: static;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 1200px;
+    margin: auto;
+}
+
+.nested_nav {
+    border: 1px solid red;
+    display: none;
+}
+
+@media screen and (max-width: 1200px) {
+
+    .main_nav {
+        position: absolute;
+        top: 56px;
+        width: 100vw;
+        height: calc(100vh - 56px);
+        z-index: 1;
+        background: #1C1C21;
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: flex-start; 
+        justify-content: flex-end;
+    }
+
+    .nested_nav {
+        display: flex;
+        flex-direction: column;
+    }   
+}

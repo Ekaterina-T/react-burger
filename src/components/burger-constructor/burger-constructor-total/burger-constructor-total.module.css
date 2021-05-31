@@ -1,0 +1,10 @@
+.constructor_total {
+    composes: mt-10 text text_type_digits-medium from global;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.button_wrapper {
+    composes: ml-10 from global;
+}

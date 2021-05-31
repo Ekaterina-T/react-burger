@@ -1,0 +1,6 @@
+main {  
+  background-color: #131316;display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
