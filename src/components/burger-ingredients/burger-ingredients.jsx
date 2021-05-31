@@ -10,8 +10,10 @@ import {isImageLink} from '../../utils/prop-type-custom-checks';
 
 const BurgerIngredients = (props) => {
 
-    const {cart, addIngredientToCart} = props; 
+    const {bun, fillings, addIngredientToCart} = props; 
     const ingredients = props.rowData;
+
+    const cart = [...fillings, bun];
 
     return (
         <article className={styles.ingredients}>
@@ -22,14 +24,14 @@ const BurgerIngredients = (props) => {
             <TabMenu />
                 
             <section className={styles.ingredient_groups}>
-                { ingredientGroups.map((group, index)=>(
+                { ingredientGroups.map((group)=>(
 
                     <IngredientGroup key={group.type} data={group}>                        
                         { ingredients
                             .filter(ingredient => ingredient.type === group.type)
-                            .map((ingredient, index)=>{
+                            .map((ingredient)=>{
 
-                                ingredient.count = cart.filter( item => item._id === ingredient._id).length;
+                                ingredient.count = cart.filter( item => item && item._id === ingredient._id).length;
                                 
                                 return (
                                     <Ingredient key={ingredient._id} data={ingredient} updateCart={addIngredientToCart} />
@@ -45,7 +47,7 @@ const BurgerIngredients = (props) => {
 }
 
 BurgerIngredients.propTypes = {
-    cart: PropTypes.arrayOf(PropTypes.shape({
+   /* cart: PropTypes.arrayOf(PropTypes.shape({
 
         _id: PropTypes.string,
         name: PropTypes.string,
@@ -60,7 +62,7 @@ BurgerIngredients.propTypes = {
         image_large: isImageLink,
         __v: PropTypes.number
       })
-    ),
+    ),*/
     addIngredientToCart: PropTypes.func.isRequired
 };
 
