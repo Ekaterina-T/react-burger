@@ -17,12 +17,11 @@ const Cart = (props) => {
                 return item;
             });  
             
-            console.log(ingredients)
             return ingredients;
         }
 
         if(ingredient.type === "bun") {
-            setBun(ingredient);
+            setBun(ingredient); //user can replace bun, but not remove it
             setFillings(fillings);
         } else {
             setBun(bun);
@@ -31,9 +30,8 @@ const Cart = (props) => {
     }
 
     const removeIngredient = (ingredientKey) => {
-        //callback function for handleClose event 
         return () => {
-            setBun(bun); //user can replace bun, but not remove it
+            setBun(bun);  //user can replace bun, but not remove it
             setFillings( prevState => {
                 const removedIngredientIndex = prevState.findIndex(
                     (item) => item.key === ingredientKey
