@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './ingredient-details.module.css';
 import PropTypes from 'prop-types';
-import {isImageLink} from '../../../utils/prop-type-custom-checks';
+import {isImageLink} from '../../utils/prop-type-custom-checks';
 
 const IngredientDetails = (props) => {
    

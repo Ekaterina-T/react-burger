@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './burger-constructor-total.module.css';
 import Modal from '../../modal/modal';
-import OrderDetails from '../../modal/order-details/order-details';
+import OrderDetails from '../../order-details/order-details';
 import {CurrencyIcon, Button}  from '@ya.praktikum/react-developer-burger-ui-components';
 //import { render } from '@testing-library/react';
 import PropTypes from 'prop-types';

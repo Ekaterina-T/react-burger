@@ -4,7 +4,7 @@ import {Counter, CurrencyIcon, Button}  from '@ya.praktikum/react-developer-burg
 import PropTypes from 'prop-types';
 import {isImageLink} from '../../../utils/prop-type-custom-checks';
 import Modal from '../../modal/modal';
-import IngredientDetails from '../../modal/ingredient-details/ingredient-details';
+import IngredientDetails from '../../ingredient-details/ingredient-details';
 
 const Ingredient = (props) => {
 
