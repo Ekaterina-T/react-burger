@@ -47,7 +47,22 @@ const BurgerIngredients = (props) => {
 }
 
 BurgerIngredients.propTypes = {
-   /* cart: PropTypes.arrayOf(PropTypes.shape({
+    bun: PropTypes.shape({
+
+        _id: PropTypes.string,
+        name: PropTypes.string,
+        type: PropTypes.oneOf(["bun","sauce","main"]),
+        proteins: PropTypes.number,
+        fat: PropTypes.number,
+        carbohydrates: PropTypes.number,
+        calories: PropTypes.number,
+        price: PropTypes.number,
+        image: isImageLink,
+        image_mobile: isImageLink,
+        image_large: isImageLink,
+        __v: PropTypes.number
+    }),
+    fillings: PropTypes.arrayOf(PropTypes.shape({
 
         _id: PropTypes.string,
         name: PropTypes.string,
@@ -62,7 +77,7 @@ BurgerIngredients.propTypes = {
         image_large: isImageLink,
         __v: PropTypes.number
       })
-    ),*/
+    ),
     addIngredientToCart: PropTypes.func.isRequired
 };
 
