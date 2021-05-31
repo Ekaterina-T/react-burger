@@ -7,13 +7,14 @@ import PropTypes from 'prop-types';
 
 const Modal = (props) => {
 
-    const { children, onClose, onPressEsc, type} = props;
+    const { children, onClose, type} = props;
     const modalRoot = document.querySelector("#modals");
+    
   
     return ReactDOM.createPortal(
         (
             <>
-                <article className={styles.modal} >
+                <article className={styles.modal}  onKeyDown={() => {console.log("key down")}}>
                     <div className={styles["close_btn_"+type]}><CloseIcon onClick={onClose}/></div>
                     {children}
                 </article>
