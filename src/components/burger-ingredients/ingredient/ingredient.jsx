@@ -8,6 +8,7 @@ import IngredientDetails from '../../modal/ingredient-details/ingredient-details
 
 const Ingredient = (props) => {
 
+    const modalComponent = React.useRef(null);
     const [isModalVisible, setIsModalVisible] = React.useState(false);
 
     const addIngredient = (e) => {
@@ -46,7 +47,7 @@ const Ingredient = (props) => {
             <div className={styles.name}>{name}</div>
             <div className={styles.add_btn}><Button type="secondary" size="medium">Добавить</Button></div>
             { isModalVisible && 
-                <Modal key="ingredient" type="ingredient" onClose={closeModal}> 
+                <Modal key="ingredient" type="ingredient" onClose={closeModal} modalComponent={modalComponent}> 
                     <IngredientDetails data={props.data}/>
                 </Modal>
             }

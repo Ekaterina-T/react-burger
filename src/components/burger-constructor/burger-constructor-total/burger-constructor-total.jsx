@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 
 const BurgerConstructorTotal = (props) => {
 
+    const modalComponent = React.useRef(null);
     const [isModalVisible, setIsModalVisible] = React.useState(false);
 
     const openModal = (e) => {
@@ -28,7 +29,7 @@ const BurgerConstructorTotal = (props) => {
             <div className={styles.button_wrapper}>
                 <Button onClick={openModal}>Оформить заказ</Button >
                 { isModalVisible && 
-                    <Modal key="order" type="order" onClose={closeModal}> 
+                    <Modal key="order" type="order" onClose={closeModal} modalComponent={modalComponent}> 
                         <OrderDetails orderId="034536" />
                     </Modal>
                 }
