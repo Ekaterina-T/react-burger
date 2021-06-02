@@ -9,15 +9,24 @@ const Cart = (props) => {
     const rowData = props.rowData; 
 
     const addIngredient = (ingredient) => {
+        
+        const getNewIngredientIndex = (ingredients) => {
 
-        const assignUniqueKeysTo = (ingredients) => {
-
-            ingredients.map( (item, index) => { 
-                item.key = item._id+'_'+index;
-                return item;
-            });  
+            const maxAvailableIndex = ingredients.reduce( (res, item) => { 
+                const currentKey = Number(item.key.split('_')[1]);
+                return res < currentKey ? currentKey : res;
+            },
+            -1);  
             
-            return ingredients;
+            return maxAvailableIndex+1;
+        }
+
+        const setKeyToNewIngredient = (prevIngredients, newIngredient) => {
+
+            const maxAvailableIndex = getNewIngredientIndex(prevIngredients);
+            newIngredient.key = newIngredient._id + '_' + maxAvailableIndex;
+            
+            return;
         }
 
         if(ingredient.type === "bun") {
@@ -25,7 +34,10 @@ const Cart = (props) => {
             setFillings(fillings);
         } else {
             setBun(bun);
-            setFillings( prevState => assignUniqueKeysTo([...prevState, {...ingredient}]) );
+            setFillings( prevState => {
+                setKeyToNewIngredient(prevState, ingredient);
+                return [...prevState, {...ingredient}]
+            });
         }       
     }
 
