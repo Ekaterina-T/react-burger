@@ -6,7 +6,7 @@ import NavList from './nav-list/nav-list';
 
 const AppHeader = (props) => {
 
-    const menu_items = [
+    const menuItems = [
         {id: "constructor", title: "Конструктор", href: "#", icon: <BurgerIcon type="secondary"/> }, 
         {id: "orders", title: "Лента заказов", href: "#", icon: <ListIcon type="secondary"/> }, 
         {id: "logo_desktop", title: "", href: "#", icon: <Logo type="secondary"/>, cssClass: "logo_desktop_item" }, 
@@ -24,7 +24,7 @@ const AppHeader = (props) => {
 
             <nav className = {styles.nav}>
                 <div className="visibility_mobile"><Logo/></div>
-                <NavList data={menu_items} type="main" setDefault={true}/>                    
+                <NavList data={menuItems} type="main" setDefault={true}/>                    
                 <div className="visibility_mobile"><CloseIcon/></div>
                 <div className="visibility_mobile"><MenuIcon /></div>
             </nav> 

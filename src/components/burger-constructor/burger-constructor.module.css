@@ -1,19 +1,52 @@
 .constructor {
     composes: pt-25 ml-5 mr-5 from global;
     box-sizing: border-box;
+    width: 600px;
 }
 
 .main_area {
     display: flex; 
     flex-direction: column;
-    gap: 10px;
+    align-items: flex-start;
+    min-width: calc( 100% - 24px );
+}
+
+.emptyConstructor {
+    composes: m-10 p-10 text text_type_main-default  from global;
+    border: 1px dashed #2f2f37;
+    border-radius: 40px;
+    text-align: center;
 }
 
 .scrollable_area {
     composes: main_area;
     composes: pr-2 from global;  
-    max-height: 440px;
+    max-height: 450px;
     overflow-y: scroll;  
+}
+
+.burgerIngredient {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+}
+
+.dragIcon {
+position: relative;
+}
+
+:global(.constructor-element) {
+    margin-bottom: 10px;
+    flex-grow: 1;
+}
+
+:global(.constructor-element_pos_top) {
+    margin-left: 24px; /* width of DragIcon */
+}
+
+:global(.constructor-element_pos_bottom) {
+    margin-left: 24px; /* width of DragIcon */
 }
 
 :global(.constructor-element__price) {

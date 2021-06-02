@@ -4,6 +4,8 @@ import './app.css';
 import AppHeader from '../app-header/app-header.jsx';
 import Cart from '../cart/cart';
 
+import {dataUrl} from '../../utils/constants';
+
 function App() {
 
   const [data, setData] = React.useState([]);
@@ -13,8 +15,6 @@ function App() {
 
   React.useEffect(() => {
     
-    const dataUrl = "https://norma.nomoreparties.space/api/ingredients";
-
     const getIngredientData = () => {
       
         setData([]);

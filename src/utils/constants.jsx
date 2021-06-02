@@ -4,4 +4,6 @@ const ingredientGroups = [
     { type: 'main', name: 'Начинки' }
  ];
 
- export {ingredientGroups};
+ const dataUrl = "https://norma.nomoreparties.space/api/ingredients";
+
+ export {dataUrl, ingredientGroups};

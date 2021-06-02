@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './burger-constructor.module.css';
 //import { render } from '@testing-library/react';
-import {ConstructorElement}  from '@ya.praktikum/react-developer-burger-ui-components';
+import {ConstructorElement, DragIcon}  from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerConstructorTotal  from './burger-constructor-total/burger-constructor-total';
 import PropTypes from 'prop-types';
 import {isImageLink} from '../../utils/prop-type-custom-checks';
@@ -30,20 +30,22 @@ const BurgerConstructor = (props) => {
     let total = calcTotal(bun, fillings); 
     const fillingsItems = fillings
                             .map( filling => (
-                                <ConstructorElement
-                                key = {filling.key}
-                                isLocked={false}
-                                text={filling.name}
-                                price={filling.price}
-                                thumbnail={filling.image}
-                                handleClose={removeIngredientFromCart(filling.key)}/>
+                                <div key = {filling.key} className={styles.burgerIngredient}>
+                                    <div className={styles.dragIcon}><DragIcon type="primary" /></div>
+                                    <ConstructorElement
+                                    isLocked={false}
+                                    text={filling.name}
+                                    price={filling.price}
+                                    thumbnail={filling.image}
+                                    handleClose={removeIngredientFromCart(filling.key)}/>
+                                </div>
                             ));
     
 
     return (        
         <article className={styles.constructor}>
-            { total>0 && 
-                <>
+            { total>0 
+                ? (<>
                     <div className = {styles.main_area}>
 
                         { bun != null && 
@@ -58,7 +60,8 @@ const BurgerConstructor = (props) => {
 
                     </div>
                     <BurgerConstructorTotal total={total}/>
-                </>
+                </>)
+                : <p className={styles.emptyConstructor}>Добавьте сюда ингредиенты</p>
             }                            
         </article>        
     ); 

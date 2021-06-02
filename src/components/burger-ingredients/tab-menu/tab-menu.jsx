@@ -10,7 +10,7 @@ const TabMenu = () => {
     return (
         <div style={{ display: 'flex' }}>
             { ingredientGroups.map( ingredientGroup => (
-                <Tab value={ingredientGroup.type} active={current === ingredientGroup.type} onClick={setCurrent}>
+                <Tab key={ingredientGroup.type} value={ingredientGroup.type} active={current === ingredientGroup.type} onClick={setCurrent}>
                     {ingredientGroup.name}
                 </Tab>
                 ))

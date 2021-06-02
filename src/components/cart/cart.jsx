@@ -13,7 +13,7 @@ const Cart = (props) => {
         const assignUniqueKeysTo = (ingredients) => {
 
             ingredients.map( (item, index) => { 
-                item.key = item._id+'_'+item.type+'_'+index;
+                item.key = item._id+'_'+index;
                 return item;
             });  
             
