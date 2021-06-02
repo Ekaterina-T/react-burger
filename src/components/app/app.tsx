@@ -9,9 +9,9 @@ import {dataUrl} from '../../utils/constants';
 function App() {
 
   const [data, setData] = React.useState([]);
-  const [dataAreLoading, setDataAreLoading] = React.useState(false);
   const [dataHaveLoaded, setDataHaveLoaded] = React.useState(false);
   const [errorDuringDataLoad, setErrorDuringDataLoad] = React.useState(false);
+  const [dataAreLoading, setDataAreLoading] = React.useState(false); //on last place to save order of states inside fetch
 
   React.useEffect(() => {
     
@@ -26,16 +26,16 @@ function App() {
         .then(res => res.ok ? res.json() : Promise.reject(res.statusText))
         .then(res => {
           setData(res.data);
-          setDataAreLoading(false);
           setDataHaveLoaded(true);
           setErrorDuringDataLoad(false);
         })
         .catch( e => {
           setData([]);
-          setDataAreLoading(false);
           setDataHaveLoaded(false);
           setErrorDuringDataLoad(true);
           console.error('Error happeed during data load.');
+        }).finally(()=>{
+          setDataAreLoading(false);
         })
     };
 

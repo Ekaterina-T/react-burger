@@ -6,7 +6,7 @@ import TabMenu from './tab-menu/tab-menu';
 //import {ingredients} from '../../utils/data';
 import {ingredientGroups} from '../../utils/constants';
 import PropTypes from 'prop-types';
-import {isImageLink} from '../../utils/prop-type-custom-checks';
+import {ingredientDescriptor_full} from '../../utils/prop-type-custom-checks';
 
 const BurgerIngredients = (props) => {
 
@@ -47,36 +47,8 @@ const BurgerIngredients = (props) => {
 }
 
 BurgerIngredients.propTypes = {
-    bun: PropTypes.shape({
-
-        _id: PropTypes.string,
-        name: PropTypes.string,
-        type: PropTypes.oneOf(["bun","sauce","main"]),
-        proteins: PropTypes.number,
-        fat: PropTypes.number,
-        carbohydrates: PropTypes.number,
-        calories: PropTypes.number,
-        price: PropTypes.number,
-        image: isImageLink,
-        image_mobile: isImageLink,
-        image_large: isImageLink,
-        __v: PropTypes.number
-    }),
-    fillings: PropTypes.arrayOf(PropTypes.shape({
-
-        _id: PropTypes.string,
-        name: PropTypes.string,
-        type: PropTypes.oneOf(["bun","sauce","main"]),
-        proteins: PropTypes.number,
-        fat: PropTypes.number,
-        carbohydrates: PropTypes.number,
-        calories: PropTypes.number,
-        price: PropTypes.number,
-        image: isImageLink,
-        image_mobile: isImageLink,
-        image_large: isImageLink,
-        __v: PropTypes.number
-      })
+    bun: PropTypes.shape(ingredientDescriptor_full),
+    fillings: PropTypes.arrayOf(PropTypes.shape(ingredientDescriptor_full)
     ),
     addIngredientToCart: PropTypes.func.isRequired
 };

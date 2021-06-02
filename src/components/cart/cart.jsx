@@ -2,6 +2,9 @@ import React from 'react';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 
+import PropTypes from 'prop-types';
+import {ingredientDescriptor_full} from '../../utils/prop-type-custom-checks';
+
 const Cart = (props) => {
 
     const [bun, setBun] = React.useState(null);
@@ -66,3 +69,7 @@ const Cart = (props) => {
 }
 
 export default Cart;
+
+Cart.propTypes = {
+    rowData: PropTypes.arrayOf(PropTypes.shape(ingredientDescriptor_full))
+}

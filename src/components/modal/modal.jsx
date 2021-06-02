@@ -23,7 +23,7 @@ const Modal = (props) => {
 
     }, [modalComponent]);
 
-    const tabTrap = (e) => {
+    const addTabTrap = (e) => {
                 
         if(e.code === "Tab") {            
             const activeElement = document.activeElement;
@@ -47,8 +47,7 @@ const Modal = (props) => {
             onClose(e);            
         }
 
-        //tab trap for modal dialog
-        tabTrap(e);
+        addTabTrap(e);
     }
 
     return ReactDOM.createPortal(

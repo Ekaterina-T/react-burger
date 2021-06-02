@@ -27,7 +27,11 @@ const BurgerConstructor = (props) => {
         return result;
     }
 
-    let total = calcTotal(bun, fillings); 
+    let total = React.useMemo( 
+            () => { return calcTotal(bun, fillings); },
+            [bun, fillings]
+        );
+
     const fillingsItems = fillings
                             .map( filling => (
                                 <div key = {filling.key} className={styles.burgerIngredient}>

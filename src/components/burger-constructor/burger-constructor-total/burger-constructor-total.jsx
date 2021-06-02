@@ -11,14 +11,14 @@ const BurgerConstructorTotal = (props) => {
     const modalComponent = React.useRef(null);
     const [isModalVisible, setIsModalVisible] = React.useState(false);
 
-    const openModal = (e) => {
-        setIsModalVisible(true);
-    }
+    const openModal = (e) => { 
+        setIsModalVisible(true); 
+    };
     
     const closeModal = (e) => {
         e.stopPropagation();
         setIsModalVisible(false);
-    }
+    };
 
     const {total} = props;
 
