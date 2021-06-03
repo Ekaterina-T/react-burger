@@ -7,9 +7,9 @@ const TabMenu = (props) => {
     
     const [current, setCurrent] = React.useState('bun');
 
-    const scrollIntoSection = (val) => {
-        setCurrent(val);
-        burgerIngredientsEl.current.querySelector(`section[id=${val}]`).scrollIntoView();
+    const scrollIntoSection = (tabValue) => {
+        setCurrent(tabValue);
+        burgerIngredientsEl.current.querySelector(`section[id=${tabValue}]`).scrollIntoView({ behavior: "smooth" });
     };
     
     const {burgerIngredientsEl} = props;
