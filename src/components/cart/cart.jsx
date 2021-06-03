@@ -3,7 +3,7 @@ import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 
 import PropTypes from 'prop-types';
-import {ingredientDescriptor_full} from '../../utils/prop-type-custom-checks';
+import {isIngredientDescriptorFull} from '../../utils/prop-type-custom-checks';
 
 const Cart = (props) => {
 
@@ -71,5 +71,5 @@ const Cart = (props) => {
 export default Cart;
 
 Cart.propTypes = {
-    rowData: PropTypes.arrayOf(PropTypes.shape(ingredientDescriptor_full))
+    rowData: PropTypes.arrayOf(PropTypes.shape(isIngredientDescriptorFull)).isRequired
 }

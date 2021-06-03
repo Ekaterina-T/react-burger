@@ -48,5 +48,5 @@ IngredientDetails.propTypes = {
             fat: PropTypes.number,
             carbohydrates: PropTypes.number,
             image_large: isImageLink
-        })
+        }).isRequired
 }

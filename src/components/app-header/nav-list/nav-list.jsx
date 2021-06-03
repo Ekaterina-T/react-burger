@@ -20,7 +20,7 @@ const NavList = (props) => {
 }
 
 NavList.propTypes = {
-    data: PropTypes.arrayOf(PropTypes.object),
+    data: PropTypes.arrayOf(PropTypes.object).isRequired,
     type: PropTypes.oneOf(["main", "nested"]).isRequired
 };
 

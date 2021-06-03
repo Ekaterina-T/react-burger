@@ -9,7 +9,7 @@ const isImageLink = (props, propName, componentName) => {
     }
 };
 
-const ingredientDescriptor_full = {        
+const isIngredientDescriptorFull = {        
     _id: PropTypes.string,
     name: PropTypes.string,
     type: PropTypes.oneOf(["bun","sauce","main"]),
@@ -24,4 +24,4 @@ const ingredientDescriptor_full = {
     __v: PropTypes.number
 };
 
-export {isImageLink, ingredientDescriptor_full}
+export {isImageLink, isIngredientDescriptorFull}

@@ -27,8 +27,7 @@ IngredientGroup.propTypes = {
     data: PropTypes.shape({
         name: PropTypes.string.isRequired,
         type: PropTypes.oneOf(["bun","sauce","main"]).isRequired
-        }
-    ),
+        }).isRequired,
     
 };
 

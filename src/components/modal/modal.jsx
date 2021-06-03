@@ -68,7 +68,7 @@ const Modal = (props) => {
 export default Modal
 
 Modal.propTypes = {
-  onClose: PropTypes.func,
-  type: PropTypes.oneOf(["ingredient", "order"])
+  onClose: PropTypes.func.isRequired,
+  type: PropTypes.oneOf(["ingredient", "order"]).isRequired
 };
 

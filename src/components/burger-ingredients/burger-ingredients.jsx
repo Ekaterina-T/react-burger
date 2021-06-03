@@ -6,9 +6,11 @@ import TabMenu from './tab-menu/tab-menu';
 //import {ingredients} from '../../utils/data';
 import {ingredientGroups} from '../../utils/constants';
 import PropTypes from 'prop-types';
-import {ingredientDescriptor_full} from '../../utils/prop-type-custom-checks';
+import {isIngredientDescriptorFull} from '../../utils/prop-type-custom-checks';
 
 const BurgerIngredients = (props) => {
+
+    const burgerIngredientsEl = React.useRef(null);
 
     const {bun, fillings, addIngredientToCart} = props; 
     const ingredients = props.rowData;
@@ -16,12 +18,12 @@ const BurgerIngredients = (props) => {
     const cart = [...fillings, bun];
 
     return (
-        <article className={styles.ingredients}>
+        <article className={styles.ingredients} ref={burgerIngredientsEl}>
             <header>
                 <h2 className={styles.title}>Соберите бургер</h2>
             </header> 
 
-            <TabMenu />
+            <TabMenu burgerIngredientsEl={burgerIngredientsEl}/>
                 
             <section className={styles.ingredient_groups}>
                 { ingredientGroups.map((group)=>(
@@ -47,9 +49,8 @@ const BurgerIngredients = (props) => {
 }
 
 BurgerIngredients.propTypes = {
-    bun: PropTypes.shape(ingredientDescriptor_full),
-    fillings: PropTypes.arrayOf(PropTypes.shape(ingredientDescriptor_full)
-    ),
+    bun: PropTypes.shape(isIngredientDescriptorFull),
+    fillings: PropTypes.arrayOf(PropTypes.shape(isIngredientDescriptorFull)),
     addIngredientToCart: PropTypes.func.isRequired
 };
 
