@@ -7,7 +7,7 @@ import Modal from '../../modal/modal';
 import IngredientDetails from '../../ingredient-details/ingredient-details';
 
 const Ingredient = (props) => {
-
+    
     const modalComponent = React.useRef(null);
     const [isModalVisible, setIsModalVisible] = React.useState(false);
 
@@ -40,7 +40,7 @@ const Ingredient = (props) => {
 
     return (
         <li className={styles.card} onClick={handleIngredientClick}>
-
+ 
             { count>0 && <Counter count={count}  size="default"/> }
             <img src={image} alt={name} className={styles.image}/>
             <div className={styles.price}> <span className={styles.price_num}>{price}</span> <CurrencyIcon/> </div>
@@ -49,7 +49,7 @@ const Ingredient = (props) => {
             { isModalVisible && 
                 <Modal key="ingredient" type="ingredient" onClose={closeModal} modalComponent={modalComponent}> 
                     <IngredientDetails data={props.data}/>
-                </Modal>
+                </Modal> 
             }
 
         </li>

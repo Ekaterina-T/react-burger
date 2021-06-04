@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 
 const IngredientGroup = (props) => {
-
+    
     const {type, name} = props.data;
 
     return ( 

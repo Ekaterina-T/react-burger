@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {isIngredientDescriptorFull} from '../../utils/prop-type-custom-checks';
 
 const Cart = (props) => {
-
+    
     const [bun, setBun] = React.useState(null);
     const [fillings, setFillings] = React.useState([]);
     const rowData = props.rowData; 

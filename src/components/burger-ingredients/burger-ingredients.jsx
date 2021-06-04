@@ -27,7 +27,6 @@ const BurgerIngredients = (props) => {
                 
             <section className={styles.ingredient_groups}>
                 { ingredientGroups.map((group)=>(
-
                     <IngredientGroup key={group.type} data={group}>                        
                         { ingredients
                             .filter(ingredient => ingredient.type === group.type)
@@ -40,7 +39,8 @@ const BurgerIngredients = (props) => {
                                 )
                             })
                         }               
-                    </IngredientGroup>                       
+                    </IngredientGroup>  
+                                         
                     ))
                 } 
             </section>               
