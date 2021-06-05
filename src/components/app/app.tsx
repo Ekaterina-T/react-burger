@@ -9,33 +9,25 @@ import {dataUrl} from '../../utils/constants';
 
 function App() {
 
-  const [dataAreLoading, setDataAreLoading] = React.useState(false); 
   const [data, setData] = React.useState([]);
-  const [dataHaveLoaded, setDataHaveLoaded] = React.useState(false);
-  const [errorDuringDataLoad, setErrorDuringDataLoad] = React.useState(false);
+  const [dataLoadStatus, setDataLoadStatus] = React.useState({isLoading: false, haveLoaded: false, errorDuringDataLoad: false});
  
   React.useEffect(() => {
 
     const getIngredientData = () => {
         
-      setDataAreLoading(true);
       setData([]);
-      setDataHaveLoaded(false);
-      setErrorDuringDataLoad(false);
+      setDataLoadStatus({isLoading: true, haveLoaded: false, errorDuringDataLoad: false});
       
       fetch(dataUrl)
       .then(res => res.ok ? res.json() : Promise.reject(res.statusText))
       .then(res => {
-        setDataAreLoading(false);
         setData(res.data);
-        setDataHaveLoaded(true);
-        setErrorDuringDataLoad(false);
+        setDataLoadStatus({isLoading: false, haveLoaded: true, errorDuringDataLoad: false});
       })
       .catch( e => {
-        setDataAreLoading(false);
         setData([]);
-        setDataHaveLoaded(false);
-        setErrorDuringDataLoad(true);
+        setDataLoadStatus({isLoading: false, haveLoaded: false, errorDuringDataLoad: true});        
       });
     };
 
@@ -47,9 +39,9 @@ function App() {
     <>
       <AppHeader />
       <main>
-        { dataAreLoading && <p>Данные загружаются</p> }
-        { errorDuringDataLoad && <p>Ошибка загрузки данных</p>}
-        { dataHaveLoaded && <Cart rowData={data}/> }
+        { dataLoadStatus.isLoading && <p>Данные загружаются</p> }
+        { dataLoadStatus.errorDuringDataLoad && <p>Ошибка загрузки данных</p>}
+        { dataLoadStatus.haveLoaded && <Cart rowData={data}/> }
       </main>
       <div id="modals"></div>
     </>
