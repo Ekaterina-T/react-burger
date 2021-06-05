@@ -17,8 +17,7 @@ const BurgerIngredients = (props) => {
     const [isModalVisible, setIsModalVisible] = React.useState(false);
     const [activeIngredinet, setActiveIngredinet] = React.useState(null);
 
-    const burgerIngredientsEl = React.useRef(null);    
-    const modalComponent = React.useRef(null);
+    const burgerIngredientsEl = React.useRef(null);  
     
     const openModal = (ingredient) => {
         setIsModalVisible(true);
@@ -67,7 +66,7 @@ const BurgerIngredients = (props) => {
             </section>    
             
             { isModalVisible && 
-                <Modal key="ingredient" type="ingredient" onClose={closeModal} modalComponent={modalComponent}> 
+                <Modal key="ingredient" type="ingredient" onClose={closeModal}> 
                     <IngredientDetails data={activeIngredinet}/>
                 </Modal> 
             }           

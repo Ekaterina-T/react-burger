@@ -11,8 +11,7 @@ const Modal = (props) => {
     const [activeBeforeModal, setActiveBeforeModal] = useState(null);
     const [modalControls, setModalControls] = useState([]);
 
-    const { children, onClose, type, modalComponent} = props;
-    const modalRoot = document.querySelector("#modals");
+    const modalComponent = React.useRef(null);
 
     React.useEffect(() => {
 
@@ -21,7 +20,7 @@ const Modal = (props) => {
 
         modalComponent.current.focus();
 
-    }, [modalComponent]);
+    }, []);
 
     const addTabTrap = (e) => {
                 
@@ -49,6 +48,9 @@ const Modal = (props) => {
 
         addTabTrap(e);
     }
+
+    const { children, onClose, type} = props;
+    const modalRoot = document.querySelector("#modals");  
 
     return ReactDOM.createPortal(
         (
