@@ -1,0 +1,25 @@
+.info_section {
+    composes: mt-30 mb-30 from global;
+    text-align: center;
+}
+
+.orderId {
+    composes: text text_type_digits-large pr-25 pl-25 from global;
+
+    color: #F2F2F3;
+    text-shadow: 0px 0px 16px rgba(51, 51, 255, 0.25), 
+                 0px 0px 8px rgba(51, 51, 255, 0.25), 
+                 0px 4px 32px rgba(51, 51, 255, 0.5);
+}
+
+.orderId_note {
+    composes: text text_type_main-default pt-8 pb-15 from global;
+}
+
+.common_notes_main {
+    composes: pt-15 pb-2 text text_type_main-default from global;
+}
+
+.common_notes_sec {
+    composes: text text_type_main-default text_color_inactive from global;
+}

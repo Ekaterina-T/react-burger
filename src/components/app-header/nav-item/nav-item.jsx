@@ -3,24 +3,22 @@ import styles from './nav-item.module.css';
 import NavList from '../nav-list/nav-list';
 import PropTypes from 'prop-types';
 
-class NavItem extends React.Component {
+const NavItem = (props) => {
 
-    render() {
-   
-        const {id, title, icon, subitems, href} = {...this.props.data};
-        const hasSubItems = !!subitems;
+    const {title, icon, cssClass, subitems, href} = props.data;
+    const hasSubItems = !!subitems;
 
-        return (            
-            <li className={ id==='profile' ? styles.profile_item : (id==='logo_desktop' ? styles.logo_desktop_item: styles.nav_item )}>                
-                <a href={href} className={styles.nav_link} >
-                    {icon}
-                    {this.props.children}
-                    <span className={styles.link_text}>{title}</span>
-                </a> 
-                { hasSubItems && <NavList data = {subitems} type="nested" setDefault={false}/>}
-            </li>
-        );
-    } 
+    return (            
+        <li className={ !!cssClass ? styles[cssClass] : styles.nav_item}>               
+            <a href={href} className={styles.nav_link} >
+                {icon}
+                {props.children}
+                <span className={styles.link_text}>{title}</span>
+            </a> 
+            { hasSubItems && <NavList data = {subitems} type="nested" setDefault={false}/>}
+        </li>
+    );
+     
 }
 
 NavItem.propTypes = {

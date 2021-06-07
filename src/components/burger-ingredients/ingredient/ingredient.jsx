@@ -4,30 +4,33 @@ import {Counter, CurrencyIcon, Button}  from '@ya.praktikum/react-developer-burg
 import PropTypes from 'prop-types';
 import {isImageLink} from '../../../utils/prop-type-custom-checks';
 
-class Ingredient extends React.Component {
+const Ingredient = (props) => {
+    
+    const addIngredient = (e) => {
+        e.stopPropagation();
+        updateCart(props.data);
+    } 
 
-    addIngredient = () => {
-        const ingredient = this.props.data;
-        this.props.updateCart(ingredient);
+    const showIngredientDetails = (e) => {
+        if(e.target.nodeName !== 'BUTTON') {
+            openModal(props.data);
+        }
     }
 
-    render() {
+    const {image, name, price, count} = props.data;
+    const { updateCart, openModal} = props;
 
-        const {image, name, price, count} = {...this.props.data};
-    
-        return (
-           <li className={styles.card} onClick={this.addIngredient}>
-    
-               { count>0 && <Counter count={count}  size="default"/> }
-               <img src={image} alt={name} className={styles.image}/>
-               <div className={styles.price}> <span className={styles.price_num}>{price}</span> <CurrencyIcon/> </div>
-               <div className={styles.name}>{name}</div>
-               <div class_name={styles.btn_wrapper}><Button type="secondary" size="medium">Добавить</Button></div>
-    
-            </li>
-        );
+    return (
+        <li className={styles.card} onClick={showIngredientDetails}>
+ 
+            { count>0 && <Counter count={count}  size="default"/> }
+            <img src={image} alt={name} className={styles.image}/>
+            <div className={styles.price}> <span className={styles.price_num}>{price}</span> <CurrencyIcon/> </div>
+            <div className={styles.name}>{name}</div>
+            <div className={styles.add_btn}><Button type="secondary" size="medium" onClick={addIngredient}>Добавить</Button></div>
 
-    } 
+        </li>
+    );
 }
 
 Ingredient.propTypes = {
@@ -35,9 +38,11 @@ Ingredient.propTypes = {
         image: isImageLink,
         name: PropTypes.string.isRequired,
         price: PropTypes.number.isRequired,
-        count:PropTypes.number.isRequired
+        count: PropTypes.number.isRequired
         }
-    ).isRequired
+    ).isRequired,
+    updateCart: PropTypes.func.isRequired,
+    addActiveIngredientToContext: PropTypes.func.isRequired
     
 };
 

@@ -1,69 +1,91 @@
 import React from 'react';
 import styles from './burger-constructor.module.css';
 //import { render } from '@testing-library/react';
-import {ConstructorElement}  from '@ya.praktikum/react-developer-burger-ui-components';
+import {ConstructorElement, DragIcon}  from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerConstructorTotal  from './burger-constructor-total/burger-constructor-total';
 import PropTypes from 'prop-types';
+import {isImageLink} from '../../utils/prop-type-custom-checks';
 
-class BurgerConstructor extends React.Component {
+const BurgerConstructor = (props) => {
 
-    render() {
+    const bun = props.bun;
+    const fillings = props.fillings;
+    const removeIngredientFromCart = props.removeIngredientFromCart;
+    
+    const calcTotal = (bun, fillings) => {
 
-        const ingredients = this.props.cart;
-        const showCart = ingredients.length > 0;
-        const total = showCart ? ingredients.reduce((acc, ingredient) => acc + ingredient.price, 0) : 0; 
+        let result  = 0;
 
-        const buns = ingredients
-                    .filter((ingredient) => (ingredient.type === "bun"))
-                    .map((bun, index) => (
-                        <ConstructorElement 
-                                key = {bun.key}
-                                type={index === 0 ? "top" : "bottom"}
-                                isLocked={true} 
-                                text={bun.name} 
-                                price={bun.price} 
-                                thumbnail={bun.image} 
-                                handleClose={this.props.removeIngredientFromCart(bun.key)}/>
-                    ));
+        if(!!bun) {
+            result += 2*bun.price;
+        }
 
-        const fillings = ingredients
-                        .filter((ingredient) => (ingredient.type !== "bun"))
-                        .map((filling, index) => (
-                            <ConstructorElement 
-                                key = {filling.key}
-                                isLocked={false} 
-                                text={filling.name} 
-                                price={filling.price} 
-                                thumbnail={filling.image} 
-                                handleClose={this.props.removeIngredientFromCart(filling.key)}/>
-                            ));
-     
+        if(fillings.length > 0) {
+            result += fillings.reduce((acc, filling) => acc + filling.price, 0);
+        }
 
-        return (
-           
-            <article className={styles.constructor}>
-
-                { showCart && 
-                    <>
-                        <div className = {styles.main_area}>
-
-                            { buns.length > 0 && buns[0] }
-                            <div className={styles.scrollable_area}> {fillings} </div>
-                            { buns.length > 0 && buns[1] }
-
-                        </div>
-                        <BurgerConstructorTotal total={total}/>
-                    </>
-                }
-                                
-            </article>
-            
-        ); 
+        return result;
     }
+
+    let total = React.useMemo( 
+            () => { return calcTotal(bun, fillings); },
+            [bun, fillings]
+        );
+
+    const fillingsItems = fillings
+                            .map( filling => (
+                                <div key = {filling.key} className={styles.burgerIngredient}>
+                                    <div className={styles.dragIcon}><DragIcon type="primary" /></div>
+                                    <ConstructorElement
+                                    isLocked={false}
+                                    text={filling.name}
+                                    price={filling.price}
+                                    thumbnail={filling.image}
+                                    handleClose={removeIngredientFromCart(filling.key)}/>
+                                </div>
+                            ));
+    
+
+    return (        
+        <article className={styles.constructor}>
+            { total>0 
+                ? (<>
+                    <div className = {styles.main_area}>
+
+                        { bun != null && 
+                        <ConstructorElement type="top" isLocked={true} text={bun.name} price={bun.price} thumbnail={bun.image} /> 
+                        }
+
+                        <div className={styles.scrollable_area}> {fillingsItems} </div>
+
+                        { bun != null &&
+                        <ConstructorElement type="bottom" isLocked={true} text={bun.name} price={bun.price} thumbnail={bun.image} />
+                        }
+
+                    </div>
+                    <BurgerConstructorTotal total={total}/>
+                </>)
+                : <p className={styles.emptyConstructor}>Добавьте сюда ингредиенты</p>
+            }                            
+        </article>        
+    ); 
 }
 
 BurgerConstructor.propTypes = {
-    cart: PropTypes.arrayOf(PropTypes.object)
+    bun: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        image: isImageLink
+        }),
+
+    fillings: PropTypes.arrayOf(PropTypes.shape({
+        key: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        image: isImageLink
+    })),
+
+    removeIngredientFromCart: PropTypes.func.isRequired
 };
 
 export default BurgerConstructor;
