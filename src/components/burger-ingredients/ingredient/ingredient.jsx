@@ -41,9 +41,7 @@ Ingredient.propTypes = {
         count: PropTypes.number.isRequired
         }
     ).isRequired,
-    updateCart: PropTypes.func.isRequired,
-    addActiveIngredientToContext: PropTypes.func.isRequired
-    
+    updateCart: PropTypes.func.isRequired    
 };
 
 export default Ingredient;

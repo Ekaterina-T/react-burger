@@ -3,7 +3,10 @@ import styles from './burger-constructor-total.module.css';
 import Modal from '../../modal/modal';
 import OrderDetails from '../../order-details/order-details';
 import {CurrencyIcon, Button}  from '@ya.praktikum/react-developer-burger-ui-components';
-//import { render } from '@testing-library/react';
+
+import {IngredientsContext} from '../../../services/ingredients-context';
+import {orderUrl} from '../../../utils/constants';
+
 import PropTypes from 'prop-types';
 
 const BurgerConstructorTotal = (props) => {
@@ -11,8 +14,22 @@ const BurgerConstructorTotal = (props) => {
     const modalComponent = React.useRef(null);
     const [isModalVisible, setIsModalVisible] = React.useState(false);
 
+    const {cart: {bun, fillings}} = React.useContext(IngredientsContext);
+
     const openModal = (e) => { 
-        setIsModalVisible(true); 
+        
+        fetch(orderUrl, {
+            method: "POST", 
+            body: JSON.stringify([...fillings, bun].map( item => item._id))
+        })
+        .then(res => res.ok ? res.json() : Promise.reject(res.statusText))
+        .then(res => {
+            console.log(res.data);
+            setIsModalVisible(true); 
+        })
+        .catch( e => {
+            console.error(`Something went wrong: ${e}`);
+        });
     };
     
     const closeModal = (e) => {

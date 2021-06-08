@@ -1,16 +1,14 @@
 import React from 'react';
 import styles from './burger-constructor.module.css';
-//import { render } from '@testing-library/react';
 import {ConstructorElement, DragIcon}  from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerConstructorTotal  from './burger-constructor-total/burger-constructor-total';
-import PropTypes from 'prop-types';
-import {isImageLink} from '../../utils/prop-type-custom-checks';
 
-const BurgerConstructor = (props) => {
+import {IngredientsContext} from '../../services/ingredients-context';
 
-    const bun = props.bun;
-    const fillings = props.fillings;
-    const removeIngredientFromCart = props.removeIngredientFromCart;
+
+const BurgerConstructor = () => {
+
+    const {cart: {bun, fillings}, removeIngredientFromCart} = React.useContext(IngredientsContext);
     
     const calcTotal = (bun, fillings) => {
 
@@ -70,22 +68,5 @@ const BurgerConstructor = (props) => {
         </article>        
     ); 
 }
-
-BurgerConstructor.propTypes = {
-    bun: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        image: isImageLink
-        }),
-
-    fillings: PropTypes.arrayOf(PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        image: isImageLink
-    })),
-
-    removeIngredientFromCart: PropTypes.func.isRequired
-};
 
 export default BurgerConstructor;
