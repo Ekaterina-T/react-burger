@@ -8,14 +8,15 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
 import {ingredientGroups} from '../../utils/constants';
+import {IngredientsContext} from '../../services/ingredients-context';
 
-import PropTypes from 'prop-types';
-import {isIngredientDescriptorFull} from '../../utils/prop-type-custom-checks';
 
-const BurgerIngredients = (props) => {
+const BurgerIngredients = () => {
 
     const [isModalVisible, setIsModalVisible] = React.useState(false);
     const [activeIngredinet, setActiveIngredinet] = React.useState(null);
+
+    const {ingredients, cart: {bun, fillings}, addIngredientToCart} = React.useContext(IngredientsContext);
 
     const burgerIngredientsEl = React.useRef(null);  
     
@@ -30,10 +31,21 @@ const BurgerIngredients = (props) => {
         setActiveIngredinet(null);
     }
 
-    const ingredients = props.rowData;
-    const {bun, fillings, addIngredientToCart} = props; 
-    const cart = [...fillings, bun];
-
+    const getIngredientsFrom = (group) => (
+        ingredients
+        .filter(ingredient => ingredient.type === group.type)
+        .map((ingredient) => {
+            ingredient.count = [...fillings, bun].filter( item => item && item._id === ingredient._id).length;
+            return (
+                    <Ingredient 
+                    key={ingredient._id} 
+                    data={ingredient} 
+                    updateCart={addIngredientToCart} 
+                    openModal = {openModal}/>
+                )
+            })
+    );
+    
     return (
         <article className={styles.ingredients} ref={burgerIngredientsEl}>
             <header>
@@ -44,22 +56,8 @@ const BurgerIngredients = (props) => {
                 
             <section className={styles.ingredient_groups}>
                 { ingredientGroups.map((group)=>(
-                    <IngredientGroup key={group.type} data={group}>                        
-                        { ingredients
-                            .filter(ingredient => ingredient.type === group.type)
-                            .map((ingredient)=>{
-
-                                ingredient.count = cart.filter( item => item && item._id === ingredient._id).length;
-                                
-                                return (
-                                    <Ingredient 
-                                    key={ingredient._id} 
-                                    data={ingredient} 
-                                    updateCart={addIngredientToCart} 
-                                    openModal = {openModal}/>
-                                )
-                            })
-                        }               
+                    <IngredientGroup key={group.type} data={group}>   
+                        { getIngredientsFrom(group) }                 
                     </IngredientGroup>                                           
                     ))
                 } 
@@ -74,10 +72,5 @@ const BurgerIngredients = (props) => {
     );
 }
 
-BurgerIngredients.propTypes = {
-    bun: PropTypes.shape(isIngredientDescriptorFull),
-    fillings: PropTypes.arrayOf(PropTypes.shape(isIngredientDescriptorFull)),
-    addIngredientToCart: PropTypes.func.isRequired
-};
 
 export default BurgerIngredients;

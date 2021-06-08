@@ -2,14 +2,15 @@ import React from 'react';
 import styles from './order-details.module.css';
 import PropTypes from 'prop-types';
 
-const OrderDetails = (props) => {
+const OrderDetails = ({lastOrder}) => {
 
-    const {orderId} = props;   
+    const notes_main = lastOrder.success ? "Ваш заказ начали готовить": "Заказ не может быть выполнен";
+    const notes_sec = lastOrder.success ? "Дождитесь готовности на орбитальной станции": "Обратитесь в поддержку";
 
     return (
 
         <section className={styles.info_section}>
-            <header className={styles.orderId}>{orderId}</header>
+            <header className={styles.orderId}>{lastOrder.order.number}</header>
             <p className={styles.orderId_note}>идентификатор заказа</p>
 
             <svg width="107" height="102" viewBox="0 0 107 102" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -33,8 +34,8 @@ const OrderDetails = (props) => {
                 </defs>
             </svg>
 
-            <p className={styles.common_notes_main}>Ваш заказ начали готовить</p>
-            <p className={styles.common_notes_sec}>Дождитесь готовности на орбитальной станции</p>
+            <p className={styles.common_notes_main}>{notes_main}</p>
+            <p className={styles.common_notes_sec}>{notes_sec}</p>
         </section>
     );
 } 
@@ -42,5 +43,11 @@ const OrderDetails = (props) => {
 export default OrderDetails
 
 OrderDetails.propTypes = {
-    orderId: PropTypes.string.isRequired
+    lastOrder: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        order: PropTypes.shape({
+            number: PropTypes.number.isRequired
+        }),
+        success: PropTypes.bool
+    }).isRequired
 }

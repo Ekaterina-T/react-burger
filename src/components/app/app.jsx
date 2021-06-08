@@ -6,32 +6,33 @@ import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 
 import {dataUrl} from '../../utils/constants';
-//import {ingredients} from '../../utils/data'
-
+import {IngredientsContext} from '../../services/ingredients-context';
+ 
 function App() {
 
   const [dataLoadStatus, setDataLoadStatus] = React.useState({isLoading: false, haveLoaded: false, errorDuringDataLoad: false});
-  const [data, setData] = React.useState([]);
+  const [ingredients, setIngredients] = React.useState([]);
   const [cart, setCart] = React.useState({bun: null, fillings: []});
 
+  //load ingredients
   React.useEffect(() => {
 
     const getIngredientData = () => {
         
       setDataLoadStatus({isLoading: true, haveLoaded: false, errorDuringDataLoad: false});
-      setData([]);
+      setIngredients([]);
       setCart({bun: null, fillings: []});
       
       fetch(dataUrl)
       .then(res => res.ok ? res.json() : Promise.reject(res.statusText))
       .then(res => {
         setDataLoadStatus({isLoading: false, haveLoaded: true, errorDuringDataLoad: false});
-        setData(res.data);
+        setIngredients(res.data);
         setCart({bun: null, fillings: []});
       })
       .catch( e => {
         setDataLoadStatus({isLoading: false, haveLoaded: false, errorDuringDataLoad: true});  
-        setData([]);
+        setIngredients([]);
         setCart({bun: null, fillings: []});      
       });
     };
@@ -40,7 +41,7 @@ function App() {
 
   }, []);
 
-  const addIngredient = (ingredient) => {
+  const addIngredientToCart = (ingredient) => {
       
       const getNewIngredientIndex = (ingredients) => {
 
@@ -71,7 +72,7 @@ function App() {
       }       
   }
 
-  const removeIngredient = (ingredientKey) => {
+  const removeIngredientFromCart = (ingredientKey) => {
       return () => {
         
         setCart( prevState => {
@@ -97,10 +98,10 @@ function App() {
         { dataLoadStatus.isLoading && <p>Данные загружаются</p> }
         { dataLoadStatus.errorDuringDataLoad && <p>Ошибка загрузки данных</p>}
         { dataLoadStatus.haveLoaded && 
-          <>
-            <BurgerIngredients rowData={data} addIngredientToCart={addIngredient} bun={cart.bun} fillings={cart.fillings}/>
-            <BurgerConstructor removeIngredientFromCart = {removeIngredient} bun={cart.bun} fillings={cart.fillings}/>
-          </>
+            <IngredientsContext.Provider value={{ingredients, cart, addIngredientToCart, removeIngredientFromCart}}>
+                <BurgerIngredients/>
+                <BurgerConstructor/>
+            </IngredientsContext.Provider>
         }
       </main>
       <div id="modals"></div>
