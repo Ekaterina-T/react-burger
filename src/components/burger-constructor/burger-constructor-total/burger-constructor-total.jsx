@@ -59,5 +59,4 @@ BurgerConstructorTotal.propTypes = {
     total: PropTypes.number.isRequired
 };
 
-
 export default BurgerConstructorTotal;
