@@ -20,11 +20,15 @@ const BurgerConstructorTotal = (props) => {
         
         fetch(orderUrl, {
             method: "POST", 
-            body: JSON.stringify([...fillings, bun].map( item => item._id))
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"ingredients": [...fillings, bun].map( item => item._id)})
         })
         .then(res => res.ok ? res.json() : Promise.reject(res.statusText))
         .then(res => {
-            console.log(res.data);
+            console.log("response");
+            console.log(res);
             setIsModalVisible(true); 
         })
         .catch( e => {
