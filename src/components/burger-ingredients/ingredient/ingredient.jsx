@@ -17,13 +17,13 @@ const Ingredient = (props) => {
         }
     }
 
-    const {image, name, price, count} = props.data;
-    const { updateCart, openModal} = props;
+    const {image, name, price} = props.data;
+    const { updateCart, openModal, ingredientCount} = props;
 
     return (
         <li className={styles.card} onClick={showIngredientDetails}>
  
-            { count>0 && <Counter count={count}  size="default"/> }
+            { ingredientCount>0 && <Counter count={ingredientCount}  size="default"/> }
             <img src={image} alt={name} className={styles.image}/>
             <div className={styles.price}> <span className={styles.price_num}>{price}</span> <CurrencyIcon/> </div>
             <div className={styles.name}>{name}</div>
@@ -37,10 +37,10 @@ Ingredient.propTypes = {
     data: PropTypes.shape({
         image: isImageLink,
         name: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        count: PropTypes.number.isRequired
+        price: PropTypes.number.isRequired
         }
     ).isRequired,
+    ingredientCount: PropTypes.number.isRequired,
     updateCart: PropTypes.func.isRequired    
 };
 

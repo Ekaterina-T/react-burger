@@ -14,7 +14,7 @@ import {IngredientsContext} from '../../services/ingredients-context';
 const BurgerIngredients = () => {
 
     const [isModalVisible, setIsModalVisible] = React.useState(false);
-    const [activeIngredinet, setActiveIngredinet] = React.useState(null);
+    const [activeIngredient, setActiveIngredient] = React.useState(null);
 
     const {ingredients, cart: {bun, fillings}, addIngredientToCart} = React.useContext(IngredientsContext);
 
@@ -22,24 +22,25 @@ const BurgerIngredients = () => {
     
     const openModal = (ingredient) => {
         setIsModalVisible(true);
-        setActiveIngredinet(ingredient);
+        setActiveIngredient(ingredient);
     }
 
     const closeModal = (e) => {
         e.stopPropagation();
         setIsModalVisible(false);
-        setActiveIngredinet(null);
+        setActiveIngredient(null);
     }
 
     const getIngredientsFrom = (group) => (
         ingredients
         .filter(ingredient => ingredient.type === group.type)
         .map((ingredient) => {
-            ingredient.count = [...fillings, bun].filter( item => item && item._id === ingredient._id).length;
+            const ingredientCount = [...fillings, bun].filter( item => item && item._id === ingredient._id).length;
             return (
                     <Ingredient 
                     key={ingredient._id} 
                     data={ingredient} 
+                    ingredientCount={ingredientCount}
                     updateCart={addIngredientToCart} 
                     openModal = {openModal}/>
                 )
@@ -65,7 +66,7 @@ const BurgerIngredients = () => {
             
             { isModalVisible && 
                 <Modal key="ingredient" type="ingredient" onClose={closeModal}> 
-                    <IngredientDetails data={activeIngredinet}/>
+                    <IngredientDetails data={activeIngredient}/>
                 </Modal> 
             }           
         </article>

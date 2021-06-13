@@ -98,7 +98,7 @@ function App() {
         { dataLoadStatus.isLoading && <p>Данные загружаются</p> }
         { dataLoadStatus.errorDuringDataLoad && <p>Ошибка загрузки данных</p>}
         { dataLoadStatus.haveLoaded && 
-            <IngredientsContext.Provider value={{ingredients, cart, addIngredientToCart, removeIngredientFromCart}}>
+            <IngredientsContext.Provider value={{ingredients, setIngredients, cart, addIngredientToCart, removeIngredientFromCart}}>
                 <BurgerIngredients/>
                 <BurgerConstructor/>
             </IngredientsContext.Provider>

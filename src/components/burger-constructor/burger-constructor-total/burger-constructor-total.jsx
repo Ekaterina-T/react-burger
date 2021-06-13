@@ -11,15 +11,13 @@ import PropTypes from 'prop-types';
 
 const BurgerConstructorTotal = ({total}) => {
 
-    const modalComponent = React.useRef(null);
+    
     const [isModalVisible, setIsModalVisible] = React.useState(false);
     const [orderDetails, setOrderDetails] = React.useState([]);
 
     const {cart: {bun, fillings}} = React.useContext(IngredientsContext);
 
-    const {cart: {bun, fillings}} = React.useContext(IngredientsContext);
-
-    const openModal = (e) => { 
+    const createNewOrder = (e) => { 
         fetch(orderUrl, {
             method: "POST", 
             headers: {
@@ -30,7 +28,7 @@ const BurgerConstructorTotal = ({total}) => {
         .then(res => res.ok ? res.json() : Promise.reject(res))
         .then(res => {
             //always create new order
-            setOrderDetails( prevState => [...prevState, res]);
+            setOrderDetails(res);
             setIsModalVisible(true);
         })
         .catch( e => {
@@ -49,10 +47,10 @@ const BurgerConstructorTotal = ({total}) => {
             <span> {total} </span> 
             <CurrencyIcon/>
             <div className={styles.button_wrapper}>
-                <Button onClick={openModal}>Оформить заказ</Button >
+                <Button onClick={createNewOrder}>Оформить заказ</Button >
                 { isModalVisible && 
-                    <Modal key="order" type="order" onClose={closeModal} modalComponent={modalComponent}> 
-                        <OrderDetails lastOrder={orderDetails[orderDetails.length-1]} />
+                    <Modal key="order" type="order" onClose={closeModal}> 
+                        <OrderDetails orderData={orderDetails} />
                     </Modal>
                 }
             </div>                 
