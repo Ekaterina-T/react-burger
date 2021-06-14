@@ -1,65 +1,60 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
 import styles from './burger-constructor-total.module.css';
 import Modal from '../../modal/modal';
 import OrderDetails from '../../order-details/order-details';
 import {CurrencyIcon, Button}  from '@ya.praktikum/react-developer-burger-ui-components';
 
-import {IngredientsContext} from '../../../services/ingredients-context';
-import {orderUrl} from '../../../utils/constants';
+import {SHOW_ORDER_DETAILS} from '../../../services/actions';
+import {createOrder} from '../../../services/actions';
 
-import PropTypes from 'prop-types';
 
-const BurgerConstructorTotal = ({total}) => {
+const BurgerConstructorTotal = () => {
 
-    
-    const [isModalVisible, setIsModalVisible] = React.useState(false);
-    const [orderDetails, setOrderDetails] = React.useState([]);
+    const dispatch = useDispatch();
+    const {cart: {bun, fillings}, showOrderDetails} = useSelector(store => store);
 
-    const {cart: {bun, fillings}} = React.useContext(IngredientsContext);
-
-    const createNewOrder = (e) => { 
-        fetch(orderUrl, {
-            method: "POST", 
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({"ingredients": [...fillings, bun].map( item => item._id)})
-        })
-        .then(res => res.ok ? res.json() : Promise.reject(res))
-        .then(res => {
-            //always create new order
-            setOrderDetails(res);
-            setIsModalVisible(true);
-        })
-        .catch( e => {
-            console.error(`Something went wrong: ${e}`);
-        });        
-    };
+    const handleCreateNewOrder = () => {
+        dispatch(createOrder());
+    }
     
     const closeModal = (e) => {
         e.stopPropagation();
-        setIsModalVisible(false);
+        dispatch({type: SHOW_ORDER_DETAILS, value: false});
     };
 
+    const calcTotal = React.useMemo(
+        () => { 
+            let result  = 0;
+
+            if(!!bun) {
+                result += 2*bun.price;
+            }
+
+            if(fillings.length > 0) {
+                result += fillings.reduce((acc, filling) => acc + filling.price, 0);
+            }
+
+            return result;
+        },
+        [bun, fillings]
+    );
 
     return (
         <section className={styles.constructor_total}>
-            <span> {total} </span> 
+            <span> {calcTotal} </span> 
             <CurrencyIcon/>
             <div className={styles.button_wrapper}>
-                <Button onClick={createNewOrder}>Оформить заказ</Button >
-                { isModalVisible && 
+                <Button onClick={handleCreateNewOrder}>Оформить заказ</Button >
+                { showOrderDetails && 
                     <Modal key="order" type="order" onClose={closeModal}> 
-                        <OrderDetails orderData={orderDetails} />
+                        <OrderDetails />
                     </Modal>
                 }
             </div>                 
         </section>
     );
 }
-
-BurgerConstructorTotal.propTypes = {
-    total: PropTypes.number.isRequired
-};
 
 export default BurgerConstructorTotal;

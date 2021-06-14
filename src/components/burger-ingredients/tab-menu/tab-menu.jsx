@@ -3,7 +3,7 @@ import {Tab}  from '@ya.praktikum/react-developer-burger-ui-components';
 import {ingredientGroups} from '../../../utils/constants'
 
 
-const TabMenu = (props) => {
+const TabMenu = ({burgerIngredientsEl}) => {
     
     const [current, setCurrent] = React.useState('bun');
 
@@ -11,8 +11,6 @@ const TabMenu = (props) => {
         setCurrent(tabValue);
         burgerIngredientsEl.current.querySelector(`section[id=${tabValue}]`).scrollIntoView({ behavior: "smooth" });
     };
-    
-    const {burgerIngredientsEl} = props;
 
     return (
         <div style={{ display: 'flex' }}>

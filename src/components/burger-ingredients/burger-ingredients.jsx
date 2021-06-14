@@ -1,4 +1,6 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
 import styles from './burger-ingredients.module.css';
 
 import IngredientGroup from './ingredient-group/ingredient-group';
@@ -8,40 +10,36 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
 import {ingredientGroups} from '../../utils/constants';
-import {IngredientsContext} from '../../services/ingredients-context';
+
+import {SHOW_INGREDIENT_DETAILS, SET_ACTIVE_INGREDIENT} from '../../services/actions';
 
 
 const BurgerIngredients = () => {
 
-    const [isModalVisible, setIsModalVisible] = React.useState(false);
-    const [activeIngredient, setActiveIngredient] = React.useState(null);
-
-    const {ingredients, cart: {bun, fillings}, addIngredientToCart} = React.useContext(IngredientsContext);
+    const dispatch = useDispatch();
+    const {ingredients, showIngredientDetails} = useSelector(store => store);
 
     const burgerIngredientsEl = React.useRef(null);  
     
     const openModal = (ingredient) => {
-        setIsModalVisible(true);
-        setActiveIngredient(ingredient);
+        dispatch({type: SET_ACTIVE_INGREDIENT, value: ingredient});
+        dispatch({type: SHOW_INGREDIENT_DETAILS, value: true});
     }
 
     const closeModal = (e) => {
         e.stopPropagation();
-        setIsModalVisible(false);
-        setActiveIngredient(null);
+        dispatch({type: SHOW_INGREDIENT_DETAILS, value: false});
+        dispatch({type: SET_ACTIVE_INGREDIENT, value: null})
     }
 
     const getIngredientsFrom = (group) => (
         ingredients
         .filter(ingredient => ingredient.type === group.type)
         .map((ingredient) => {
-            const ingredientCount = [...fillings, bun].filter( item => item && item._id === ingredient._id).length;
             return (
                     <Ingredient 
                     key={ingredient._id} 
                     data={ingredient} 
-                    ingredientCount={ingredientCount}
-                    updateCart={addIngredientToCart} 
                     openModal = {openModal}/>
                 )
             })
@@ -64,9 +62,9 @@ const BurgerIngredients = () => {
                 } 
             </section>    
             
-            { isModalVisible && 
+            { showIngredientDetails && 
                 <Modal key="ingredient" type="ingredient" onClose={closeModal}> 
-                    <IngredientDetails data={activeIngredient}/>
+                    <IngredientDetails/>
                 </Modal> 
             }           
         </article>

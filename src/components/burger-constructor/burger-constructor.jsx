@@ -1,34 +1,20 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
 import styles from './burger-constructor.module.css';
 import {ConstructorElement, DragIcon}  from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerConstructorTotal  from './burger-constructor-total/burger-constructor-total';
 
-import {IngredientsContext} from '../../services/ingredients-context';
-
+import {removeIngredientFromCart} from '../../services/actions'
 
 const BurgerConstructor = () => {
 
-    const {cart: {bun, fillings}, removeIngredientFromCart} = React.useContext(IngredientsContext);
-    
-    const calcTotal = (bun, fillings) => {
+    const dispatch = useDispatch();
+    const {cart: {bun, fillings}} = useSelector(store => store);
 
-        let result  = 0;
-
-        if(!!bun) {
-            result += 2*bun.price;
-        }
-
-        if(fillings.length > 0) {
-            result += fillings.reduce((acc, filling) => acc + filling.price, 0);
-        }
-
-        return result;
+    const removeIngredient = (ingredientKey) => {
+        dispatch(removeIngredientFromCart(ingredientKey));
     }
-
-    let total = React.useMemo( 
-            () => { return calcTotal(bun, fillings); },
-            [bun, fillings]
-        );
 
     const fillingsItems = fillings
                             .map( filling => (
@@ -39,14 +25,15 @@ const BurgerConstructor = () => {
                                     text={filling.name}
                                     price={filling.price}
                                     thumbnail={filling.image}
-                                    handleClose={removeIngredientFromCart(filling.key)}/>
+                                    handleClose={() => removeIngredient(filling.key)}/>
                                 </div>
                             ));
-    
+
+    const cartHasItems = bun || fillings.length > 0;    
 
     return (        
         <article className={styles.constructor}>
-            { total>0 
+            { cartHasItems 
                 ? (<>
                     <div className = {styles.main_area}>
 
@@ -61,7 +48,7 @@ const BurgerConstructor = () => {
                         }
 
                     </div>
-                    <BurgerConstructorTotal total={total}/>
+                    <BurgerConstructorTotal/>
                 </>)
                 : <p className={styles.emptyConstructor}>Добавьте сюда ингредиенты</p>
             }                            
