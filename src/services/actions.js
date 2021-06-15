@@ -13,6 +13,8 @@ export const CREATE_NEW_ORDER_SUCCESS = 'CREATE_NEW_ORDER_SUCCESS';
 export const CREATE_NEW_ORDER_FAILED = 'CREATE_NEW_ORDER_FAILED';
 export const SHOW_ORDER_DETAILS = 'SHOW_ORDER_DETAILS';
 
+export const SORT_FILLINGS_ORDER = 'SORT_FILLINGS_ORDER';
+
 
 export const getIngredientData = () => {
 
@@ -32,7 +34,7 @@ export const getIngredientData = () => {
     }
 };
 
-export const addIngredientToCart = (ingredient) => {
+export const addIngredientToCart = (ingredientID) => {
 
     return (dispatch, getState) => {
 
@@ -54,9 +56,9 @@ export const addIngredientToCart = (ingredient) => {
             }
             ingredient.key = [ingredient._id, getIngredientKey(prevCart.fillings)].join('_');
         }
-
+        
         const prevCart = getState().cart;
-        const newIngredient = {...ingredient};
+        const newIngredient = {...getState().ingredients.filter( item => item._id === ingredientID )[0]};
 
         assignKeyToIngredient(newIngredient);
 
@@ -107,6 +109,21 @@ export const createOrder = () => {
         .catch( 
             dispatch({type: CREATE_NEW_ORDER_FAILED})
         );
-    }
-       
+    }  
 };
+
+export const sortFillingsOrder = (oldItemIndex, newItemIndex) => {
+    return (dispatch, getState) => {
+
+        const prevCart = getState().cart;
+        const newFillings = [...prevCart.fillings];
+        
+        const itemToMove = newFillings[oldItemIndex];
+        newFillings.splice(oldItemIndex,1);
+        newFillings.splice(newItemIndex, 0, itemToMove);
+
+        const updatedCart = {...prevCart, fillings: newFillings }; 
+               
+        dispatch({type: UPDATE_CART, updatedCart: updatedCart});
+    }
+}

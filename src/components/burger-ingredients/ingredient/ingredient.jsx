@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useDrag } from "react-dnd";
 
 import styles from './ingredient.module.css';
 import {Counter, CurrencyIcon, Button}  from '@ya.praktikum/react-developer-burger-ui-components';
@@ -12,6 +13,7 @@ const Ingredient = ({ data, openModal}) => {
     
     const dispatch = useDispatch();
     const {cart: {bun, fillings}} = useSelector(store => store);
+    const [, dragRef] = useDrag({type: 'ingredient', item: {id: data._id}});
 
     const ingredientCount = React.useMemo( () => {
             return [...fillings, bun].filter( ingredient => ingredient && data._id === ingredient._id).length;
@@ -19,7 +21,7 @@ const Ingredient = ({ data, openModal}) => {
 
     const addIngredient = (e) => {
         e.stopPropagation();
-        dispatch(addIngredientToCart(data));
+        dispatch(addIngredientToCart(data._id));
     } 
 
     const openIngredientDetails = (e) => {
@@ -31,7 +33,7 @@ const Ingredient = ({ data, openModal}) => {
     const {image, name, price} = data;
 
     return (
-        <li className={styles.card} onClick={openIngredientDetails}>
+        <li className={styles.card} onClick={openIngredientDetails} ref={dragRef}> 
  
             { ingredientCount>0 && <Counter count={ingredientCount}  size="default"/> }
             <img src={image} alt={name} className={styles.image}/>
