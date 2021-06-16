@@ -1,4 +1,5 @@
 import {dataUrl, orderUrl} from '../utils/constants';
+import {ingredients} from '../utils/data'
 
 export const GET_INGREDIENTS = 'GET_INGREDIENTS';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
@@ -16,6 +17,7 @@ export const SHOW_ORDER_DETAILS = 'SHOW_ORDER_DETAILS';
 export const SORT_FILLINGS_ORDER = 'SORT_FILLINGS_ORDER';
 
 
+
 export const getIngredientData = () => {
 
     return dispatch => {
@@ -28,7 +30,9 @@ export const getIngredientData = () => {
             dispatch({type: GET_INGREDIENTS_SUCCESS, data: res.data});
         })
         .catch( e => {
-            dispatch({type: GET_INGREDIENTS_FAILED});     
+            
+            dispatch({type: GET_INGREDIENTS_SUCCESS, data: ingredients});
+            //dispatch({type: GET_INGREDIENTS_FAILED});     
         });
 
     }

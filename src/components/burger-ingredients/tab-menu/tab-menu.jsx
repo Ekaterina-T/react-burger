@@ -3,19 +3,17 @@ import {Tab}  from '@ya.praktikum/react-developer-burger-ui-components';
 import {ingredientGroups} from '../../../utils/constants'
 
 
-const TabMenu = ({burgerIngredientsEl}) => {
+const TabMenu = ({burgerIngredientsEl, currentTab, updateCurrentTab}) => {
     
-    const [current, setCurrent] = React.useState('bun');
-
     const scrollIntoSection = (tabValue) => {
-        setCurrent(tabValue);
         burgerIngredientsEl.current.querySelector(`section[id=${tabValue}]`).scrollIntoView({ behavior: "smooth" });
+        updateCurrentTab(tabValue);
     };
 
     return (
         <div style={{ display: 'flex' }}>
             { ingredientGroups.map( ingredientGroup => (
-                <Tab key={ingredientGroup.type} value={ingredientGroup.type} active={current === ingredientGroup.type} onClick={scrollIntoSection}>
+                <Tab key={ingredientGroup.type} value={ingredientGroup.type} active={currentTab === ingredientGroup.type} onClick={scrollIntoSection}>
                     {ingredientGroup.name}
                 </Tab>
                 ))
