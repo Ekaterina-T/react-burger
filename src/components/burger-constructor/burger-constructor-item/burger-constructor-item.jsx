@@ -14,11 +14,11 @@ const BurgerConstructorItem = ({index, id, text, price, thumbnail, isLocked}) =>
     
     const dispatch = useDispatch();
     
-    const [{isDragged}, dragRef] = useDrag({
+    const [collectedDrag, dragRef] = useDrag({
         type: "fillings", 
         item: {id, index},
         collect: monitor => ({
-            isDragged: monitor.isDragging()
+            isDragging: monitor.isDragging()
         })
     });
 
@@ -40,8 +40,8 @@ const BurgerConstructorItem = ({index, id, text, price, thumbnail, isLocked}) =>
 
     return (
         <div ref={fillingsRef}>
-            {!isDragged && 
-                <div id={id} className={styles.burgerIngredient} ref={dragRef}>
+            {!collectedDrag.isDragging ?   
+                <div id={id} className={styles.burgerIngredient} ref={dragRef}  >
                     <div className={styles.dragIcon}><DragIcon type="primary" /></div>
                     <ConstructorElement
                     isLocked={isLocked}
@@ -50,6 +50,7 @@ const BurgerConstructorItem = ({index, id, text, price, thumbnail, isLocked}) =>
                     thumbnail={thumbnail}
                     handleClose={() => removeIngredient(id)}/>
                 </div>
+                : <div className={styles.dragPreview} ></div>
             }
         </div>
     )

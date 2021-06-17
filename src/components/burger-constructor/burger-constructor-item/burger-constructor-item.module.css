@@ -2,11 +2,18 @@
     display: flex;
     align-items: center;
     width: 100%;
-    cursor: pointer;
+    cursor: grab;
 }
 
 .dragIcon {
 position: relative;
+}
+
+.dragPreview {
+    padding: 16px 24px;
+    border-radius: 40px;
+    min-height: 80px;
+    box-sizing: border-box;
 }
 
 :global(.constructor-element) {
