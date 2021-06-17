@@ -49,29 +49,21 @@ const BurgerIngredients = () => {
 
     const updateActiveTabOnScroll = (e) => {
 
-        const isMostOfSectionVisible = (section, sectionIndex, allSections) => {
-            if(sectionIndex === allSections-1) { //last section is active
+        const isClosestHeaderVisible = (section, sectionIndex, allSections) => {
+
+            if(sectionIndex === allSections.length-1) { //last section is active
                 return true;
             }
             
-            const sectionRect = section.getBoundingClientRect();
-            const sectionRect_top = sectionRect.y;
-
-            if(sectionRect_top >= scrollableAreaTop) { //section's top lower than scroll area top
-                return true;
-            }
-
-            const sectionRect_height = sectionRect.height;
-            const visibleArea = (sectionRect_top + sectionRect_height - scrollableAreaTop)/sectionRect_height;
-
-            return visibleArea > 0.30;
+            const sectionRect = section.querySelector('ul').getBoundingClientRect();
+            return sectionRect.y >= scrollableAreaTop;
         }
 
         const scrollableArea = e.target;
         const scrollableAreaTop = scrollableArea.getBoundingClientRect().y;
         const ingredientGroups = Array.prototype.slice.call(scrollableArea.querySelectorAll('section'));
-        
-        const visibleGroup = ingredientGroups.find(isMostOfSectionVisible);
+
+        const visibleGroup = ingredientGroups.find(isClosestHeaderVisible);
 
         setCurrentTab(visibleGroup.getAttribute('id'));
     };

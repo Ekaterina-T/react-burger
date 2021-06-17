@@ -1,7 +1,7 @@
 //import { combineReducers } from 'redux';
 
 import {
-    GET_INGREDIENTS, 
+    GET_INGREDIENTS_REQUEST, 
     GET_INGREDIENTS_SUCCESS, 
     GET_INGREDIENTS_FAILED, 
 
@@ -9,7 +9,7 @@ import {
     SET_ACTIVE_INGREDIENT,
 
     UPDATE_CART, 
-    CREATE_NEW_ORDER,
+    CREATE_NEW_ORDER_REQUEST,
     CREATE_NEW_ORDER_SUCCESS,
     CREATE_NEW_ORDER_FAILED,
     SHOW_ORDER_DETAILS
@@ -38,7 +38,7 @@ export const rootReducer = (state = initialState, action) => {
 
     switch (action.type) {
 
-        case GET_INGREDIENTS:
+        case GET_INGREDIENTS_REQUEST:
             return {
                 ...state, 
                 ingredients_load: true
@@ -77,7 +77,7 @@ export const rootReducer = (state = initialState, action) => {
                 cart: action.updatedCart
             };
 
-        case CREATE_NEW_ORDER:
+        case CREATE_NEW_ORDER_REQUEST:
             return {
                 ...state,
                 create_order: true

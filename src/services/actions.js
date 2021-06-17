@@ -1,7 +1,7 @@
 import {dataUrl, orderUrl} from '../utils/constants';
-import {ingredients} from '../utils/data'
+//import {ingredients} from '../utils/data'
 
-export const GET_INGREDIENTS = 'GET_INGREDIENTS';
+export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
 export const SET_ACTIVE_INGREDIENT = 'SET_ACTIVE_INGREDIENT';
@@ -9,7 +9,7 @@ export const SHOW_INGREDIENT_DETAILS = 'SHOW_INGREDIENT_DETAILS';
 
 export const UPDATE_CART = 'UPDATE_CART';
 
-export const CREATE_NEW_ORDER = 'CREATE_NEW_ORDER';
+export const CREATE_NEW_ORDER_REQUEST = 'CREATE_NEW_ORDER_REQUEST';
 export const CREATE_NEW_ORDER_SUCCESS = 'CREATE_NEW_ORDER_SUCCESS';
 export const CREATE_NEW_ORDER_FAILED = 'CREATE_NEW_ORDER_FAILED';
 export const SHOW_ORDER_DETAILS = 'SHOW_ORDER_DETAILS';
@@ -22,7 +22,7 @@ export const getIngredientData = () => {
 
     return dispatch => {
 
-        dispatch({type: GET_INGREDIENTS});
+        dispatch({type: GET_INGREDIENTS_REQUEST});
 
         fetch(dataUrl)
         .then(res => res.ok ? res.json() : Promise.reject(res.statusText))
@@ -30,9 +30,7 @@ export const getIngredientData = () => {
             dispatch({type: GET_INGREDIENTS_SUCCESS, data: res.data});
         })
         .catch( e => {
-            
-            dispatch({type: GET_INGREDIENTS_SUCCESS, data: ingredients});
-            //dispatch({type: GET_INGREDIENTS_FAILED});     
+            dispatch({type: GET_INGREDIENTS_FAILED});     
         });
 
     }
@@ -92,7 +90,7 @@ export const createOrder = () => {
     
     return (dispatch, getState) => {
 
-        dispatch({type: CREATE_NEW_ORDER});
+        dispatch({type: CREATE_NEW_ORDER_REQUEST});
 
         const prevCart = getState().cart;
         const {bun, fillings} = {...prevCart};

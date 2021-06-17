@@ -7,6 +7,9 @@ import {ConstructorElement, DragIcon}  from '@ya.praktikum/react-developer-burge
 
 import {removeIngredientFromCart, sortFillingsOrder} from '../../../services/actions'
 
+import PropTypes from 'prop-types';
+import {isImageLink} from '../../../utils/prop-type-custom-checks'
+
 const BurgerConstructorItem = ({index, id, text, price, thumbnail, isLocked}) => {
     
     const dispatch = useDispatch();
@@ -54,3 +57,12 @@ const BurgerConstructorItem = ({index, id, text, price, thumbnail, isLocked}) =>
 }
 
 export default BurgerConstructorItem
+
+BurgerConstructorItem.propTypes = {
+    index: PropTypes.number,
+    id: PropTypes.string,
+    text: PropTypes.string,
+    price: PropTypes.number, 
+    thumbnail: isImageLink, 
+    isLocked: PropTypes.bool
+};

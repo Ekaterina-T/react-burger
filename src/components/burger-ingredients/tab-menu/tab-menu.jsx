@@ -2,6 +2,8 @@ import React from 'react';
 import {Tab}  from '@ya.praktikum/react-developer-burger-ui-components';
 import {ingredientGroups} from '../../../utils/constants'
 
+import PropTypes from 'prop-types';
+
 
 const TabMenu = ({burgerIngredientsEl, currentTab, updateCurrentTab}) => {
     
@@ -24,3 +26,9 @@ const TabMenu = ({burgerIngredientsEl, currentTab, updateCurrentTab}) => {
 }
 
 export default TabMenu;
+
+TabMenu.propTypes = {
+    dburgerIngredientsElata: PropTypes.element,
+    currentTab: PropTypes.oneOf(['bun', 'sauce', 'main']),
+    updateCurrentTab: PropTypes.func    
+};
