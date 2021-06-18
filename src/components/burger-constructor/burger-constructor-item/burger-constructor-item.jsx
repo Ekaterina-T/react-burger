@@ -5,7 +5,7 @@ import { useDrag, useDrop } from "react-dnd";
 
 import {ConstructorElement, DragIcon}  from '@ya.praktikum/react-developer-burger-ui-components';
 
-import {removeIngredientFromCart, sortFillingsOrder} from '../../../services/actions'
+import {removeIngredientFromCart, sortFillingsOrder} from '../../../services/cart/actions'
 
 import PropTypes from 'prop-types';
 import {isImageLink} from '../../../utils/prop-type-custom-checks'
@@ -60,10 +60,10 @@ const BurgerConstructorItem = ({index, id, text, price, thumbnail, isLocked}) =>
 export default BurgerConstructorItem
 
 BurgerConstructorItem.propTypes = {
-    index: PropTypes.number,
-    id: PropTypes.string,
-    text: PropTypes.string,
-    price: PropTypes.number, 
+    index: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired, 
     thumbnail: isImageLink, 
-    isLocked: PropTypes.bool
+    isLocked: PropTypes.bool.isRequired
 };

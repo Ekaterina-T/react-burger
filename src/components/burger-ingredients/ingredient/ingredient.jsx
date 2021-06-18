@@ -7,12 +7,12 @@ import {Counter, CurrencyIcon, Button}  from '@ya.praktikum/react-developer-burg
 import PropTypes from 'prop-types';
 import {isImageLink} from '../../../utils/prop-type-custom-checks';
 
-import {addIngredientToCart} from '../../../services/actions'
+import {addIngredientToCart} from '../../../services/cart/actions'
 
 const Ingredient = ({ data, openModal}) => {
     
     const dispatch = useDispatch();
-    const {cart: {bun, fillings}} = useSelector(store => store);
+    const {bun, fillings} = useSelector(store => store.cart);
     const [, dragRef] = useDrag({type: 'ingredient', item: {id: data._id}});
 
     const ingredientCount = React.useMemo( () => {
@@ -51,7 +51,8 @@ Ingredient.propTypes = {
         name: PropTypes.string.isRequired,
         price: PropTypes.number.isRequired
         }
-    ).isRequired
+    ).isRequired,
+    openModal: PropTypes.func.isRequired
 };
 
 export default Ingredient;

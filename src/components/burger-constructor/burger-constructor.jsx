@@ -7,12 +7,12 @@ import {ConstructorElement}  from '@ya.praktikum/react-developer-burger-ui-compo
 import BurgerConstructorTotal  from './burger-constructor-total/burger-constructor-total';
 import BurgerConstructorItem from './burger-constructor-item/burger-constructor-item';
 
-import {addIngredientToCart} from '../../services/actions'
+import {addIngredientToCart} from '../../services/cart/actions'
 
 const BurgerConstructor = () => {
 
     const dispatch = useDispatch();
-    const {cart: {bun, fillings}} = useSelector(store => store);
+    const {bun, fillings} = useSelector(store => store.cart);
 
     const [, dropTarget] = useDrop({
         accept:'ingredient',
@@ -21,17 +21,16 @@ const BurgerConstructor = () => {
         } 
     });
 
-    const fillingsItems = fillings
-                            .map( (filling, index) => (
-                                <BurgerConstructorItem 
-                                key = {filling.key} 
-                                index = {index}
-                                id = {filling.key}
-                                isLocked={false} 
-                                text={filling.name} 
-                                price={filling.price} 
-                                thumbnail={filling.image} />                                
-                            ));
+    const fillingsItems = fillings.map( (filling, index) => (
+        <BurgerConstructorItem
+        key = {filling.key} 
+        index = {index}
+        id = {filling.key}
+        isLocked={false} 
+        text={filling.name} 
+        price={filling.price} 
+        thumbnail={filling.image} />                                
+    ));
 
     const cartHasItems = bun || fillings.length > 0;    
 

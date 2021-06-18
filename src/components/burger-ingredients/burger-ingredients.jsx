@@ -11,7 +11,8 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 
 import {ingredientGroups} from '../../utils/constants';
 
-import {SHOW_INGREDIENT_DETAILS, SET_ACTIVE_INGREDIENT} from '../../services/actions';
+import {ActionTypes} from '../../services/actionTypes';
+
 
 
 const BurgerIngredients = () => {
@@ -19,23 +20,23 @@ const BurgerIngredients = () => {
     const [currentTab, setCurrentTab] = React.useState('bun');
     
     const dispatch = useDispatch();
-    const {ingredients, showIngredientDetails} = useSelector(store => store);
+    const {items, showIngredientDetails} = useSelector(store => store.ingredients);
 
     const burgerIngredientsEl = React.useRef(null);  
     
     const openModal = (ingredient) => {
-        dispatch({type: SET_ACTIVE_INGREDIENT, value: ingredient});
-        dispatch({type: SHOW_INGREDIENT_DETAILS, value: true});
+        dispatch({type:  ActionTypes.SET_ACTIVE_INGREDIENT, value: ingredient});
+        dispatch({type:  ActionTypes.SHOW_INGREDIENT_DETAILS, value: true});
     }
 
     const closeModal = (e) => {
         e.stopPropagation();
-        dispatch({type: SHOW_INGREDIENT_DETAILS, value: false});
-        dispatch({type: SET_ACTIVE_INGREDIENT, value: null})
+        dispatch({type:  ActionTypes.SHOW_INGREDIENT_DETAILS, value: false});
+        dispatch({type:  ActionTypes.SET_ACTIVE_INGREDIENT, value: null})
     }
 
     const getIngredientsFrom = (group) => (
-        ingredients
+        items
         .filter(ingredient => ingredient.type === group.type)
         .map((ingredient) => {
             return (
@@ -86,7 +87,7 @@ const BurgerIngredients = () => {
             </section>    
             
             { showIngredientDetails && 
-                <Modal key="ingredient" type="ingredient" onClose={closeModal}> 
+                <Modal type="ingredient" onClose={closeModal}> 
                     <IngredientDetails/>
                 </Modal> 
             }           

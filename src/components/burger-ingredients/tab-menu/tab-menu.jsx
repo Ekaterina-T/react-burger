@@ -28,7 +28,7 @@ const TabMenu = ({burgerIngredientsEl, currentTab, updateCurrentTab}) => {
 export default TabMenu;
 
 TabMenu.propTypes = {
-    dburgerIngredientsElata: PropTypes.element,
-    currentTab: PropTypes.oneOf(['bun', 'sauce', 'main']),
-    updateCurrentTab: PropTypes.func    
+    burgerIngredientsEl: PropTypes.object.isRequired,
+    currentTab: PropTypes.oneOf(['bun', 'sauce', 'main']).isRequired,
+    updateCurrentTab: PropTypes.func.isRequired
 };

@@ -5,7 +5,7 @@ import styles from './ingredient-details.module.css';
 
 const IngredientDetails = () => {
    
-    const {activeIngredient} = useSelector(store => store);
+    const {activeIngredient} = useSelector(store => store.ingredients);
     const {name, calories, proteins, fat, carbohydrates, image_large} = activeIngredient;
 
     const nutritionItems = [

@@ -27,7 +27,7 @@ NavItem.propTypes = {
         title: PropTypes.string.isRequired,
         subitems: PropTypes.arrayOf(PropTypes.object)
         }
-    )
+    ).isRequired
 };
 
 export default NavItem;

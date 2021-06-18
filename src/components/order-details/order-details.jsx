@@ -6,7 +6,7 @@ import OrderDetailsIcon from './order-details-icon'
 
 const OrderDetails = () => {
 
-    const { orderDetails} = useSelector(store => store);
+    const { orderDetails} = useSelector(store => store.cart);
     const notes_main = orderDetails.success ? "Ваш заказ начали готовить": "Заказ не может быть выполнен";
     const notes_sec = orderDetails.success ? "Дождитесь готовности на орбитальной станции": "Обратитесь в поддержку";
 

@@ -10,14 +10,13 @@ import AppHeader from '../app-header/app-header.jsx';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 
-import {getIngredientData} from '../../services/actions';
+import {getIngredientData} from '../../services/ingredients/actions';
  
 function App() {
 
-  const { ingredients_load, ingredients_load_success, ingredients_load_failed } = useSelector(store => store);
+  const { ingredientsLoad, ingredientsLoadSuccess, ingredientsLoadFailed } = useSelector(store => store.ingredients);
   const dispatch = useDispatch();
 
-  //load ingredients
   React.useEffect(() => {
     dispatch(getIngredientData());
   }, [dispatch]);
@@ -26,16 +25,15 @@ function App() {
     <>
       <AppHeader />
       <main>
-        { ingredients_load && <p>Данные загружаются</p> }
-        { ingredients_load_failed && <p>Ошибка загрузки данных</p>}
-        { ingredients_load_success && 
+        { ingredientsLoad && <p>Данные загружаются</p> }
+        { ingredientsLoadFailed && <p>Ошибка загрузки данных</p>}
+        { ingredientsLoadSuccess && 
             <DndProvider backend={HTML5Backend}>
               <BurgerIngredients/>
               <BurgerConstructor/>
             </DndProvider>
         }
       </main>
-      <div id="modals"></div>
     </>
   );
 }

@@ -1,40 +1,5 @@
-import {dataUrl, orderUrl} from '../utils/constants';
-//import {ingredients} from '../utils/data'
-
-export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
-export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
-export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
-export const SET_ACTIVE_INGREDIENT = 'SET_ACTIVE_INGREDIENT';
-export const SHOW_INGREDIENT_DETAILS = 'SHOW_INGREDIENT_DETAILS';
-
-export const UPDATE_CART = 'UPDATE_CART';
-
-export const CREATE_NEW_ORDER_REQUEST = 'CREATE_NEW_ORDER_REQUEST';
-export const CREATE_NEW_ORDER_SUCCESS = 'CREATE_NEW_ORDER_SUCCESS';
-export const CREATE_NEW_ORDER_FAILED = 'CREATE_NEW_ORDER_FAILED';
-export const SHOW_ORDER_DETAILS = 'SHOW_ORDER_DETAILS';
-
-export const SORT_FILLINGS_ORDER = 'SORT_FILLINGS_ORDER';
-
-
-
-export const getIngredientData = () => {
-
-    return dispatch => {
-
-        dispatch({type: GET_INGREDIENTS_REQUEST});
-
-        fetch(dataUrl)
-        .then(res => res.ok ? res.json() : Promise.reject(res.statusText))
-        .then(res => {
-            dispatch({type: GET_INGREDIENTS_SUCCESS, data: res.data});
-        })
-        .catch( e => {
-            dispatch({type: GET_INGREDIENTS_FAILED});     
-        });
-
-    }
-};
+import {orderUrl} from '../../utils/constants';
+import {ActionTypes} from '../actionTypes';
 
 export const addIngredientToCart = (ingredientID) => {
 
@@ -60,7 +25,7 @@ export const addIngredientToCart = (ingredientID) => {
         }
         
         const prevCart = getState().cart;
-        const newIngredient = {...getState().ingredients.filter( item => item._id === ingredientID )[0]};
+        const newIngredient = {...getState().ingredients.items.filter( item => item._id === ingredientID )[0]};
 
         assignKeyToIngredient(newIngredient);
 
@@ -68,7 +33,7 @@ export const addIngredientToCart = (ingredientID) => {
         ? {...prevCart, bun: newIngredient} 
         : {...prevCart, fillings: [...prevCart.fillings, newIngredient] }; 
                
-        dispatch({type: UPDATE_CART, updatedCart: updatedCart});
+        dispatch({type:  ActionTypes.UPDATE_CART, updatedCart: updatedCart});
     }
 };
 
@@ -82,7 +47,7 @@ export const removeIngredientFromCart = (ingredientKey) => {
 
         updatedFillings.splice(removedIngredientIndex, 1);
 
-        dispatch({type: UPDATE_CART, updatedCart: {...prevCart, fillings: updatedFillings}});
+        dispatch({type:  ActionTypes.UPDATE_CART, updatedCart: {...prevCart, fillings: updatedFillings}});
     }
 };
 
@@ -90,7 +55,7 @@ export const createOrder = () => {
     
     return (dispatch, getState) => {
 
-        dispatch({type: CREATE_NEW_ORDER_REQUEST});
+        dispatch({type:  ActionTypes.CREATE_NEW_ORDER_REQUEST});
 
         const prevCart = getState().cart;
         const {bun, fillings} = {...prevCart};
@@ -105,11 +70,11 @@ export const createOrder = () => {
         .then(res => res.ok ? res.json() : Promise.reject(res))
         .then(res => {
             //always create new order
-            dispatch({type: CREATE_NEW_ORDER_SUCCESS, orderDetails: res});
-            dispatch({type: SHOW_ORDER_DETAILS, value: true});
+            dispatch({type:  ActionTypes.CREATE_NEW_ORDER_SUCCESS, orderDetails: res});
+            dispatch({type:  ActionTypes.SHOW_ORDER_DETAILS, value: true});
         })
         .catch( 
-            dispatch({type: CREATE_NEW_ORDER_FAILED})
+            dispatch({type:  ActionTypes.CREATE_NEW_ORDER_FAILED})
         );
     }  
 };
@@ -126,6 +91,6 @@ export const sortFillingsOrder = (oldItemIndex, newItemIndex) => {
 
         const updatedCart = {...prevCart, fillings: newFillings }; 
                
-        dispatch({type: UPDATE_CART, updatedCart: updatedCart});
+        dispatch({type:  ActionTypes.UPDATE_CART, updatedCart: updatedCart});
     }
 }
