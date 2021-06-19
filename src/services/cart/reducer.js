@@ -21,6 +21,13 @@ export const cart = (state = initialState, action) => {
                 bun: action.updatedCart.bun,
                 fillings: action.updatedCart.fillings
             };
+         
+        case  ActionTypes.CLEAR_CART:
+            return {
+                ...state,
+                bun: null,
+                fillings: []
+            };
 
         case  ActionTypes.CREATE_NEW_ORDER_REQUEST:
             return {
@@ -33,7 +40,8 @@ export const cart = (state = initialState, action) => {
                 ...state,
                 createOrder: false,
                 createOrderSuccess: true,
-                orderDetails: action.orderDetails
+                orderDetails: action.orderDetails,
+                showOrderDetails: true
             };
         
         case  ActionTypes.CREATE_NEW_ORDER_FAILED:
@@ -43,10 +51,12 @@ export const cart = (state = initialState, action) => {
                 createOrderFailed: true
             };
         
-        case  ActionTypes.SHOW_ORDER_DETAILS: 
+        case  ActionTypes.CLOSE_ORDER: 
             return {
                 ...state,
-                showOrderDetails: action.value
+                showOrderDetails: false,
+                bun: null, 
+                fillings: []
             };
         
         default: return state;

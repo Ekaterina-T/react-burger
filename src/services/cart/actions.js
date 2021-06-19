@@ -65,17 +65,15 @@ export const createOrder = () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({"ingredients": [...fillings, bun].map( item => item._id)})
+            body: JSON.stringify({"ingredients": [...fillings, bun].map( item => item && item._id)})
         })
         .then(res => res.ok ? res.json() : Promise.reject(res))
         .then(res => {
-            //always create new order
-            dispatch({type:  ActionTypes.CREATE_NEW_ORDER_SUCCESS, orderDetails: res});
-            dispatch({type:  ActionTypes.SHOW_ORDER_DETAILS, value: true});
+            dispatch({type: ActionTypes.CREATE_NEW_ORDER_SUCCESS, orderDetails: res}); 
         })
-        .catch( 
-            dispatch({type:  ActionTypes.CREATE_NEW_ORDER_FAILED})
-        );
+        .catch(e => { 
+            dispatch({type:  ActionTypes.CREATE_NEW_ORDER_FAILED});
+        });
     }  
 };
 

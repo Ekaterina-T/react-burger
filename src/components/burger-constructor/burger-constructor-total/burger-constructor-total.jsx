@@ -11,17 +11,18 @@ import {createOrder} from '../../../services/cart/actions';
 
 
 const BurgerConstructorTotal = () => {
+    console.log('render')
 
     const dispatch = useDispatch();
     const {bun, fillings, showOrderDetails} = useSelector(store => store.cart);
 
     const handleCreateNewOrder = () => {
-        dispatch(createOrder());
+        dispatch(createOrder()); 
     }
     
     const closeModal = (e) => {
         e.stopPropagation();
-        dispatch({type:  ActionTypes.SHOW_ORDER_DETAILS, value: false});
+        dispatch({type:  ActionTypes.CLOSE_ORDER});
     };
 
     const calcTotal = React.useMemo(
@@ -47,7 +48,7 @@ const BurgerConstructorTotal = () => {
             <CurrencyIcon/>
             <div className={styles.button_wrapper}>
                 <Button onClick={handleCreateNewOrder}>Оформить заказ</Button >
-                { showOrderDetails && 
+                { showOrderDetails &&
                     <Modal type="order" onClose={closeModal}> 
                         <OrderDetails />
                     </Modal>
