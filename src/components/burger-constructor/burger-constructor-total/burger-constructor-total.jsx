@@ -11,7 +11,6 @@ import {createOrder} from '../../../services/cart/actions';
 
 
 const BurgerConstructorTotal = () => {
-    console.log('render')
 
     const dispatch = useDispatch();
     const {bun, fillings, showOrderDetails} = useSelector(store => store.cart);

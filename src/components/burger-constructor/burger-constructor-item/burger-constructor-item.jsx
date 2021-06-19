@@ -13,8 +13,10 @@ import {isImageLink} from '../../../utils/prop-type-custom-checks'
 const BurgerConstructorItem = ({index, id, text, price, thumbnail, isLocked}) => {
     
     const dispatch = useDispatch();
+
+    const currentConstructorItem = React.useRef(null);
     
-    const [collectedDrag, dragRef] = useDrag({
+    const [{isDragging}, dragRef] = useDrag({
         type: "fillings", 
         item: {id, index},
         collect: monitor => ({
@@ -24,13 +26,32 @@ const BurgerConstructorItem = ({index, id, text, price, thumbnail, isLocked}) =>
 
     const [, fillingsRef] = useDrop({
         accept:'fillings',
-        drop(item) {
-            const draggedIndex = item.index;
+        hover(item, monitor) {
+
+            const dragIndex = item.index;
             const hoverIndex = index;
 
-            if(draggedIndex !== hoverIndex) {
-                dispatch(sortFillingsOrder(draggedIndex, hoverIndex));
-            }            
+            if(dragIndex === hoverIndex) {
+                return;
+            }
+
+            const node = currentConstructorItem.current.querySelector('div');
+            const hoverBoundingRect = node.getBoundingClientRect();            
+            const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+
+            const clientOffset = monitor.getClientOffset(); //cursor position when it intersects drop target
+            const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
+            if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) { //downwards
+                return;
+            }
+
+            if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) { //upwards
+                return;
+            }
+
+            dispatch(sortFillingsOrder(dragIndex, hoverIndex));
+            monitor.getItem().index = hoverIndex;
         }
     });
 
@@ -38,10 +59,13 @@ const BurgerConstructorItem = ({index, id, text, price, thumbnail, isLocked}) =>
         dispatch(removeIngredientFromCart(ingredientKey));
     }
 
+    const style = { cursor: "grabbing"};
+    const opacity = isDragging ? 0 : 1;
+
     return (
-        <div ref={fillingsRef}>
-            {!collectedDrag.isDragging ?   
-                <div id={id} className={styles.burgerIngredient} ref={dragRef}  >
+        <div ref={fillingsRef}>  
+            <div ref={currentConstructorItem}>
+                <div id={id} className={styles.burgerIngredient} ref={dragRef}  style={{ ...style, opacity}}>
                     <div className={styles.dragIcon}><DragIcon type="primary" /></div>
                     <ConstructorElement
                     isLocked={isLocked}
@@ -50,8 +74,7 @@ const BurgerConstructorItem = ({index, id, text, price, thumbnail, isLocked}) =>
                     thumbnail={thumbnail}
                     handleClose={() => removeIngredient(id)}/>
                 </div>
-                : <div className={styles.dragPreview} ></div>
-            }
+            </div>
         </div>
     )
 
