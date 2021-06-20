@@ -1,29 +1,41 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useDrag } from "react-dnd";
+
 import styles from './ingredient.module.css';
 import {Counter, CurrencyIcon, Button}  from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
 import {isImageLink} from '../../../utils/prop-type-custom-checks';
 
-const Ingredient = (props) => {
+import {addIngredientToCart} from '../../../services/cart/actions'
+
+const Ingredient = ({ data, openModal}) => {
     
+    const dispatch = useDispatch();
+    const {bun, fillings} = useSelector(store => store.cart);
+    const [, dragRef] = useDrag({type: 'ingredient', item: {id: data._id}});
+
+    const ingredientCount = React.useMemo( () => {
+            return [...fillings, bun].filter( ingredient => ingredient && data._id === ingredient._id).length;
+    }, [fillings, bun, data._id]);
+
     const addIngredient = (e) => {
         e.stopPropagation();
-        updateCart(props.data);
+        dispatch(addIngredientToCart(data._id));
     } 
 
-    const showIngredientDetails = (e) => {
+    const openIngredientDetails = (e) => {
         if(e.target.nodeName !== 'BUTTON') {
-            openModal(props.data);
+            openModal(data);
         }
     }
 
-    const {image, name, price, count} = props.data;
-    const { updateCart, openModal} = props;
+    const {image, name, price} = data;
 
     return (
-        <li className={styles.card} onClick={showIngredientDetails}>
+        <li className={styles.card} onClick={openIngredientDetails} ref={dragRef}> 
  
-            { count>0 && <Counter count={count}  size="default"/> }
+            { ingredientCount>0 && <Counter count={ingredientCount}  size="default"/> }
             <img src={image} alt={name} className={styles.image}/>
             <div className={styles.price}> <span className={styles.price_num}>{price}</span> <CurrencyIcon/> </div>
             <div className={styles.name}>{name}</div>
@@ -37,13 +49,10 @@ Ingredient.propTypes = {
     data: PropTypes.shape({
         image: isImageLink,
         name: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        count: PropTypes.number.isRequired
+        price: PropTypes.number.isRequired
         }
     ).isRequired,
-    updateCart: PropTypes.func.isRequired,
-    addActiveIngredientToContext: PropTypes.func.isRequired
-    
+    openModal: PropTypes.func.isRequired
 };
 
 export default Ingredient;

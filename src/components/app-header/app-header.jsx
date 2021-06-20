@@ -4,7 +4,7 @@ import {Logo, BurgerIcon, ListIcon, ProfileIcon, CloseIcon}  from '@ya.praktikum
 import {MenuIcon} from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/menu-icon';
 import NavList from './nav-list/nav-list';
 
-const AppHeader = (props) => {
+const AppHeader = () => {
 
     const menuItems = [
         {id: "constructor", title: "Конструктор", href: "#", icon: <BurgerIcon type="secondary"/> }, 

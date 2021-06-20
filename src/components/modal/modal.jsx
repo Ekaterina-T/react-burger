@@ -5,7 +5,7 @@ import {CloseIcon}  from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import PropTypes from 'prop-types';
 
-const Modal = (props) => {
+const Modal = ({ children, onClose, type}) => {
 
     //input for tab trap inside modal
     const [activeBeforeModal, setActiveBeforeModal] = useState(null);
@@ -49,7 +49,6 @@ const Modal = (props) => {
         addTabTrap(e);
     }
 
-    const { children, onClose, type} = props;
     const modalRoot = document.querySelector("#modals");  
 
     return ReactDOM.createPortal(

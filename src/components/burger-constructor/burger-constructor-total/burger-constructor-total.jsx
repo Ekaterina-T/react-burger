@@ -1,46 +1,60 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
 import styles from './burger-constructor-total.module.css';
 import Modal from '../../modal/modal';
 import OrderDetails from '../../order-details/order-details';
 import {CurrencyIcon, Button}  from '@ya.praktikum/react-developer-burger-ui-components';
-//import { render } from '@testing-library/react';
-import PropTypes from 'prop-types';
 
-const BurgerConstructorTotal = (props) => {
+import {ActionTypes} from '../../../services/actionTypes';
+import {createOrder} from '../../../services/cart/actions';
 
-    const modalComponent = React.useRef(null);
-    const [isModalVisible, setIsModalVisible] = React.useState(false);
 
-    const openModal = (e) => { 
-        setIsModalVisible(true); 
-    };
+const BurgerConstructorTotal = () => {
+
+    const dispatch = useDispatch();
+    const {bun, fillings, showOrderDetails} = useSelector(store => store.cart);
+
+    const handleCreateNewOrder = () => {
+        dispatch(createOrder()); 
+    }
     
     const closeModal = (e) => {
         e.stopPropagation();
-        setIsModalVisible(false);
+        dispatch({type:  ActionTypes.CLOSE_ORDER});
     };
 
-    const {total} = props;
+    const calcTotal = React.useMemo(
+        () => { 
+            let result  = 0;
+
+            if(!!bun) {
+                result += 2*bun.price;
+            }
+
+            if(fillings.length > 0) {
+                result += fillings.reduce((acc, filling) => acc + filling.price, 0);
+            }
+
+            return result;
+        },
+        [bun, fillings]
+    );
 
     return (
         <section className={styles.constructor_total}>
-            <span> {total} </span> 
+            <span> {calcTotal} </span> 
             <CurrencyIcon/>
             <div className={styles.button_wrapper}>
-                <Button onClick={openModal}>Оформить заказ</Button >
-                { isModalVisible && 
-                    <Modal key="order" type="order" onClose={closeModal} modalComponent={modalComponent}> 
-                        <OrderDetails orderId="034536" />
+                <Button onClick={handleCreateNewOrder}>Оформить заказ</Button >
+                { showOrderDetails &&
+                    <Modal type="order" onClose={closeModal}> 
+                        <OrderDetails />
                     </Modal>
                 }
             </div>                 
         </section>
     );
 }
-
-BurgerConstructorTotal.propTypes = {
-    total: PropTypes.number.isRequired
-};
-
 
 export default BurgerConstructorTotal;

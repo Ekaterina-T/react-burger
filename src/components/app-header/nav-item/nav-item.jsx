@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 const NavItem = (props) => {
 
-    const {title, icon, cssClass, subitems, href} = props.data;
+    const  {title, icon, cssClass, subitems, href}= props.data;
     const hasSubItems = !!subitems;
 
     return (            
@@ -27,7 +27,7 @@ NavItem.propTypes = {
         title: PropTypes.string.isRequired,
         subitems: PropTypes.arrayOf(PropTypes.object)
         }
-    )
+    ).isRequired
 };
 
 export default NavItem;

@@ -2,22 +2,20 @@ import React from 'react';
 import {Tab}  from '@ya.praktikum/react-developer-burger-ui-components';
 import {ingredientGroups} from '../../../utils/constants'
 
+import PropTypes from 'prop-types';
 
-const TabMenu = (props) => {
+
+const TabMenu = ({burgerIngredientsEl, currentTab, updateCurrentTab}) => {
     
-    const [current, setCurrent] = React.useState('bun');
-
     const scrollIntoSection = (tabValue) => {
-        setCurrent(tabValue);
         burgerIngredientsEl.current.querySelector(`section[id=${tabValue}]`).scrollIntoView({ behavior: "smooth" });
+        updateCurrentTab(tabValue);
     };
-    
-    const {burgerIngredientsEl} = props;
 
     return (
         <div style={{ display: 'flex' }}>
             { ingredientGroups.map( ingredientGroup => (
-                <Tab key={ingredientGroup.type} value={ingredientGroup.type} active={current === ingredientGroup.type} onClick={scrollIntoSection}>
+                <Tab key={ingredientGroup.type} value={ingredientGroup.type} active={currentTab === ingredientGroup.type} onClick={scrollIntoSection}>
                     {ingredientGroup.name}
                 </Tab>
                 ))
@@ -28,3 +26,9 @@ const TabMenu = (props) => {
 }
 
 export default TabMenu;
+
+TabMenu.propTypes = {
+    burgerIngredientsEl: PropTypes.object.isRequired,
+    currentTab: PropTypes.oneOf(['bun', 'sauce', 'main']).isRequired,
+    updateCurrentTab: PropTypes.func.isRequired
+};

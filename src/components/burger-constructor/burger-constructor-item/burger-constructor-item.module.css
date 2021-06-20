@@ -1,0 +1,34 @@
+.burgerIngredient {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    cursor: grab;
+}
+
+.dragIcon {
+position: relative;
+}
+
+.dragPreview {
+    padding: 16px 24px;
+    border-radius: 40px;
+    min-height: 80px;
+    box-sizing: border-box;
+}
+
+:global(.constructor-element) {
+    margin-bottom: 10px;
+    flex-grow: 1;
+}
+
+:global(.constructor-element_pos_top) {
+    margin-left: 24px; /* width of DragIcon */
+}
+
+:global(.constructor-element_pos_bottom) {
+    margin-left: 24px; /* width of DragIcon */
+}
+
+:global(.constructor-element__price) {
+    margin-left: auto;
+}

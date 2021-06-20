@@ -4,7 +4,7 @@
     display: inline-block;
     box-sizing: border-box;
     max-width: 270px;
-    cursor: pointer;
+    cursor: grab;
 }
 
 
@@ -30,5 +30,6 @@
 }
 
 .add_btn {
+    display: none;
     text-align: center;
 }

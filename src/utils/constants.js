@@ -5,5 +5,6 @@ const ingredientGroups = [
  ];
 
  const dataUrl = "https://norma.nomoreparties.space/api/ingredients";
+ const orderUrl = "https://norma.nomoreparties.space/api/orders"
 
- export {dataUrl, ingredientGroups};
+ export {dataUrl, orderUrl, ingredientGroups};
