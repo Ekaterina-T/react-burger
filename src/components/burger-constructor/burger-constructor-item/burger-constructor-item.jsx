@@ -52,7 +52,7 @@ const BurgerConstructorItem = ({index, id, text, price, thumbnail, isLocked}) =>
 
             dispatch(sortFillingsOrder(dragIndex, hoverIndex));
             console.log(monitor.getItem())
-            monitor.getItem().index = hoverIndex;
+            item.index = hoverIndex;
         }
     });
 
