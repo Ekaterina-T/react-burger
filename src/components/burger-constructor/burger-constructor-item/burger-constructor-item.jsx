@@ -14,9 +14,15 @@ const BurgerConstructorItem = ({index, id, text, price, thumbnail, isLocked}) =>
     
     const dispatch = useDispatch();
 
+<<<<<<< HEAD
     const ref = React.useRef(null);
     
     const [{isDragging}, drag] = useDrag({
+=======
+    const currentConstructorItem = React.useRef(null);
+    
+    const [{isDragging}, dragRef] = useDrag({
+>>>>>>> 4aadc212037cbdf73faf5e5dd118c4e17dbff6ed
         type: "fillings", 
         item: {id, index},
         collect: monitor => ({
@@ -51,8 +57,7 @@ const BurgerConstructorItem = ({index, id, text, price, thumbnail, isLocked}) =>
             }
 
             dispatch(sortFillingsOrder(dragIndex, hoverIndex));
-            console.log(monitor.getItem())
-            item.index = hoverIndex;
+            monitor.getItem().index = hoverIndex;
         }
     });
 
@@ -62,7 +67,6 @@ const BurgerConstructorItem = ({index, id, text, price, thumbnail, isLocked}) =>
 
     const style = { cursor: "grabbing"};
     const opacity = isDragging ? 0 : 1;
-
     drag(drop(ref));
 
     return (
