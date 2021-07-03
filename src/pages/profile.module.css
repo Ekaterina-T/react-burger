@@ -1,0 +1,17 @@
+.profileNav {
+    composes: mr-15 from global;
+    width: 320px;
+}
+
+.profileNavItem {
+    composes: text text_type_main-medium from global;
+    display: inline-block;
+    height: 64px;
+    line-height: 64px;
+    color: #8585AD;
+}
+
+.profileInfo {
+    composes: mt-20 text text_type_main-default from global;
+    color: #8585AD;
+}

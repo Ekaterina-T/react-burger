@@ -44,8 +44,23 @@ a {
   text-decoration: none;
 }
 
+/* ------ APPLICATION FORM'S INPUTS ------ */
 
-/* ------ SCROLL ----- */
+form[class^=app-form] .input_size_default {
+  width: 480px;
+}
+
+/* ------ ACTIVE NAVIGATION MENU ITEM ------*/
+
+a.nav_link-active {
+  color: #F2F2F3;
+}
+
+a.nav_link-active svg{
+  fill: #F2F2F3;
+}
+
+/* ------ SCROLL ------ */
 
 /* webkit styles */
 ::-webkit-scrollbar { 
@@ -78,7 +93,7 @@ a {
   /* 7 - изменение размеров */ 
   }
 
-/* ------ Mobile vs desktop view ----- */
+/* ------ Mobile vs desktop view ------ */
   
 .visibility_desktop {
   display: initial;

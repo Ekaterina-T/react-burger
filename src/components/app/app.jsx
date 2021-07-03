@@ -1,40 +1,30 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import './app.css';
 
 import AppHeader from '../app-header/app-header.jsx';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
+import { MainPage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage } from '../../pages';
 
-import {getIngredientData} from '../../services/ingredients/actions';
  
 function App() {
-
-  const { ingredientsLoad, ingredientsLoadSuccess, ingredientsLoadFailed } = useSelector(store => store.ingredients);
-  const dispatch = useDispatch();
-
-  React.useEffect(() => {
-    dispatch(getIngredientData());
-  }, [dispatch]);
  
   return (
-    <>
+
+    <BrowserRouter>
       <AppHeader />
       <main>
-        { ingredientsLoad && <p>Данные загружаются</p> }
-        { ingredientsLoadFailed && <p>Ошибка загрузки данных</p>}
-        { ingredientsLoadSuccess && 
-            <DndProvider backend={HTML5Backend}>
-              <BurgerIngredients/>
-              <BurgerConstructor/>
-            </DndProvider>
-        }
+        <Switch>
+          <Route path='/login'> <LoginPage /> </Route> 
+          <Route path='/register'> <RegisterPage /> </Route> 
+          <Route path='/forgot-password'> <ForgotPasswordPage /> </Route> 
+          <Route path='/reset-password'> <ResetPasswordPage /> </Route> 
+          <Route path='/profile'> <ProfilePage /> </Route> 
+          <Route path='/'> <MainPage /> </Route>            
+        </Switch>
       </main>
-    </>
+    </BrowserRouter>
+
   );
 }
 

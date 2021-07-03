@@ -1,0 +1,18 @@
+.centeredForm {    
+    margin-top: 180px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.profileForm {    
+    display: flex;
+    position: absolute;
+    left: calc(50vw - 600px + 20px); /* form needs to be below 1st nav menu-item */
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.title {
+    composes: pb-6 text text_type_main-medium from global;
+    text-align: center;
+}
