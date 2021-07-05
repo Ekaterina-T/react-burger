@@ -1,68 +1,46 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory, Link } from 'react-router-dom';
 import {Input, EmailInput, PasswordInput, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 
 import AppForm from '../components/app-form/app-form';
-import {registerUrl} from '../utils/constants';
+import {register} from '../services/user/actions';
 
 import styles from './index.module.css';
 
 function RegisterPage() {
 
-    const [name, setName] = React.useState(''); 
-    const [email, setEmail] = React.useState(''); 
-    const [password, setPassword] = React.useState(''); 
+    const dispatch = useDispatch();
+    const {registerSuccess} = useSelector(store => store.user); 
+    let history = useHistory();   
 
-    const onChange = (e) => {
-        const name = e.target.name;
-        const value = e.target.value;
+    const name = React.useRef(); 
+    const email = React.useRef(); 
+    const password = React.useRef(); 
 
-        switch(name) {
-            case 'name':
-                setName(value);
-                return;
-            case 'email':
-                setEmail(value);
-                return;
-            case 'password':
-                setPassword(value);
-                return;
-            default:
-                throw new Error('Attempt to set not existing field in RegisterPage');            
+    React.useEffect( () => {
+
+        if(registerSuccess) {
+            history.push('/login');
         }
-    }
+        
+    }, [history, registerSuccess]);
 
-    const register = (e) => {
+
+    const handleRegistration = (e) => {
         e.preventDefault();
-
-        fetch(registerUrl, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "email": email, 
-                "password": password, 
-                "name": name 
-            } )
-        })
-        .then(res => res.ok ? res.json() : Promise.reject(res))
-        .then(res => {
-            //TODO: redirect to login
-            console.log(res);
-        })
-        .catch( res => {
-            //TODO: error handling
-            console.log(res);
-        });
+        const emailVal = email.current.querySelector('input').value;
+        const passwordVal = password.current.querySelector('input').value;
+        const nameVal = name.current.querySelector('input').value;
+        dispatch(register(emailVal, passwordVal, nameVal));
     }
 
     return (
         <AppForm title='Регистрация' >
-            <div className={styles.input}><Input type="text" onChange={onChange} name={'name'} placeholder={'Имя'} value={name}/></div>
-            <div className={styles.input}><EmailInput onChange={onChange} name={'email'} /></div>
-            <div className={styles.input}><PasswordInput onChange={onChange} name={'password'} /></div>
-            <div className={styles.button}><Button onClick={register}>Зарегистрироваться</Button ></div>
+            <div className={styles.input} ref={name}><Input type="text" name={'name'} placeholder={'Имя'}/></div>
+            <div className={styles.input} ref={email}><EmailInput name={'email'} /></div>
+            <div className={styles.input} ref={password}><PasswordInput name={'password'} /></div>
+            <div className={styles.button}><Button onClick={handleRegistration}>Зарегистрироваться</Button ></div>
 
             <p className={styles.helpRedirect}>
                 Уже зарегистрированы?

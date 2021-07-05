@@ -5,10 +5,27 @@ const ingredientGroups = [
  ];
 
  const domain = "https://norma.nomoreparties.space/api";
+
  const dataUrl = domain + "/ingredients";
  const orderUrl = domain + "/orders";
+
+ const authEndpoints = {
+    registerUrl: domain + "/auth/register",
+    authUrl: domain + "/auth/login", 
+    logoutUrl: domain + "/auth/logout",
+    tokenUrl: domain + "/auth/token",
+    userUrl: domain + "/auth/user"
+ };
+
+
  const passwordResetUrl = domain + "/password-reset";
  const resetUrl = domain + "/password-reset/reset."
- const registerUrl = domain + "/auth/register";
 
- export {dataUrl, orderUrl, ingredientGroups, passwordResetUrl, resetUrl, registerUrl};
+ 
+const accessTokenName = 'rb_accessToken';
+const refreshTokenName = 'rb_refreshToken';
+
+ //TODO: unite urls into objects
+ export {dataUrl, orderUrl, ingredientGroups, passwordResetUrl, resetUrl, authEndpoints,
+    accessTokenName, refreshTokenName
+};

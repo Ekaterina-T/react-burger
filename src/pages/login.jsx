@@ -1,26 +1,41 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory, Link } from 'react-router-dom';
 import {EmailInput, PasswordInput, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 
 import AppForm from '../components/app-form/app-form';
+import {login} from '../services/user/actions';
 
 import styles from './index.module.css';
 
 function LoginPage() {
 
-    const onChange = (e) => {
-        console.log(e.target);
-    }
+    const dispatch = useDispatch();
+    const {loginSuccess} = useSelector(store => store.user);
+    let history = useHistory();
+
+    const email = React.useRef(); 
+    const password = React.useRef(); 
+
+    React.useEffect( () => {
+
+        if(loginSuccess) {
+            history.push('/');
+        }
+        
+    }, [history, loginSuccess]);
 
     const handleLogin = (e) => {
-        e.preventDefault();
-        console.log(e.target);
+        e.preventDefault();    
+        const emailVal = email.current.querySelector('input').value;
+        const passwordVal = password.current.querySelector('input').value;    
+        dispatch(login(emailVal, passwordVal));
     }
 
     return (
         <AppForm title='Вход' >
-            <div className={styles.input}><EmailInput onChange={onChange} name={'email'} /></div>
-            <div className={styles.input}><PasswordInput onChange={onChange} name={'password'} /></div>
+            <div className={styles.input} ref={email}><EmailInput name={'email'} /></div>
+            <div className={styles.input} ref={password}><PasswordInput name={'password'} /></div>
             <div className={styles.button}><Button onClick={handleLogin}>Войти</Button ></div>
 
             <p className={styles.helpRedirect}>
