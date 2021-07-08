@@ -1,13 +1,23 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import './app.css';
 
 import AppHeader from '../app-header/app-header.jsx';
-import { MainPage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage } from '../../pages';
+import RouteForAuthorizedUsers from '../route-auth-users/route-auth-users';
+import RouteForUnauthorizedUsers from '../route-unauth-users/route-unauth-users';
+import { MainPage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, NotFoundPage } from '../../pages';
 
- 
+import { recognizeUser } from '../../services/user/actions';
+
 function App() {
+
+  const dispatch = useDispatch();
+
+  React.useEffect( () => {
+    dispatch(recognizeUser())  
+  },[dispatch]);
  
   return (
 
@@ -15,12 +25,13 @@ function App() {
       <AppHeader />
       <main>
         <Switch>
-          <Route path='/login'> <LoginPage /> </Route> 
-          <Route path='/register'> <RegisterPage /> </Route> 
-          <Route path='/forgot-password'> <ForgotPasswordPage /> </Route> 
-          <Route path='/reset-password'> <ResetPasswordPage /> </Route> 
-          <Route path='/profile'> <ProfilePage /> </Route> 
-          <Route path='/'> <MainPage /> </Route>            
+          <RouteForUnauthorizedUsers path='/login' exact> <LoginPage /> </RouteForUnauthorizedUsers> 
+          <RouteForUnauthorizedUsers path='/register' exact> <RegisterPage /> </RouteForUnauthorizedUsers> 
+          <RouteForUnauthorizedUsers path='/forgot-password' exact> <ForgotPasswordPage /> </RouteForUnauthorizedUsers> 
+          <RouteForUnauthorizedUsers path='/reset-password' exact> <ResetPasswordPage /> </RouteForUnauthorizedUsers> 
+          <RouteForAuthorizedUsers path='/profile' > <ProfilePage /> </RouteForAuthorizedUsers> 
+          <Route path='/' exact> <MainPage /> </Route>         
+          <Route path='/notfound'> <NotFoundPage /> </Route>
         </Switch>
       </main>
     </BrowserRouter>

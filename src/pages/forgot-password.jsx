@@ -1,39 +1,33 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link , useHistory} from 'react-router-dom';
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 
 import AppForm from '../components/app-form/app-form';
-import { passwordResetUrl } from '../utils/constants';
+import { requestPasswordResetCode } from '../services/user/actions';
 
 import styles from './index.module.css';
 
 function ForgotPasswordPage() {
 
+    const dispatch = useDispatch();
+    const { passwordResetCodeSuccess } = useSelector(store => store.user);
+    const history = useHistory();
     const [email, setEmail] = React.useState('');
+
+    React.useEffect( () => {
+        if(passwordResetCodeSuccess) {
+            history.replace({pathname: '/reset-password'});
+        }
+    }, [passwordResetCodeSuccess, history]);
 
     const onEmailUpdate = (e) => {
         setEmail(e.target.value);
     };
 
-    const restorePwd = (e) => {
+    const handleRestoreEmail = (e) => {
         e.preventDefault();
-
-        fetch(passwordResetUrl, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({"email": email})
-        })
-        .then(res => res.ok ? res.json() : Promise.reject(res))
-        .then(res => {
-            //TODO: redirect to reset-password
-            console.log(res);
-        })
-        .catch( res => {
-            //TODO: error handling
-            console.log(res);
-        });
+        dispatch(requestPasswordResetCode(email));
     };
 
     return (
@@ -47,7 +41,7 @@ function ForgotPasswordPage() {
                 value={email} />
             </div>
             <div className={styles.button}>
-                <Button onClick={restorePwd}>Восстановить</Button >
+                <Button onClick={ handleRestoreEmail }>Восстановить</Button >
             </div>
 
             <p className={styles.helpRedirect}>

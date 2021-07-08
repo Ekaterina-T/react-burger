@@ -1,10 +1,9 @@
-import {authEndpoints, passwordResetUrl} from '../../utils/constants';
-import {setCookie, deleteCookie} from '../../utils/cookie';
+import {authEndpoints, passwordResetUrl, resetUrl} from '../../utils/constants';
+import {setCookie, deleteCookie, getCookie} from '../../utils/cookie';
 
 import {ActionTypes} from '../actionTypes';
 
-const accessTokenName = 'rb_accessToken';
-const refreshTokenName = 'rb_refreshToken';
+import { accessTokenName,  refreshTokenName} from '../../utils/constants';
 
 export const register = (email, password, name) => {
 
@@ -49,7 +48,7 @@ export const register = (email, password, name) => {
     }
 };
 
-export const login = (email, password, name) => {
+export const login = (email, password) => {
 
     return dispatch => {
 
@@ -78,10 +77,9 @@ export const login = (email, password, name) => {
                     }
                 } 
             */
-            
             setCookie(accessTokenName, res.accessToken, {expires: 20*60});
             window.localStorage.setItem(refreshTokenName, res.refreshToken);          
-            dispatch({type:  ActionTypes.LOGIN_SUCCESS, data: res});
+            dispatch({type:  ActionTypes.LOGIN_SUCCESS});
         })
         .catch( res => {
             //TODO: error handling
@@ -128,12 +126,11 @@ export const logout = () => {
     }
 };
 
-
-export const resetPassword = (email) => {
+export const requestPasswordResetCode = (email) => {
 
     return dispatch => {
 
-        dispatch({type: ActionTypes.PASSWORD_RESET_REQUEST});
+        dispatch({type: ActionTypes.PASSWORD_RESET_CODE_REQUEST});
 
         fetch(passwordResetUrl, {
             method: "POST",
@@ -144,19 +141,91 @@ export const resetPassword = (email) => {
         })
         .then(res => res.ok ? res.json() : Promise.reject(res))
         .then(res => {
-            dispatch({type:  ActionTypes.PASSWORD_RESET_SUCCESS, data: res.data});
-            //TODO: redirect to reset-password
-            console.log(res);
+            dispatch({type:  ActionTypes.PASSWORD_RESET_CODE_SUCCESS});
         })
         .catch( res => {
-            //TODO: error handling
-            dispatch({type:  ActionTypes.PASSWORD_RESET_FAILED});
-            console.log(res);
+            dispatch({type:  ActionTypes.PASSWORD_RESET_CODE_FAILED});
         });
 
     }
+
+
 };
 
+export const resetPassword = (password, verificationToken) => {
 
+    return dispatch => {
+
+        dispatch({type: ActionTypes.PASSWORD_RESET_REQUEST});
+
+        fetch(resetUrl, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "password": password,
+                "token": verificationToken
+            })
+        })
+        .then(res => res.ok ? res.json() : Promise.reject(res))
+        .then(res => {
+            dispatch({type: ActionTypes.PASSWORD_RESET_SUCCESS});
+        })
+        .catch( res => {
+            dispatch({type: ActionTypes.PASSWORD_RESET_FAILED});
+        });
+    }
+    
+}
+
+export const recognizeUser = () => {
+
+    return dispatch => {
+
+        const refreshToken = () => {
+        
+            fetch(authEndpoints.tokenUrl, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({"token": window.localStorage.getItem(refreshTokenName)})
+            })
+            .then(res => res.ok ? res.json() : Promise.reject(res))
+            .then((res) => {
+              setCookie(accessTokenName, res.accessToken, {expires: 20*60});
+              window.localStorage.setItem(refreshTokenName, res.refreshToken); 
+              dispatch({type: ActionTypes.LOGIN_SUCCESS});
+            })
+            .catch( () => {              
+                dispatch({type: ActionTypes.LOGOUT_SUCCESS});
+            });
+        }
+
+        fetch(authEndpoints.userUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': getCookie(accessTokenName)
+                }
+            })
+            .then(res => res.ok ? res.json() : Promise.reject(res))
+            .then(res => {
+                if(res.success === true) {
+                    dispatch({type: ActionTypes.LOGIN_SUCCESS});
+                } else {
+                    Promise.reject('user\'s authorization is not confirmed');
+                }      
+            })
+            .catch(res => {
+            
+                if(!getCookie(accessTokenName) || res.message === 'jwt expired') {
+                    refreshToken();
+                }
+            });
+
+    }
+}
 
 

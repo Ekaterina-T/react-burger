@@ -1,41 +1,36 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory, Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {EmailInput, PasswordInput, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 
 import AppForm from '../components/app-form/app-form';
 import {login} from '../services/user/actions';
-
 import styles from './index.module.css';
 
 function LoginPage() {
 
     const dispatch = useDispatch();
-    const {loginSuccess} = useSelector(store => store.user);
-    let history = useHistory();
+    const [credentials, setCredentials] = React.useState({email: '', password: ''}); 
 
-    const email = React.useRef(); 
-    const password = React.useRef(); 
-
-    React.useEffect( () => {
-
-        if(loginSuccess) {
-            history.push('/');
-        }
-        
-    }, [history, loginSuccess]);
+    const onInputChange = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        setCredentials((prevVal) => ({...prevVal, [name]: value}));
+    }
 
     const handleLogin = (e) => {
-        e.preventDefault();    
-        const emailVal = email.current.querySelector('input').value;
-        const passwordVal = password.current.querySelector('input').value;    
-        dispatch(login(emailVal, passwordVal));
+        e.preventDefault();     
+        dispatch(login(credentials.email, credentials.password));         
     }
 
     return (
         <AppForm title='Вход' >
-            <div className={styles.input} ref={email}><EmailInput name={'email'} /></div>
-            <div className={styles.input} ref={password}><PasswordInput name={'password'} /></div>
+            <div className={styles.input}>
+                <EmailInput name={'email'} value={credentials.email} onChange={onInputChange}/>
+            </div>
+            <div className={styles.input}>
+                <PasswordInput name={'password'} value={credentials.password} onChange={onInputChange}/>
+            </div>
             <div className={styles.button}><Button onClick={handleLogin}>Войти</Button ></div>
 
             <p className={styles.helpRedirect}>

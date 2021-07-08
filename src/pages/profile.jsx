@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Switch, Route, NavLink, useLocation, useHistory } from 'react-router-dom';
+import { Switch, Route, NavLink, useLocation } from 'react-router-dom';
 import ProfileSettings from '../components/profile-settings/profile-settings';
 
 import AppForm from '../components/app-form/app-form';
@@ -11,34 +11,30 @@ import styles from './profile.module.css';
 function ProfilePage() { 
     
     const dispatch = useDispatch();
-    const {loginSuccess, logoutSuccess} = useSelector(store => store.user); 
+    const {loginSuccess} = useSelector(store => store.user); 
 
-    const history = useHistory();
     const {pathname} = useLocation();
-
-    React.useEffect( () => {
-        if(!loginSuccess || logoutSuccess) {
-            history.replace('/login');
-        }        
-    }, [history, logoutSuccess, loginSuccess]);
-
-
-    const exitHandler = (e) => {
-        e.preventDefault();
-        dispatch(logout());
-    };
         
-    const profileMenuItems = [
-        {to: '/profile', label: 'Профиль', infoText: 'В этом разделе вы можете изменить свои персональные данные'},
-        {to: '/profile/orders', label: 'История заказов', infoText: 'В этом разделе вы можете просмотреть свою историю заказов'},
-        {to: '', onClickHandler: exitHandler, label: 'Выход'}
-    ];
+    const profileMenuItems = React.useMemo( () => { 
+
+        const exitHandler = (e) => {
+            e.preventDefault();
+            dispatch(logout());
+        };
+
+        return [
+            {to: '/profile', label: 'Профиль', infoText: 'В этом разделе вы можете изменить свои персональные данные'},
+            {to: '/profile/orders', label: 'История заказов', infoText: 'В этом разделе вы можете просмотреть свою историю заказов'},
+            {to: '', onClickHandler: exitHandler, label: 'Выход'}
+        ]
+    }, 
+    [dispatch]);
     
-    const infoText = useMemo( () => {
+    const infoText = React.useMemo( () => {
         const currentMenuItem = profileMenuItems.find( item => item.to === pathname);
         return currentMenuItem ? currentMenuItem.infoText : '';
     }, 
-    [pathname]);
+    [pathname, profileMenuItems]);
 
     return (
         <>
@@ -73,7 +69,6 @@ function ProfilePage() {
             </AppForm>
         }
         </>
-
     );
 }
 

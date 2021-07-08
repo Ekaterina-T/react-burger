@@ -19,7 +19,7 @@ const ingredientGroups = [
 
 
  const passwordResetUrl = domain + "/password-reset";
- const resetUrl = domain + "/password-reset/reset."
+ const resetUrl = domain + "/password-reset/reset";
 
  
 const accessTokenName = 'rb_accessToken';

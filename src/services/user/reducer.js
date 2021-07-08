@@ -14,6 +14,10 @@ const initialState = {
     logoutSuccess: false,
     logoutFailed: false,
 
+    passwordResetCodeRequest: false,
+    passwordResetCodeSuccess: false,
+    passwordResetCodeFailed: false,
+
     passwordResetRequest: false,
     passwordResetSuccess: false,
     passwordResetFailed: false
@@ -34,9 +38,6 @@ export const user = (state = initialState, action) => {
                 ...state, 
                 registerRequest: false,
                 registerSuccess: true,
-
-                email: action.data.user.email,
-                name: action.data.user.name,
 
                 accessToken: action.data.accessToken,
                 accessTokenTimeStamp: new Date(),
@@ -62,7 +63,7 @@ export const user = (state = initialState, action) => {
             return {
                 ...state, 
                 loginRequest: false,
-                loginSuccess: true,
+                loginSuccess: true
             };
 
         case ActionTypes.LOGIN_FAILED:
@@ -93,8 +94,29 @@ export const user = (state = initialState, action) => {
                 logoutRequest: false,
                 logoutFailed: true
             }; 
+        
+        
+        case ActionTypes.PASSWORD_RESET_CODE_REQUEST: 
+            return {
+                ...state, 
+                passwordResetCodeRequest: true
+            };
+        
+        case ActionTypes.PASSWORD_RESET_CODE_SUCCESS: 
+            return {
+                ...state, 
+                passwordResetCodeRequest: false,
+                passwordResetCodeSuccess: true
+            };
 
-           
+        case ActionTypes.PASSWORD_RESET_CODE_FAILED: 
+            return {
+                ...state, 
+                passwordResetCodeRequest: false,
+                passwordResetCodeFailed: true
+            }; 
+            
+        
         case ActionTypes.PASSWORD_RESET_REQUEST: 
             return {
                 ...state, 
@@ -112,7 +134,8 @@ export const user = (state = initialState, action) => {
             return {
                 ...state, 
                 passwordResetRequest: false,
-                passwordResetFailed: true
+                passwordResetFailed: true,
+                passwordResetCodeSuccess: false
             };
         
         default: return state;

@@ -1,0 +1,9 @@
+.buttonsArea {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.buttonSeparator {
+    composes: mr-2 from global;
+    width: 1px;
+}
