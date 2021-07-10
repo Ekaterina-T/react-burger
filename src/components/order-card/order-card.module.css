@@ -30,59 +30,10 @@
     color:#F2F2F3;
 }
 
-.price {
-    composes: pt-1 pb-1 from global;
-    display: flex;
-    justify-content: center;
-    margin-left: auto;
-}
-
-.price_num {
-    composes: pr-1 text text_type_digits-default from global;
-}
-
 .ingredients {
     position: relative;
     height: 72px;
 }
-
-.ingredientContainer {
-    position: absolute;
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-  }
-  
-.ingredientImg {
-    position: absolute;
-    left: -36px;
-    z-index: 2;
-    margin: 2px;
-}
-
-.ingredientContainer::before {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    z-index: 0;
-    background: linear-gradient(to right, blue, purple);
-    border: 2px solid transparent;
-    border-radius: inherit;
-} 
-
-.ingredientContainer::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 100%;
-    margin: 2px;
-    position: absolute;
-    z-index: 1;
-    background: #000000;
-    border-radius: inherit;
-} 
 
 .hiddenIngredientsReplacement {
     composes: text text_type_main-default from global;

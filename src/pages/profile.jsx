@@ -61,9 +61,9 @@ function ProfilePage() {
 
                 <section>
                     <Switch>
-                        <Route path='/profile/orders'> <FeedList /> </Route>
-                        <Route path='/profile/orders/:id'> orders id </Route>
-                        <Route path='/profile'> <ProfileSettings /> </Route>
+                        <Route path='/profile/orders'> <FeedList owner={'profile'} /> </Route>
+                        <Route path='/profile/orders/:id' exact> orders id </Route>
+                        <Route path='/profile' exact> <ProfileSettings /> </Route>
                     </Switch>                    
                 </section>
 

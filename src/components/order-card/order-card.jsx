@@ -1,11 +1,15 @@
 import React from 'react';
+import { useRouteMatch, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import {CurrencyIcon}  from '@ya.praktikum/react-developer-burger-ui-components';
+import Price from '../price/price';
+import IngredientIconRound from '../ingredient-icon-round/ingredient-icon-round';
 
 import styles from './order-card.module.css';
 
-const OrderCard = ({data: {id, timestamp, title, ingredientIDs, price}}) => {
+const OrderCard = ({data: {id, timestamp, title, ingredientIDs, price} }) => {
+
+    const {url} = useRouteMatch();
 
     const ingredients = useSelector(store => store.ingredients.items);
     const numOfIngredientsInOrder = ingredientIDs.length;
@@ -15,18 +19,17 @@ const OrderCard = ({data: {id, timestamp, title, ingredientIDs, price}}) => {
 
         const SHIFT_OF_IMAGES_PX = 50;
 
-        if(index < MAX_NUM_OF_VISIBLE_ITEMS) {
+        if(index < MAX_NUM_OF_VISIBLE_ITEMS) { 
             return (
-                <span 
-                    key = {index} 
-                    className={styles.ingredientContainer}                    
-                    style = {{
-                        left: `${index*SHIFT_OF_IMAGES_PX}px`,
-                        zIndex: (numOfIngredientsInOrder - index)
-                    }}
-                >
-                    <img src = {item.image_mobile} alt = {item.name}  className={styles.ingredientImg}/>
-                </span>
+                <IngredientIconRound 
+                key = {index} 
+                image_mobile = {item.image_mobile}
+                name = {item.name}
+                customStyle={{
+                    left: `${index*SHIFT_OF_IMAGES_PX}px`,
+                    zIndex: (numOfIngredientsInOrder - index)
+                }}/>
+                
                 
             );
         } else {
@@ -50,17 +53,20 @@ const OrderCard = ({data: {id, timestamp, title, ingredientIDs, price}}) => {
         
 
     return (
-        <article className={styles.card}>              
-            <p className={styles.topInfo}>
-                <span className={styles.id}>{`#${id}`}</span>
-                <span className={styles.timestamp}>{timestamp}</span>
-            </p>           
-            <header className={styles.title}> {title} </header> 
-            <div className={styles.bottomInfo}>
-                <div className={styles.ingredients}>{images}</div>
-                <div className={styles.price}> <span  className={styles.price_num}>{price}</span> <CurrencyIcon/> </div>
-            </div>          
-        </article>
+        <Link to={{ pathname: `${url}/${id}` }} className={styles.link} >
+            <article className={styles.card} >              
+                <p className={styles.topInfo}>
+                    <span className={styles.id}>{`#${id}`}</span>
+                    <span className={styles.timestamp}>{timestamp}</span>
+                </p>           
+                <header className={styles.title}> {title} </header> 
+                <div className={styles.bottomInfo}>
+                    <div className={styles.ingredients}>{images}</div>
+                    <Price price={price}/>
+                </div>          
+            </article>
+        </Link>
+        
     ); 
 }
 

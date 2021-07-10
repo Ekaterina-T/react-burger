@@ -5,3 +5,9 @@
     height: calc(100vh - 196px);
     overflow-y: scroll;
 }
+
+.orders__profile { 
+    composes: orders;    
+    position: relative;
+    top: -100px;
+}

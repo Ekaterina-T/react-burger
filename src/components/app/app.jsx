@@ -7,7 +7,7 @@ import './app.css';
 import AppHeader from '../app-header/app-header.jsx';
 import RouteForAuthorizedUsers from '../route-auth-users/route-auth-users';
 import RouteForUnauthorizedUsers from '../route-unauth-users/route-unauth-users';
-import { MainPage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, FeedPage, NotFoundPage } from '../../pages';
+import { MainPage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, FeedPage, NotFoundPage, OrderInfoPage } from '../../pages';
 
 import { getIngredientData } from '../../services/ingredients/actions';
 import { recognizeUser } from '../../services/user/actions';
@@ -31,8 +31,9 @@ function App() {
           <RouteForUnauthorizedUsers path='/register' exact> <RegisterPage /> </RouteForUnauthorizedUsers> 
           <RouteForUnauthorizedUsers path='/forgot-password' exact> <ForgotPasswordPage /> </RouteForUnauthorizedUsers> 
           <RouteForUnauthorizedUsers path='/reset-password' exact> <ResetPasswordPage /> </RouteForUnauthorizedUsers> 
-          <RouteForAuthorizedUsers path='/profile' > <ProfilePage /> </RouteForAuthorizedUsers> 
-          <Route path='/feed' > <FeedPage /> </Route> 
+          <RouteForAuthorizedUsers   path='/feed' exact> <FeedPage /> </RouteForAuthorizedUsers> 
+          <RouteForAuthorizedUsers   path={['/feed/:id', 'profile/orders/:id' ]} exact> <OrderInfoPage /> </RouteForAuthorizedUsers> 
+          <RouteForAuthorizedUsers   path='/profile' > <ProfilePage /> </RouteForAuthorizedUsers> 
           <Route path='/' exact> <MainPage /> </Route>         
           <Route path='/notfound'> <NotFoundPage /> </Route>
         </Switch>

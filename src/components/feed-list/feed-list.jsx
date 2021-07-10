@@ -4,16 +4,16 @@ import styles from './feed-list.module.css';
 import {orders}  from '../../utils/data';
 import OrderCard from '../order-card/order-card';
 
-const FeedList = () => {
+const FeedList = ({owner}) => {
 
-    const feedHasItems = orders.length > 0;    
-
+    const feedHasItems = orders.length > 0;  
+    
     return (
 
-        <article className={styles.orders}>
+        <article className={owner==='profile' ? styles.orders__profile  : styles.orders}>
             { 
             feedHasItems ? 
-            orders.map( order => ( <OrderCard key = {order.id} data = {order} /> )) 
+            orders.map( order => ( <OrderCard key = {order.id} data = {order}/> )) 
             : <p>Вы ещё ничего не заказывали</p>
             }
             
