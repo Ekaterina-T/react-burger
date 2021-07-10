@@ -1,0 +1,7 @@
+.orders {     
+    box-sizing: border-box;
+    width: 600px;  
+    composes: ml-5 mr-5 pr-2 from global;
+    height: calc(100vh - 196px);
+    overflow-y: scroll;
+}

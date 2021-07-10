@@ -1,0 +1,28 @@
+.overview {   
+    composes: ml-5 mr-5 pr-2 from global;  
+    box-sizing: border-box;
+    width: 600px;  
+}
+
+.allOrdersSection {
+    composes: pt-15 pb-15 from global;
+
+}
+
+.contentRow {
+    composes: mb-15 from global;
+    display: flex;
+}
+
+.contentRow:last-child {
+    margin-bottom: 0px;
+}
+
+.contentRow__item {
+    composes: pr-9 from global;
+    width: 50%;
+}
+
+.contentRow__item:last-child {
+    padding-right: 0px;
+}
