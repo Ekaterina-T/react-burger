@@ -4,6 +4,8 @@ import styles from './feed-list.module.css';
 import {orders}  from '../../utils/data';
 import OrderCard from '../order-card/order-card';
 
+import PropTypes from 'prop-types';
+
 const FeedList = ({owner}) => {
 
     const feedHasItems = orders.length > 0;  
@@ -22,4 +24,8 @@ const FeedList = ({owner}) => {
 }
 
 export default FeedList;
+
+FeedList.propTypes = {
+    owner: PropTypes.oneOf(['profile'])
+}
 

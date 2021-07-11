@@ -32,10 +32,13 @@ function ProfileSettings() {
                     }
                 } 
             */
-           setUser({...res.user, password: '******'}); //password is crunched
-
+            if(res.success) {
+                setUser({...res.user, password: '******'}); //password is crunched
+            } else {
+                throw new Error('User data request failed');
+            }
         }).catch( (res) => {
-            console.log(res)
+            console.log('User data request failed '+res)
         });
     };
 
@@ -50,7 +53,7 @@ function ProfileSettings() {
             body: JSON.stringify(updatedFields)
         })
         .then(res => res.ok ? res.json() : Promise.reject(res))
-        .then( () => {
+        .then( (res) => {
             /*
                 {
                     "success": true,
@@ -60,8 +63,12 @@ function ProfileSettings() {
                     }
                 } 
             */
-            console.log('credential are updated')
-
+            if(res.success) {
+                console.log('user credentials are updated')
+            } else {
+                throw new Error('updateProfileSettings failed');
+            }
+            
         }).catch( (res) => {
             console.log('credential are not updated')
         });

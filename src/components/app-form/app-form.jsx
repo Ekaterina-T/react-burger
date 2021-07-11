@@ -26,7 +26,7 @@ function AppForm ({children, title, additionalStyles}) {
 
 export default AppForm;
 
-AppForm.protoTypes = {
+AppForm.propTypes = {
     title: PropTypes.string,
-    additionalStyles: PropTypes.array
+    additionalStyles: PropTypes.arrayOf(PropTypes.string)
 }

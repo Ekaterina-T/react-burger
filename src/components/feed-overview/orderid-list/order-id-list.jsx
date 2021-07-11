@@ -1,5 +1,7 @@
 import styles from './orderid-list.module.css'
 
+import PropTypes from 'prop-types';
+
 const OrderIDList = ({orders, title, type}) => {
 
     const drawOrderItem = item => ( <li key={item.id} className={styles.listItem}>{item.id}</li> );
@@ -18,3 +20,9 @@ const OrderIDList = ({orders, title, type}) => {
 
 
 export default OrderIDList;
+
+OrderIDList.propTypes = {
+    orders: PropTypes.arrayOf(PropTypes.object).isRequired,
+    title: PropTypes.string.isRequired,
+    type: PropTypes.oneOf(['green'])
+}

@@ -35,13 +35,18 @@ export const register = (email, password, name) => {
                     "refreshToken": ""
                 } 
             */
-            setCookie(accessTokenName, res.accessToken, {expires: 20*60});
-            window.localStorage.setItem(refreshTokenName, res.refreshToken);   
-            dispatch({type:  ActionTypes.REGISTER_SUCCESS, data: res});
+           if(res.success) {
+               setCookie(accessTokenName, res.accessToken, {expires: 20*60});
+               window.localStorage.setItem(refreshTokenName, res.refreshToken);
+               dispatch({type:  ActionTypes.REGISTER_SUCCESS, data: res});
+           } else {
+               throw new Error('Registration failed');
+           }
+            
         })
         .catch( res => {
             //TODO: error handling
-            console.log(res);            
+            console.log('Registration failed'+res);            
             dispatch({type:  ActionTypes.REGISTER_FAILED});
         });
 
@@ -77,13 +82,17 @@ export const login = (email, password) => {
                     }
                 } 
             */
-            setCookie(accessTokenName, res.accessToken, {expires: 20*60});
-            window.localStorage.setItem(refreshTokenName, res.refreshToken);          
-            dispatch({type:  ActionTypes.LOGIN_SUCCESS});
+           if(res.success) { 
+               setCookie(accessTokenName, res.accessToken, {expires: 20*60});
+               window.localStorage.setItem(refreshTokenName, res.refreshToken);
+               dispatch({type:  ActionTypes.LOGIN_SUCCESS});
+            } else {
+               throw new Error('Login failed');
+            }
         })
         .catch( res => {
             //TODO: error handling
-            console.log(res);            
+            console.log('Login failed'+res);            
             dispatch({type:  ActionTypes.LOGIN_FAILED});
         });
 
@@ -106,20 +115,24 @@ export const logout = () => {
             } )
         })
         .then(res => res.ok ? res.json() : Promise.reject(res))
-        .then(() => {
+        .then((res) => {
             /*
                 {
                     "success": true,
                     "message": "Successful logout"
                 } 
-            */       
-            deleteCookie(accessTokenName);
-            window.localStorage.removeItem(refreshTokenName);
-            dispatch({type:  ActionTypes.LOGOUT_SUCCESS});
+            */
+            if(res.success) { 
+                deleteCookie(accessTokenName);
+                window.localStorage.removeItem(refreshTokenName);
+                dispatch({type:  ActionTypes.LOGOUT_SUCCESS});            
+            } else {
+                throw new Error('Logout failed');
+            }      
         })
         .catch( res => {
             //TODO: error handling
-            console.log(res);     
+            console.log('Logout failed'+res);     
             dispatch({type:  ActionTypes.LOGOUT_FAILED});
         });
 
@@ -141,9 +154,14 @@ export const requestPasswordResetCode = (email) => {
         })
         .then(res => res.ok ? res.json() : Promise.reject(res))
         .then(res => {
-            dispatch({type:  ActionTypes.PASSWORD_RESET_CODE_SUCCESS});
+            if(res.success) {
+                dispatch({type:  ActionTypes.PASSWORD_RESET_CODE_SUCCESS});
+            } else {
+                throw new Error('requestPasswordResetCode failed');
+            }            
         })
         .catch( res => {
+            console.log('requestPasswordResetCode failed '+res);
             dispatch({type:  ActionTypes.PASSWORD_RESET_CODE_FAILED});
         });
 
@@ -170,9 +188,14 @@ export const resetPassword = (password, verificationToken) => {
         })
         .then(res => res.ok ? res.json() : Promise.reject(res))
         .then(res => {
-            dispatch({type: ActionTypes.PASSWORD_RESET_SUCCESS});
+            if(res.success) {
+                dispatch({type: ActionTypes.PASSWORD_RESET_SUCCESS});
+            } else {
+                throw new Error('resetPassword failed');
+            }
         })
         .catch( res => {
+            console.log('resetPassword failed '+res);
             dispatch({type: ActionTypes.PASSWORD_RESET_FAILED});
         });
     }
@@ -194,9 +217,13 @@ export const recognizeUser = () => {
             })
             .then(res => res.ok ? res.json() : Promise.reject(res))
             .then((res) => {
-              setCookie(accessTokenName, res.accessToken, {expires: 20*60});
-              window.localStorage.setItem(refreshTokenName, res.refreshToken); 
-              dispatch({type: ActionTypes.LOGIN_SUCCESS});
+                if(res.success) {               
+                setCookie(accessTokenName, res.accessToken, {expires: 20*60});
+                window.localStorage.setItem(refreshTokenName, res.refreshToken); 
+                dispatch({type: ActionTypes.LOGIN_SUCCESS});
+                } else {
+                    throw new Error('Token refresh failed');
+                }
             })
             .catch( () => {              
                 dispatch({type: ActionTypes.LOGOUT_SUCCESS});

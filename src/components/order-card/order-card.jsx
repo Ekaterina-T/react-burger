@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux';
 import Price from '../price/price';
 import IngredientIconRound from '../ingredient-icon-round/ingredient-icon-round';
 
+import PropTypes from 'prop-types';
+
 import styles from './order-card.module.css';
 
 const OrderCard = ({data: {id, timestamp, title, ingredientIDs, price} }) => {
@@ -71,3 +73,15 @@ const OrderCard = ({data: {id, timestamp, title, ingredientIDs, price} }) => {
 }
 
 export default OrderCard;
+
+OrderCard.propTypes = {
+    data: PropTypes.shape(
+        {
+            id: PropTypes.string.isRequired,
+            timestamp: PropTypes.string.isRequired,
+            title: PropTypes.string.isRequired,
+            ingredientIDs: PropTypes.arrayOf(PropTypes.string).isRequired,
+            price: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+        } 
+    ).isRequired
+}

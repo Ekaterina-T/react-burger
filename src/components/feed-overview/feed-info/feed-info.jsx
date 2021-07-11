@@ -1,6 +1,8 @@
 import styles from './feed-info.module.css'
 
-const FeedInfo = ({label, value, type}) => {
+import PropTypes from 'prop-types';
+
+const FeedInfo = ({label, value}) => {
 
     return  (
         <section >
@@ -12,3 +14,8 @@ const FeedInfo = ({label, value, type}) => {
 
 
 export default FeedInfo;
+
+FeedInfo.propTypes = {
+    label: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired
+}
