@@ -1,10 +1,12 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Switch, Route, NavLink, useLocation } from 'react-router-dom';
+import { Switch, NavLink, useLocation } from 'react-router-dom';
 import ProfileSettings from '../components/profile-settings/profile-settings';
 
 import AppForm from '../components/app-form/app-form';
 import FeedList from '../components/feed-list/feed-list';
+import RouteForAuthorizedUsers from '../components/route-auth-users/route-auth-users';
+import { OrderInfoPage } from '.';
 import { logout } from '../services/user/actions';
 
 import styles from './profile.module.css';
@@ -61,9 +63,8 @@ function ProfilePage() {
 
                 <section>
                     <Switch>
-                        <Route path='/profile/orders'> <FeedList owner={'profile'} /> </Route>
-                        <Route path='/profile/orders/:id' exact> orders id </Route>
-                        <Route path='/profile' exact> <ProfileSettings /> </Route>
+                        <RouteForAuthorizedUsers exact path='/profile/orders'> <FeedList owner={'profile'} /> </RouteForAuthorizedUsers>
+                        <RouteForAuthorizedUsers exact path='/profile'> <ProfileSettings /> </RouteForAuthorizedUsers>
                     </Switch>                    
                 </section>
 

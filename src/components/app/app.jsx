@@ -30,15 +30,6 @@ function App() {
   if(!ingredientsLoadSuccess) {
     return <p> Данные загружаются </p>;
   }
-
-  /*
-  if(background) {
-    console.log(true)
-    console.log('bg pathname: '+background.pathname);
-    console.log('loc pathname: '+location.pathname);
-  } else {
-    console.log(false)
-  } */
  
   return (
 
@@ -51,8 +42,8 @@ function App() {
           <Route exact path='/ingredients/:id' > <IngredientDetails /> </Route>  
 
           <RouteForAuthorizedUsers   exact path='/feed' > <FeedPage /> </RouteForAuthorizedUsers> 
+          <RouteForAuthorizedUsers   exact path={['/feed/:id', '/profile/orders/:id']} > <OrderInfoPage /> </RouteForAuthorizedUsers>
           <RouteForAuthorizedUsers   path='/profile' > <ProfilePage /> </RouteForAuthorizedUsers> 
-          <RouteForAuthorizedUsers   exact path={['/feed/:id', 'profile/orders/:id' ]} > <OrderInfoPage /> </RouteForAuthorizedUsers> 
 
           <RouteForUnauthorizedUsers exact path='/login' > <LoginPage /> </RouteForUnauthorizedUsers> 
           <RouteForUnauthorizedUsers exact path='/register' > <RegisterPage /> </RouteForUnauthorizedUsers> 
