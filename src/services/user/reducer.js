@@ -1,6 +1,9 @@
 import {ActionTypes} from '../actionTypes';
 
 const initialState = {
+
+    name: null,
+    email: null,
     
     registerRequest: false,
     registerSuccess: false,
@@ -20,7 +23,11 @@ const initialState = {
 
     passwordResetRequest: false,
     passwordResetSuccess: false,
-    passwordResetFailed: false
+    passwordResetFailed: false,
+    
+    userUpdateRequest: false,
+    userUpdateSuccess: false,
+    userUpdateFailed: true
 }
 
 export const user = (state = initialState, action) => {
@@ -63,7 +70,10 @@ export const user = (state = initialState, action) => {
             return {
                 ...state, 
                 loginRequest: false,
-                loginSuccess: true
+                loginSuccess: true,
+
+                name: action.user.name,
+                email: action.user.email
             };
 
         case ActionTypes.LOGIN_FAILED:
@@ -85,7 +95,9 @@ export const user = (state = initialState, action) => {
                 ...state, 
                 logoutRequest: false,
                 logoutSuccess: true,
-                loginSuccess: false
+                loginSuccess: false,
+                name: null,
+                email: null
             };
 
         case ActionTypes.LOGOUT_FAILED:
@@ -138,6 +150,30 @@ export const user = (state = initialState, action) => {
                 passwordResetCodeSuccess: false
             };
         
+        
+        case ActionTypes.USER_SETTINGS_UPDATE_REQUEST: 
+            return {
+                ...state, 
+                userUpdateRequest: true
+            };
+        
+        case ActionTypes.USER_SETTINGS_UPDATE_SUCCESS: 
+            return {
+                ...state, 
+                userUpdateRequest: false,
+                userUpdateSuccess: true,
+                name: action.user.name,
+                email: action.user.email
+            };
+
+        case ActionTypes.USER_SETTINGS_UPDATE_FAILED: 
+            return {
+                ...state, 
+                userUpdateRequest: false,
+                userUpdateFailed: true
+            };
+        
+
         default: return state;
     }
 }

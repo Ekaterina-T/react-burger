@@ -1,82 +1,20 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { getCookie } from '../../utils/cookie';
-import { authEndpoints, accessTokenName } from '../../utils/constants';
-
-//TODO: fix style link
 import styles from '../../pages/index.module.css'
 import profileStyles from './profile-settings.module.css'
+import { updateProfileSettings } from '../../services/user/actions';
+
+const PASSWORD_PLACEHOLDER = '******';
 
 function ProfileSettings() {    
 
+    const dispatch = useDispatch();
+    const {name, email} = useSelector( store => store.user);
+
     //these are not application level data, therefore don't create separate action and reducer
-    const [user, setUser] = React.useState({name: '', email: '', password: '******'});
-
-    const printConfirmedSettings = () => {
-
-        fetch(authEndpoints.userUrl, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                authorization: getCookie(accessTokenName)
-            }
-        }).then(res => res.ok ? res.json() : Promise.reject(res))
-        .then( (res) => {
-            /*
-                {
-                    "success": true,
-                    "user": {
-                    "email": "",
-                    "name": ""
-                    }
-                } 
-            */
-            if(res.success) {
-                setUser({...res.user, password: '******'}); //password is crunched
-            } else {
-                throw new Error('User data request failed');
-            }
-        }).catch( (res) => {
-            console.log('User data request failed '+res)
-        });
-    };
-
-    const updateProfileSettings = (updatedFields) => {
-
-        fetch(authEndpoints.userUrl, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                authorization: getCookie(accessTokenName)
-            },
-            body: JSON.stringify(updatedFields)
-        })
-        .then(res => res.ok ? res.json() : Promise.reject(res))
-        .then( (res) => {
-            /*
-                {
-                    "success": true,
-                    "user": {
-                    "email": "",
-                    "name": ""
-                    }
-                } 
-            */
-            if(res.success) {
-                console.log('user credentials are updated')
-            } else {
-                throw new Error('updateProfileSettings failed');
-            }
-            
-        }).catch( (res) => {
-            console.log('credential are not updated')
-        });
-    };
-
-    React.useEffect( () => {
-        printConfirmedSettings();
-    }, []);
+    const [user, setUser] = React.useState({name: name, email: email, password: PASSWORD_PLACEHOLDER});
 
     const updateField = (e) => {
         setUser({...user, [e.target.name]: e.target.value});
@@ -92,12 +30,12 @@ function ProfileSettings() {
         if(user.password.indexOf('*') < 0) {
             updatedFields.password = user.password;
         }
-        updateProfileSettings(updatedFields);
+        dispatch(updateProfileSettings(updatedFields))
     }
 
     const cancelChanges = (e) => {
         e.preventDefault();
-        printConfirmedSettings();
+        setUser({name: name, email: email, password: PASSWORD_PLACEHOLDER});
     }
 
     return (

@@ -41,8 +41,9 @@ function App() {
           <Route exact path='/'> <MainPage /> </Route>
           <Route exact path='/ingredients/:id' > <IngredientDetails /> </Route>  
 
-          <RouteForAuthorizedUsers   exact path='/feed' > <FeedPage /> </RouteForAuthorizedUsers> 
-          <RouteForAuthorizedUsers   exact path={['/feed/:id', '/profile/orders/:id']} > <OrderInfoPage /> </RouteForAuthorizedUsers>
+          <Route exact path='/feed' > <FeedPage /> </Route> 
+          <Route exact path='/feed/:id' > <OrderInfoPage /> </Route>
+          <RouteForAuthorizedUsers   exact path='/profile/orders/:id' > <OrderInfoPage /> </RouteForAuthorizedUsers>
           <RouteForAuthorizedUsers   path='/profile' > <ProfilePage /> </RouteForAuthorizedUsers> 
 
           <RouteForUnauthorizedUsers exact path='/login' > <LoginPage /> </RouteForUnauthorizedUsers> 

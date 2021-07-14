@@ -85,7 +85,7 @@ export const login = (email, password) => {
            if(res.success) { 
                setCookie(accessTokenName, res.accessToken, {expires: 20*60});
                window.localStorage.setItem(refreshTokenName, res.refreshToken);
-               dispatch({type:  ActionTypes.LOGIN_SUCCESS});
+               dispatch({type:  ActionTypes.LOGIN_SUCCESS, user: res.user});
             } else {
                throw new Error('Login failed');
             }
@@ -217,6 +217,9 @@ export const recognizeUser = () => {
             })
             .then(res => res.ok ? res.json() : Promise.reject(res))
             .then((res) => {
+
+                console.log('refreshToken 2')
+
                 if(res.success) {               
                 setCookie(accessTokenName, res.accessToken, {expires: 20*60});
                 window.localStorage.setItem(refreshTokenName, res.refreshToken); 
@@ -239,8 +242,9 @@ export const recognizeUser = () => {
             })
             .then(res => res.ok ? res.json() : Promise.reject(res))
             .then(res => {
+ 
                 if(res.success === true) {
-                    dispatch({type: ActionTypes.LOGIN_SUCCESS});
+                    dispatch({type: ActionTypes.LOGIN_SUCCESS, user: res.user});
                 } else {
                     Promise.reject('user\'s authorization is not confirmed');
                 }      
@@ -254,5 +258,46 @@ export const recognizeUser = () => {
 
     }
 }
+
+export const updateProfileSettings = (updatedUserSettings) => {
+
+    return dispatch => {
+
+        dispatch({type: ActionTypes.USER_SETTINGS_UPDATE_REQUEST});
+
+        fetch(authEndpoints.userUrl, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: getCookie(accessTokenName)
+            },
+            body: JSON.stringify(updatedUserSettings)
+        })
+        .then(res => res.ok ? res.json() : Promise.reject(res))
+        .then( (res) => {
+            /*
+                {
+                    "success": true,
+                    "user": {
+                    "email": "",
+                    "name": ""
+                    }
+                } 
+            */
+            if(res.success) {
+                dispatch({type: ActionTypes.USER_SETTINGS_UPDATE_SUCCESS, user: res.user});
+            } else {
+                throw new Error('updateProfileSettings failed');
+            }
+            
+        }).catch( (res) => {
+            dispatch({type: ActionTypes.USER_SETTINGS_UPDATE_FAILED});
+            console.log('credential are not updated')
+        });
+
+    }
+
+    
+};
 
 
