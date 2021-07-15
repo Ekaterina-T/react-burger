@@ -11,7 +11,8 @@ import { MainPage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPag
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
 import { getIngredientData } from '../../services/ingredients/actions';
-import { recognizeUser } from '../../services/user/actions';
+import { refreshUser } from '../../services/user/actions';
+
 
 function App() {
 
@@ -25,14 +26,15 @@ function App() {
 
   React.useEffect( () => {
     dispatch(getIngredientData());
-    dispatch(recognizeUser());
+    dispatch(refreshUser());    
+    
   },[dispatch]); 
 
   React.useEffect( () => {
     if(matchProfilePage) {
-      dispatch(recognizeUser());
+      dispatch(refreshUser());
     }
-  }, [matchProfilePage]);
+  }, [dispatch, matchProfilePage]);
 
   if(!ingredientsLoadSuccess) {
     return <p> Данные загружаются </p>;

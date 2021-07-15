@@ -24,10 +24,7 @@ const initialState = {
     passwordResetRequest: false,
     passwordResetSuccess: false,
     passwordResetFailed: false,
-    
-    userUpdateRequest: false,
-    userUpdateSuccess: false,
-    userUpdateFailed: true
+
 }
 
 export const user = (state = initialState, action) => {
@@ -150,29 +147,16 @@ export const user = (state = initialState, action) => {
                 passwordResetCodeSuccess: false
             };
         
-        
-        case ActionTypes.USER_SETTINGS_UPDATE_REQUEST: 
-            return {
-                ...state, 
-                userUpdateRequest: true
-            };
-        
-        case ActionTypes.USER_SETTINGS_UPDATE_SUCCESS: 
-            return {
-                ...state, 
-                userUpdateRequest: false,
-                userUpdateSuccess: true,
-                name: action.user.name,
-                email: action.user.email
-            };
+    
+        case ActionTypes.USER_REFRESH_SUCCESS: 
+        return {
+            ...state, 
+            loginRequest: false,
+            loginSuccess: true,
 
-        case ActionTypes.USER_SETTINGS_UPDATE_FAILED: 
-            return {
-                ...state, 
-                userUpdateRequest: false,
-                userUpdateFailed: true
-            };
-        
+            name: action.user.name,
+            email: action.user.email
+        };
 
         default: return state;
     }

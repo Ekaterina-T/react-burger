@@ -4,8 +4,9 @@ import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components'
 
 import styles from '../../pages/index.module.css'
 import profileStyles from './profile-settings.module.css'
-import { updateProfileSettings } from '../../services/user/actions';
-import { recognizeUser } from '../../services/user/actions';
+import { updateUser } from '../../services/user/actions';
+
+
 
 const PASSWORD_PLACEHOLDER = '******';
 
@@ -31,7 +32,7 @@ function ProfileSettings() {
         if(user.password.indexOf('*') < 0) {
             updatedFields.password = user.password;
         }
-        dispatch(recognizeUser(updateProfileSettings(updatedFields)))
+        dispatch(updateUser(updatedFields));
     }
 
     const cancelChanges = (e) => {

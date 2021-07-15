@@ -1,9 +1,10 @@
 import {authEndpoints, passwordResetUrl, resetUrl} from '../../utils/constants';
-import {setCookie, deleteCookie, getCookie} from '../../utils/cookie';
+import {setCookie, deleteCookie} from '../../utils/cookie';
 
 import {ActionTypes} from '../actionTypes';
 
 import { accessTokenName,  refreshTokenName} from '../../utils/constants';
+import { getProfileSettings, updateProfileSettings, refreshToken, setToken } from '../../utils/token';
 
 export const register = (email, password, name) => {
 
@@ -82,9 +83,8 @@ export const login = (email, password) => {
                     }
                 } 
             */
-           if(res.success) { 
-               setCookie(accessTokenName, res.accessToken, {expires: 20*60});
-               window.localStorage.setItem(refreshTokenName, res.refreshToken);
+           if(res.success) {
+               setToken(res);
                dispatch({type:  ActionTypes.LOGIN_SUCCESS, user: res.user});
             } else {
                throw new Error('Login failed');
@@ -202,110 +202,80 @@ export const resetPassword = (password, verificationToken) => {
     
 }
 
-export const recognizeUser = () => {
+
+const runServerRequest = (dispatch, requestFunction, requestFunctionParams) => {
+
+    requestFunction(requestFunctionParams).then( res => {
+        dispatch({type: ActionTypes.USER_REFRESH_SUCCESS, user: res.user});
+      })
+      .catch( res => {
+        if(res.status === 401 || res.message === 'jwt expired') {
+          refreshToken().then( res => {
+              setToken(res);
+              requestFunction(requestFunctionParams).then(res => {
+                dispatch({type: ActionTypes.USER_REFRESH_SUCCESS, user: res.user});
+              })
+          });
+        } else {
+          console.error('something went wrong with authorization: try re-login')
+        }
+      });
+}
+
+
+export const refreshUser = () => {
 
     return dispatch => {
 
-        const refreshToken = () => {
-            //console.log('refreshToken start')
         
-            fetch(authEndpoints.tokenUrl, {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({"token": window.localStorage.getItem(refreshTokenName)})
-            })
-            .then(res => res.ok ? res.json() : Promise.reject(res))
-            .then((res) => {
+        runServerRequest(dispatch, getProfileSettings, null);
 
-                //console.log('refreshToken success')
-
-                if(res.success) {               
-                    setCookie(accessTokenName, res.accessToken, {expires: 20*60});
-                    window.localStorage.setItem(refreshTokenName, res.refreshToken); 
-                    dispatch({type: ActionTypes.LOGIN_SUCCESS});
-                } else {
-                    console.log('refreshToken fail from server')
-                    throw new Error('Token refresh failed');
-                }
-            })
-            .catch( () => {   
-                //console.log('refreshToken logout')           
-                dispatch({type: ActionTypes.LOGOUT_SUCCESS});
-            });
-        }
-
-        //console.log(' recognize start')
-
-        fetch(authEndpoints.userUrl, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': getCookie(accessTokenName)
-                }
-            })
-            .then(res => res.ok ? res.json() : Promise.reject(res))
-            .then(res => {
-                    //console.log(' recognize success')
-                if(res.success === true) {
+        /*
+        getProfileSettings().then( res => {
+            dispatch({type: ActionTypes.LOGIN_SUCCESS, user: res.user});
+          })
+          .catch( res => {
+            if(res.status === 401 || res.message === 'jwt expired') {
+              refreshToken().then( res => {
+                  setToken(res);
+                  getProfileSettings().then(res => {
                     dispatch({type: ActionTypes.LOGIN_SUCCESS, user: res.user});
-                } else {
-                    //console.log(' recognize fail from server')
-                    Promise.reject('user\'s authorization is not confirmed');
-                }      
-            })
-            .catch(res => {
-                //console.log(' recognize fail handler')
-            
-                if(!getCookie(accessTokenName) || res.message === 'jwt expired') {
-                    //console.log(' recognize token expired')
-                    refreshToken();
-                }
-            });
-
+                  })
+              });
+            } else {
+              console.error('something went wrong with authorization: try re-login')
+            }
+          });*/
     }
 }
 
-export const updateProfileSettings = (updatedUserSettings) => {
+export const updateUser = (updatedUserSettings) => {
 
     return dispatch => {
 
-        dispatch({type: ActionTypes.USER_SETTINGS_UPDATE_REQUEST});
+        runServerRequest(dispatch, updateProfileSettings, updatedUserSettings);
 
-        fetch(authEndpoints.userUrl, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                authorization: getCookie(accessTokenName)
-            },
-            body: JSON.stringify(updatedUserSettings)
-        })
-        .then(res => res.ok ? res.json() : Promise.reject(res))
-        .then( (res) => {
-            /*
-                {
-                    "success": true,
-                    "user": {
-                    "email": "",
-                    "name": ""
-                    }
-                } 
-            */
-            if(res.success) {
-                dispatch({type: ActionTypes.USER_SETTINGS_UPDATE_SUCCESS, user: res.user});
+        /*
+        updateProfileSettings(updatedUserSettings).then( res => {
+            dispatch({type: ActionTypes.USER_SETTINGS_UPDATE_SUCCESS, user: res.user});
+          })
+          .catch( res => {
+            if(res.status === 401 || res.message === 'jwt expired') {
+              refreshToken().then( res => {
+                  setToken(res);
+                  updateProfileSettings(updatedUserSettings).then(res => {
+                    dispatch({type: ActionTypes.USER_SETTINGS_UPDATE_SUCCESS, user: res.user});
+                  })
+              });
             } else {
-                throw new Error('updateProfileSettings failed');
+              console.error('something went wrong with update')
             }
-            
-        }).catch( (res) => {
-            dispatch({type: ActionTypes.USER_SETTINGS_UPDATE_FAILED});
-            console.log('credential are not updated')
-        });
-
+          });
+          */
     }
+}
 
-    
-};
+
+
 
 
