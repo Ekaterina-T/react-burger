@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Route, Switch, useLocation, useHistory } from 'react-router-dom';
+import { Route, Switch, useLocation, useHistory, useRouteMatch } from 'react-router-dom';
 
 import './app.css';
 
@@ -20,12 +20,19 @@ function App() {
 
   const location = useLocation();
   const history = useHistory();
+  const matchProfilePage = useRouteMatch('/profile');
   const background = history.action === 'PUSH' && location.state && location.state.background;
 
   React.useEffect( () => {
     dispatch(getIngredientData());
     dispatch(recognizeUser());
   },[dispatch]); 
+
+  React.useEffect( () => {
+    if(matchProfilePage) {
+      dispatch(recognizeUser());
+    }
+  }, [matchProfilePage]);
 
   if(!ingredientsLoadSuccess) {
     return <p> Данные загружаются </p>;

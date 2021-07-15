@@ -6,7 +6,7 @@ import ProfileSettings from '../components/profile-settings/profile-settings';
 import AppForm from '../components/app-form/app-form';
 import FeedList from '../components/feed-list/feed-list';
 import RouteForAuthorizedUsers from '../components/route-auth-users/route-auth-users';
-import { logout } from '../services/user/actions';
+import { logout, } from '../services/user/actions';
 
 import styles from './profile.module.css';
 
@@ -37,6 +37,7 @@ function ProfilePage() {
         return currentMenuItem ? currentMenuItem.infoText : '';
     }, 
     [pathname, profileMenuItems]);
+
 
     return (
         <>
