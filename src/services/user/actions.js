@@ -202,7 +202,6 @@ export const resetPassword = (password, verificationToken) => {
     
 }
 
-
 const runServerRequest = (dispatch, requestFunction, requestFunctionParams) => {
 
     requestFunction(requestFunctionParams).then( res => {
@@ -222,56 +221,17 @@ const runServerRequest = (dispatch, requestFunction, requestFunctionParams) => {
       });
 }
 
-
 export const refreshUser = () => {
 
     return dispatch => {
-
-        
         runServerRequest(dispatch, getProfileSettings, null);
-
-        /*
-        getProfileSettings().then( res => {
-            dispatch({type: ActionTypes.LOGIN_SUCCESS, user: res.user});
-          })
-          .catch( res => {
-            if(res.status === 401 || res.message === 'jwt expired') {
-              refreshToken().then( res => {
-                  setToken(res);
-                  getProfileSettings().then(res => {
-                    dispatch({type: ActionTypes.LOGIN_SUCCESS, user: res.user});
-                  })
-              });
-            } else {
-              console.error('something went wrong with authorization: try re-login')
-            }
-          });*/
     }
 }
 
 export const updateUser = (updatedUserSettings) => {
 
     return dispatch => {
-
         runServerRequest(dispatch, updateProfileSettings, updatedUserSettings);
-
-        /*
-        updateProfileSettings(updatedUserSettings).then( res => {
-            dispatch({type: ActionTypes.USER_SETTINGS_UPDATE_SUCCESS, user: res.user});
-          })
-          .catch( res => {
-            if(res.status === 401 || res.message === 'jwt expired') {
-              refreshToken().then( res => {
-                  setToken(res);
-                  updateProfileSettings(updatedUserSettings).then(res => {
-                    dispatch({type: ActionTypes.USER_SETTINGS_UPDATE_SUCCESS, user: res.user});
-                  })
-              });
-            } else {
-              console.error('something went wrong with update')
-            }
-          });
-          */
     }
 }
 

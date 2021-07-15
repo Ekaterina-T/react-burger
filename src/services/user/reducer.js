@@ -23,7 +23,7 @@ const initialState = {
 
     passwordResetRequest: false,
     passwordResetSuccess: false,
-    passwordResetFailed: false,
+    passwordResetFailed: false
 
 }
 
@@ -60,7 +60,8 @@ export const user = (state = initialState, action) => {
             return {
                 ...state, 
                 logoutSuccess: false,
-                loginRequest: true
+                loginRequest: true,
+                refreshSuccess: false
             };
     
         case ActionTypes.LOGIN_SUCCESS: 
