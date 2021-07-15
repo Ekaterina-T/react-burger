@@ -207,6 +207,7 @@ export const recognizeUser = () => {
     return dispatch => {
 
         const refreshToken = () => {
+            //console.log('refreshToken start')
         
             fetch(authEndpoints.tokenUrl, {
               method: 'POST',
@@ -218,20 +219,24 @@ export const recognizeUser = () => {
             .then(res => res.ok ? res.json() : Promise.reject(res))
             .then((res) => {
 
-                console.log('refreshToken 2')
+                //console.log('refreshToken success')
 
                 if(res.success) {               
-                setCookie(accessTokenName, res.accessToken, {expires: 20*60});
-                window.localStorage.setItem(refreshTokenName, res.refreshToken); 
-                dispatch({type: ActionTypes.LOGIN_SUCCESS});
+                    setCookie(accessTokenName, res.accessToken, {expires: 20*60});
+                    window.localStorage.setItem(refreshTokenName, res.refreshToken); 
+                    dispatch({type: ActionTypes.LOGIN_SUCCESS});
                 } else {
+                    console.log('refreshToken fail from server')
                     throw new Error('Token refresh failed');
                 }
             })
-            .catch( () => {              
+            .catch( () => {   
+                //console.log('refreshToken logout')           
                 dispatch({type: ActionTypes.LOGOUT_SUCCESS});
             });
         }
+
+        //console.log(' recognize start')
 
         fetch(authEndpoints.userUrl, {
                 method: 'GET',
@@ -242,16 +247,19 @@ export const recognizeUser = () => {
             })
             .then(res => res.ok ? res.json() : Promise.reject(res))
             .then(res => {
- 
+                    //console.log(' recognize success')
                 if(res.success === true) {
                     dispatch({type: ActionTypes.LOGIN_SUCCESS, user: res.user});
                 } else {
+                    //console.log(' recognize fail from server')
                     Promise.reject('user\'s authorization is not confirmed');
                 }      
             })
             .catch(res => {
+                //console.log(' recognize fail handler')
             
                 if(!getCookie(accessTokenName) || res.message === 'jwt expired') {
+                    //console.log(' recognize token expired')
                     refreshToken();
                 }
             });
