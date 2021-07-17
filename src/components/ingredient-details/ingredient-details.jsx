@@ -1,11 +1,18 @@
 import React from 'react';
 import { useSelector} from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 import styles from './ingredient-details.module.css';
 
 const IngredientDetails = () => {
-   
-    const {activeIngredient} = useSelector(store => store.ingredients);
+
+    const { id } = useParams();
+    const { items } = useSelector(store => store.ingredients);
+
+    const activeIngredientFromStore = useSelector(store => store.ingredients.activeIngredient);
+    const activeIngredientFromUrl = id ? items.find( item => item._id === id) : null;  
+    const activeIngredient = activeIngredientFromUrl || activeIngredientFromStore;
+
     const {name, calories, proteins, fat, carbohydrates, image_large} = activeIngredient;
 
     const nutritionItems = [
@@ -16,7 +23,6 @@ const IngredientDetails = () => {
     ];
 
     return (
-
         <section className={styles.details_section}>
 
             <header className={styles.details_header}>Детали ингредиента</header>
@@ -35,7 +41,7 @@ const IngredientDetails = () => {
             </dl>
         </section>
     );
-
+            
 } 
 
 export default IngredientDetails

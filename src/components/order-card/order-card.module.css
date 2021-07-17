@@ -1,0 +1,51 @@
+.card {
+    composes: p-6 mb-4 from global;
+    border-radius: 40px;
+    background-color: #1C1C21;
+    cursor: pointer;
+}
+
+.topInfo {
+    display: flex;
+}
+
+.bottomInfo {
+    display: flex;
+    align-items: center;
+}
+
+.id {
+    composes: text text_type_main-default from global;
+    color:#F2F2F3;
+    margin-right: auto;
+}
+
+.timestamp {
+    composes: text text_type_main-default from global;
+    color:#8585AD;
+}
+
+.title {
+    composes: mt-6 mb-6 text text_type_main-default from global;
+    color:#F2F2F3;
+}
+
+.ingredients {
+    position: relative;
+    height: 72px;
+}
+
+.hiddenIngredientsReplacement {
+    composes: text text_type_main-default from global;
+    position: absolute;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: #1C1C21;
+    opacity: 0.6;
+    margin: 2px;
+    display: inline;
+    text-align: center;
+    line-height: 72px;
+    color: #F2F2F3;
+}

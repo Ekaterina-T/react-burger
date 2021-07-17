@@ -1,0 +1,11 @@
+.listTitle {
+    composes: text text_type_main-medium pb-6 from global;
+}
+
+.listItem {
+    composes: text text_type_main-default pt-1 pb-1 from global;
+}
+
+.itemColor_green {
+    color: #00CCCC;
+}

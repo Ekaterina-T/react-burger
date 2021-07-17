@@ -4,7 +4,28 @@ const ingredientGroups = [
     { type: 'main', name: 'Начинки' }
  ];
 
- const dataUrl = "https://norma.nomoreparties.space/api/ingredients";
- const orderUrl = "https://norma.nomoreparties.space/api/orders"
+ const domain = "https://norma.nomoreparties.space/api";
 
- export {dataUrl, orderUrl, ingredientGroups};
+ const dataUrl = domain + "/ingredients";
+ const orderUrl = domain + "/orders";
+
+ const authEndpoints = {
+    registerUrl: domain + "/auth/register",
+    authUrl: domain + "/auth/login", 
+    logoutUrl: domain + "/auth/logout",
+    tokenUrl: domain + "/auth/token",
+    userUrl: domain + "/auth/user"
+ };
+
+
+ const passwordResetUrl = domain + "/password-reset";
+ const resetUrl = domain + "/password-reset/reset";
+
+ 
+const accessTokenName = 'rb_accessToken';
+const refreshTokenName = 'rb_refreshToken';
+
+ //TODO: unite urls into objects
+ export {dataUrl, orderUrl, ingredientGroups, passwordResetUrl, resetUrl, authEndpoints,
+    accessTokenName, refreshTokenName
+};

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 
 import styles from './burger-ingredients.module.css';
 
@@ -14,8 +15,10 @@ import {ingredientGroups} from '../../utils/constants';
 import {ActionTypes} from '../../services/actionTypes';
 
 
-
 const BurgerIngredients = () => {
+
+    const location = useLocation();
+    const history = useHistory();
 
     const [currentTab, setCurrentTab] = React.useState('bun');
     
@@ -32,7 +35,8 @@ const BurgerIngredients = () => {
     const closeModal = (e) => {
         e.stopPropagation();
         dispatch({type:  ActionTypes.SHOW_INGREDIENT_DETAILS, value: false});
-        dispatch({type:  ActionTypes.SET_ACTIVE_INGREDIENT, value: null})
+        dispatch({type:  ActionTypes.SET_ACTIVE_INGREDIENT, value: null});
+        history.goBack();
     }
 
     const getIngredientsFrom = (group) => (
@@ -40,10 +44,11 @@ const BurgerIngredients = () => {
         .filter(ingredient => ingredient.type === group.type)
         .map((ingredient) => {
             return (
-                    <Ingredient 
-                    key={ingredient._id} 
-                    data={ingredient} 
-                    openModal = {openModal}/>
+                    <Link key={ingredient._id}  to={{pathname: `/ingredients/${ingredient._id}`, state: { background: location }}}>
+                        <Ingredient                             
+                            data={ingredient} 
+                            openModal = {openModal}/>
+                    </Link>
                 )
             })
     );

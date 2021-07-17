@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import styles from './burger-constructor-total.module.css';
 import Modal from '../../modal/modal';
@@ -14,9 +15,24 @@ const BurgerConstructorTotal = () => {
 
     const dispatch = useDispatch();
     const {bun, fillings, showOrderDetails} = useSelector(store => store.cart);
+    const {loginSuccess} = useSelector(store => store.user);
+
+
+    
+    const history = useHistory();
+    const location = useLocation();
+
+    
+    console.log(bun)
 
     const handleCreateNewOrder = () => {
-        dispatch(createOrder()); 
+
+        if(!loginSuccess) {
+            history.replace({ pathname: '/login', state: { target: location } });
+            return;
+        }
+
+        dispatch(createOrder());
     }
     
     const closeModal = (e) => {
@@ -46,7 +62,7 @@ const BurgerConstructorTotal = () => {
             <span> {calcTotal} </span> 
             <CurrencyIcon/>
             <div className={styles.button_wrapper}>
-                <Button onClick={handleCreateNewOrder}>Оформить заказ</Button >
+                { bun && <Button onClick={handleCreateNewOrder}>Оформить заказ</Button > }
                 { showOrderDetails &&
                     <Modal type="order" onClose={closeModal}> 
                         <OrderDetails />

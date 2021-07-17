@@ -211,4 +211,64 @@ const ingredients = [
     }
  ];
 
-export {ingredients};
+const orders = [
+   {
+      id: '034535',
+      status: 'ready',
+      timestamp: 'Сегодня, 16:20 i-GMT+3',
+      title: 'Death Star Starship Main бургер',
+      ingredientIDs: [
+         "60d3b41abdacab0026a733c6",
+         "60d3b41abdacab0026a733c8", 
+         "60d3b41abdacab0026a733c9", 
+         "60d3b41abdacab0026a733ca", 
+         "60d3b41abdacab0026a733cb"],
+      price: 480
+   },
+   {
+      id: '034534',
+      status: 'ready',
+      timestamp: 'Сегодня, 13:20 i-GMT+3',
+      title: 'Interstellar бургер',
+      ingredientIDs: [
+         "60d3b41abdacab0026a733c6", 
+         "60d3b41abdacab0026a733c8", 
+         "60d3b41abdacab0026a733c9", 
+         "60d3b41abdacab0026a733ca", 
+         "60d3b41abdacab0026a733cb",
+         "60d3b41abdacab0026a733cc",
+         "60d3b41abdacab0026a733cd"
+      ],
+      price: 560
+   },
+   {
+      id: '034533',
+      status: 'inprogress',
+      timestamp: 'Вчера, 13:50 i-GMT+3',
+      title: 'Black Hole Singularity острый бургер',
+      ingredientIDs: [
+         "60d3b41abdacab0026a733c6", 
+         "60d3b41abdacab0026a733c8", 
+         "60d3b41abdacab0026a733c9", 
+         "60d3b41abdacab0026a733ca", 
+         "60d3b41abdacab0026a733cb",
+         "60d3b41abdacab0026a733cc"
+      ],
+      price: 510
+   },
+   {
+      id: '034532',
+      status: 'inprogress',
+      timestamp: '2 дня назад, 21:53 i-GMT+3',
+      title: 'Supernova Infinity бургер',
+      ingredientIDs: [
+         "60d3b41abdacab0026a733c6", 
+         "60d3b41abdacab0026a733c8", 
+         "60d3b41abdacab0026a733c9"
+      ],
+      price: '2510'
+   }
+
+]
+
+export {ingredients, orders};

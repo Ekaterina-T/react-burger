@@ -1,0 +1,11 @@
+.price {
+    composes: pt-1 pb-1 from global;
+    display: flex;
+    justify-content: center;
+    margin-left: auto;
+}
+
+.price_num {
+    composes: pr-1 text text_type_digits-default from global;
+    color: #F2F2F3;
+}
