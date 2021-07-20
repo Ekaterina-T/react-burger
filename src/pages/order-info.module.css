@@ -4,6 +4,13 @@
     margin-top: 122px;
 }
 
+.cardInModal {
+    composes: card;
+    composes: p-10 from global;
+    height: auto;
+    margin-top: 0px;
+}
+
 .id {
     composes: text text_type_main-default from global;
     text-align: center;

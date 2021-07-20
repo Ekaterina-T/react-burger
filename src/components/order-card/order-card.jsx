@@ -1,5 +1,4 @@
 import React from 'react';
-import { useRouteMatch, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import Price from '../price/price';
@@ -9,9 +8,7 @@ import PropTypes from 'prop-types';
 
 import styles from './order-card.module.css';
 
-const OrderCard = ({data: {id, timestamp, title, ingredientIDs, price} }) => {
-
-    const {url} = useRouteMatch();
+const OrderCard = ({data: {id, timestamp, title, ingredientIDs, price}, openModal }) => {
 
     const ingredients = useSelector(store => store.ingredients.items);
     const numOfIngredientsInOrder = ingredientIDs.length;
@@ -52,23 +49,28 @@ const OrderCard = ({data: {id, timestamp, title, ingredientIDs, price} }) => {
                     .filter( item => ingredientIDs.indexOf(item._id) >= 0) 
                     .filter( (item, index) => index <= MAX_NUM_OF_VISIBLE_ITEMS ) // = means add extra placeholder for "hidden" ingredients
                     .map(drawIngredientImage);
-        
+
+
+    const openOrderInfo = (e) => {
+        if(e.target.nodeName !== 'BUTTON') {
+            openModal(id);
+        }
+    }
 
     return (
-        <Link to={{ pathname: `${url}/${id}` }} className={styles.link} >
-            <article className={styles.card} >              
-                <p className={styles.topInfo}>
-                    <span className={styles.id}>{`#${id}`}</span>
-                    <span className={styles.timestamp}>{timestamp}</span>
-                </p>           
-                <header className={styles.title}> {title} </header> 
-                <div className={styles.bottomInfo}>
-                    <div className={styles.ingredients}>{images}</div>
-                    <Price price={price}/>
-                </div>          
-            </article>
-        </Link>
         
+        <article className={styles.card} onClick={openOrderInfo}>              
+            <p className={styles.topInfo}>
+                <span className={styles.id}>{`#${id}`}</span>
+                <span className={styles.timestamp}>{timestamp}</span>
+            </p>           
+            <header className={styles.title}> {title} </header> 
+            <div className={styles.bottomInfo}>
+                <div className={styles.ingredients}>{images}</div>
+                <Price price={price}/>
+            </div>          
+        </article>
+  
     ); 
 }
 
@@ -83,5 +85,6 @@ OrderCard.propTypes = {
             ingredientIDs: PropTypes.arrayOf(PropTypes.string).isRequired,
             price: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
         } 
-    ).isRequired
+    ).isRequired,
+    openModal: PropTypes.func.isRequired
 }

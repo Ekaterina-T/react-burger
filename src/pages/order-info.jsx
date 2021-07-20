@@ -5,12 +5,15 @@ import { orders } from '../utils/data';
 
 import Price from '../components/price/price';
 import IngredientIconRound from '../components/ingredient-icon-round/ingredient-icon-round';
+import PropTypes from 'prop-types';
 
 
-const OrderInfoPage = () => { 
+const OrderInfoPage = ({activeOrder}) => { 
 
-    const {id} = useParams();    
+    let {id} = useParams();    
     const ingredients = useSelector(store => store.ingredients.items);
+
+    id = id || activeOrder;
 
     const [order] = orders.filter( item => item.id === id);
     const ingredientsInOrder = ingredients
@@ -24,7 +27,7 @@ const OrderInfoPage = () => {
                                 ));
 
     return (
-        <article className={styles.card}>
+        <article className={activeOrder ? styles.cardInModal : styles.card}>
             <header>
                 <p className={styles.id}>{`#${order.id}`}</p>
                 <h2 className={styles.title}> {order.title} </h2>
@@ -46,3 +49,7 @@ const OrderInfoPage = () => {
 }
 
 export default OrderInfoPage;
+
+OrderInfoPage.propTypes = {
+    activeOrder: PropTypes.string
+}
