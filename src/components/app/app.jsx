@@ -12,6 +12,7 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 
 import { getIngredientData } from '../../services/ingredients/actions';
 import { refreshUser } from '../../services/user/actions';
+import { ActionTypes } from '../../services/actionTypes';
 
 
 function App() {
@@ -25,9 +26,11 @@ function App() {
   const background = history.action === 'PUSH' && location.state && location.state.background;
 
   React.useEffect( () => {
+
     dispatch(getIngredientData());
-    dispatch(refreshUser());    
-    
+    dispatch(refreshUser());  
+    dispatch({type: ActionTypes.WS_CONNECTION_START});
+
   },[dispatch]); 
 
   React.useEffect( () => {

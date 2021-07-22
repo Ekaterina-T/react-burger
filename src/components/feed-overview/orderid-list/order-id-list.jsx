@@ -1,10 +1,11 @@
 import styles from './orderid-list.module.css'
+import { formatOrderNumber } from '../../utils/order';
 
 import PropTypes from 'prop-types';
 
 const OrderIDList = ({orders, title, type}) => {
 
-    const drawOrderItem = item => ( <li key={item.id} className={styles.listItem}>{item.id}</li> );
+    const drawOrderItem = item => ( <li key={item._id} className={styles.listItem}>{formatOrderNumber(item.number)}</li> );
 
     return  (
         <section className={styles.orderList}> 
