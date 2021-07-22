@@ -1,11 +1,15 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+
 import FeedList from '../components/feed-list/feed-list';
 import FeedOverview from '../components/feed-overview/feed-overview';
+import { socketType } from '../utils/constants';
 
 import styles from './feed.module.css';
 
 function FeedPage() {
 
+    const {data} = useSelector( store => store.orders[socketType.allOrders]);
 
     return (
 
@@ -16,7 +20,7 @@ function FeedPage() {
             </header> 
 
             <section className={styles.contentArea}>
-                <FeedList />
+                <FeedList data={data}/>
                 <FeedOverview />
             </section>
             

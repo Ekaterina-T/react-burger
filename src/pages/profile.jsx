@@ -7,6 +7,7 @@ import AppForm from '../components/app-form/app-form';
 import FeedList from '../components/feed-list/feed-list';
 import RouteForAuthorizedUsers from '../components/route-auth-users/route-auth-users';
 import { logout} from '../services/user/actions';
+import { socketType } from '../utils/constants';
 
 import styles from './profile.module.css';
 
@@ -14,6 +15,7 @@ function ProfilePage() {
     
     const dispatch = useDispatch();
     const {loginSuccess} = useSelector(store => store.user); 
+    const {data} = useSelector( store => store.orders[socketType.personalOrders]);
 
     const {pathname} = useLocation();
         
@@ -63,7 +65,7 @@ function ProfilePage() {
 
                 <section>
                     <Switch>
-                        <RouteForAuthorizedUsers exact path='/profile/orders'> <FeedList owner={'profile'} /> </RouteForAuthorizedUsers>
+                        <RouteForAuthorizedUsers exact path='/profile/orders'> <FeedList owner={'profile'} data={data}/> </RouteForAuthorizedUsers>
                         <RouteForAuthorizedUsers exact path='/profile'> <ProfileSettings /> </RouteForAuthorizedUsers>
                     </Switch>                    
                 </section>

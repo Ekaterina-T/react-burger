@@ -1,15 +1,24 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import OrderIDList from './orderid-list/order-id-list';
 import FeedInfo from './feed-info/feed-info';
+import { socketType } from '../../utils/constants';
 
 import styles from './feed-overview.module.css';
-import {orders}  from '../../utils/data';
+
+const MAX_NUM_OF_VISIBLE_ORDERS = 10;
 
 const FeedOverview = () => {
+
+    const {data} = useSelector( store => store.orders[socketType.allOrders]);
+
+    const orders = data && data.orders || [];
+    const total = data && data.total || 0;
+    const totalToday = data && data.totalToday || 0;
   
-    const readyOrders = orders.filter( item => item.status === "ready");
-    const inProgressOrders = orders.filter( item => item.status === "inprogress");
+    const readyOrders = orders.filter( (item, index) => item.status === "done" && index < MAX_NUM_OF_VISIBLE_ORDERS);
+    const inProgressOrders = orders.filter( (item, index) => item.status === "inprogress" && index < MAX_NUM_OF_VISIBLE_ORDERS);
 
     return (
 
@@ -22,8 +31,8 @@ const FeedOverview = () => {
                     <div className={styles.contentRow__item}> <OrderIDList orders={inProgressOrders} title={'В работе'} /> </div>
                 </div>
 
-                <div className={styles.contentRow}> <FeedInfo label={'Выполнено за все время:'} value={'28 752'}/> </div>
-                <div className={styles.contentRow}> <FeedInfo label={'Выполнено за сегодня:'} value={'138'}/> </div>
+                <div className={styles.contentRow}> <FeedInfo label={'Выполнено за все время:'} value={total}/> </div>
+                <div className={styles.contentRow}> <FeedInfo label={'Выполнено за сегодня:'} value={totalToday}/> </div>
 
             </article>
             

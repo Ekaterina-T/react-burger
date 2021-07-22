@@ -6,8 +6,6 @@ import styles from '../../pages/index.module.css'
 import profileStyles from './profile-settings.module.css'
 import { updateUser } from '../../services/user/actions';
 
-
-
 const PASSWORD_PLACEHOLDER = '******';
 
 function ProfileSettings() {    

@@ -8,8 +8,11 @@ import reportWebVitals from './reportWebVitals';
 import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { rootReducer } from './services/rootReducer';
 
+import { socketMiddleware } from './services/middleware/socketMiddleware';
+import { rootReducer } from './services/rootReducer';
+import { allOrdersWS, personalOrdersWS, accessTokenName, socketType  } from './utils/constants';
+import { getCookieValue } from './utils/cookie';
 
 import { BrowserRouter } from 'react-router-dom';
 
@@ -17,7 +20,10 @@ const composeEnhancers = typeof window === 'object' && window.__REDUX_DEVTOOLS_E
 ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) : compose;
     
     
-const enhancer = composeEnhancers(applyMiddleware(thunk));
+const enhancer = composeEnhancers(applyMiddleware(thunk, 
+                                                  socketMiddleware(allOrdersWS, socketType.allOrders), 
+                                                  socketMiddleware(`${personalOrdersWS}?token=${getCookieValue(accessTokenName)}`, socketType.personalOrders)
+                                  ));
 const store = createStore(rootReducer, enhancer);
 
 ReactDOM.render(

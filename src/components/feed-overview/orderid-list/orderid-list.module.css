@@ -6,6 +6,14 @@
     composes: text text_type_main-default pt-1 pb-1 from global;
 }
 
+.list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-height: 160px; /* 32px by 5 */
+}
+
 .itemColor_green {
+    composes: list;
     color: #00CCCC;
 }

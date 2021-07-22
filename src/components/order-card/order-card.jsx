@@ -3,15 +3,17 @@ import { useSelector } from 'react-redux';
 
 import Price from '../price/price';
 import IngredientIconRound from '../ingredient-icon-round/ingredient-icon-round';
+import { DateFormatter } from '../../utils/date-formatter/date-formatter';
+import { formatOrderNumber } from '../utils/order';
 
 import PropTypes from 'prop-types';
 
 import styles from './order-card.module.css';
 
-const OrderCard = ({data: {id, timestamp, title, ingredientIDs, price}, openModal }) => {
+const OrderCard = ({data: {_id, updatedAt, name, ingredients, number}, openModal }) => {
 
-    const ingredients = useSelector(store => store.ingredients.items);
-    const numOfIngredientsInOrder = ingredientIDs.length;
+    const ingredientsData = useSelector(store => store.ingredients.items);
+    const numOfIngredientsInOrder = ingredients.length;
     const MAX_NUM_OF_VISIBLE_ITEMS = 5;
 
     const drawIngredientImage = (item, index) => {
@@ -45,15 +47,19 @@ const OrderCard = ({data: {id, timestamp, title, ingredientIDs, price}, openModa
         }      
     }
 
-    const images = ingredients
-                    .filter( item => ingredientIDs.indexOf(item._id) >= 0) 
+    const images = ingredientsData
+                    .filter( item => ingredients.indexOf(item._id) >= 0) 
                     .filter( (item, index) => index <= MAX_NUM_OF_VISIBLE_ITEMS ) // = means add extra placeholder for "hidden" ingredients
                     .map(drawIngredientImage);
+
+    const price = ingredientsData
+                    .filter( item => ingredients.indexOf(item._id) >= 0)
+                    .reduce( (sum, ingredient) => (sum += ingredient.price), 0);
 
 
     const openOrderInfo = (e) => {
         if(e.target.nodeName !== 'BUTTON') {
-            openModal(id);
+            openModal(_id);
         }
     }
 
@@ -61,10 +67,10 @@ const OrderCard = ({data: {id, timestamp, title, ingredientIDs, price}, openModa
         
         <article className={styles.card} onClick={openOrderInfo}>              
             <p className={styles.topInfo}>
-                <span className={styles.id}>{`#${id}`}</span>
-                <span className={styles.timestamp}>{timestamp}</span>
+                <span className={styles.id}>{`#${formatOrderNumber(number)}`}</span>
+                <span className={styles.timestamp}>{DateFormatter.getRelativeFormat(updatedAt)}</span>
             </p>           
-            <header className={styles.title}> {title} </header> 
+            <header className={styles.title}> {name} </header> 
             <div className={styles.bottomInfo}>
                 <div className={styles.ingredients}>{images}</div>
                 <Price price={price}/>
@@ -79,11 +85,10 @@ export default OrderCard;
 OrderCard.propTypes = {
     data: PropTypes.shape(
         {
-            id: PropTypes.string.isRequired,
-            timestamp: PropTypes.string.isRequired,
-            title: PropTypes.string.isRequired,
-            ingredientIDs: PropTypes.arrayOf(PropTypes.string).isRequired,
-            price: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+            _id: PropTypes.string.isRequired,
+            createdAt: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+            ingredients: PropTypes.arrayOf(PropTypes.string).isRequired
         } 
     ).isRequired,
     openModal: PropTypes.func.isRequired

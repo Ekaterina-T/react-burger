@@ -8,6 +8,16 @@ export function getCookie(name) {
     return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
+export function getCookieValue(name) {
+    const cookie = getCookie(name);
+
+    if (cookie && cookie.indexOf('Bearer') === 0) {
+        return cookie.split('Bearer ')[1];
+    }
+
+    return cookie;
+}
+
 
 export function setCookie(name, value, props) {
     props = props || {};

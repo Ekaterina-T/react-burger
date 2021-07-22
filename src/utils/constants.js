@@ -16,16 +16,22 @@ const ingredientGroups = [
     tokenUrl: domain + "/auth/token",
     userUrl: domain + "/auth/user"
  };
+ 
+ const ws = "wss://norma.nomoreparties.space"
+ const allOrdersWS = ws+"/orders/all";
+ const personalOrdersWS = ws+"/orders";
+
+ const socketType = {allOrders: 'allOrdersWS', personalOrders: 'personalOrdersWS'};
 
 
  const passwordResetUrl = domain + "/password-reset";
  const resetUrl = domain + "/password-reset/reset";
 
- 
 const accessTokenName = 'rb_accessToken';
 const refreshTokenName = 'rb_refreshToken';
 
  //TODO: unite urls into objects
- export {dataUrl, orderUrl, ingredientGroups, passwordResetUrl, resetUrl, authEndpoints,
-    accessTokenName, refreshTokenName
+ export {dataUrl, orderUrl, ingredientGroups, passwordResetUrl, resetUrl, authEndpoints, 
+         allOrdersWS, personalOrdersWS, socketType,
+         accessTokenName, refreshTokenName
 };
