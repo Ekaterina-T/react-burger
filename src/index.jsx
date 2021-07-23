@@ -11,8 +11,12 @@ import thunk from 'redux-thunk';
 
 import { socketMiddleware } from './services/middleware/socketMiddleware';
 import { rootReducer } from './services/rootReducer';
+<<<<<<< HEAD
 import { allOrdersWS, personalOrdersWS, accessTokenName, socketType  } from './utils/constants';
 import { getCookieValue } from './utils/cookie';
+=======
+import { allOrdersWS } from './utils/constants';
+>>>>>>> ef37c91d53086c853fbf28c705289d1ae77ad04d
 
 import { BrowserRouter } from 'react-router-dom';
 

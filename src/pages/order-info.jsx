@@ -29,6 +29,7 @@ const OrderInfoPage = ({activeOrder}) => {
         return <>Loading</>;
     }
 
+    const orders = data && data.orders;
     id = id || activeOrder;
 
     const [order] = orders.filter( item => item._id === id);

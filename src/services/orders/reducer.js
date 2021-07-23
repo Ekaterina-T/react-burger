@@ -1,6 +1,7 @@
 import { ActionTypes } from "../actionTypes";
   
 const initialState = {
+<<<<<<< HEAD
     'allOrdersWS': {
         wsConnected: false,
         error: null,
@@ -13,6 +14,12 @@ const initialState = {
         messages: [],
         data: null
     },
+=======
+    wsConnected: false,
+    error: null,
+    messages: [],
+    data: null
+>>>>>>> ef37c91d53086c853fbf28c705289d1ae77ad04d
 };
 
 export const orders = (state = initialState, action) => {

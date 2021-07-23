@@ -26,9 +26,11 @@ function App() {
   const background = history.action === 'PUSH' && location.state && location.state.background;
 
   React.useEffect( () => {
+
     dispatch(getIngredientData());
     dispatch(refreshUser());  
     dispatch({type: ActionTypes.WS_CONNECTION_START});
+    
   },[dispatch]); 
 
   React.useEffect( () => {
