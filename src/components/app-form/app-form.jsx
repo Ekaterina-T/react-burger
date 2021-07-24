@@ -28,6 +28,6 @@ export default AppForm;
 
 AppForm.propTypes = {
     title: PropTypes.string,
-    onSubmit: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func,
     additionalStyles: PropTypes.arrayOf(PropTypes.string)
 }

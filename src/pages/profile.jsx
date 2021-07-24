@@ -65,7 +65,7 @@ function ProfilePage() {
 
                 <section>
                     <Switch>
-                        <RouteForAuthorizedUsers exact path='/profile/orders'> <FeedList owner={'profile'} data={data}/> </RouteForAuthorizedUsers>
+                        {data && <RouteForAuthorizedUsers exact path='/profile/orders'> <FeedList owner={'profile'} data={data}/> </RouteForAuthorizedUsers> }
                         <RouteForAuthorizedUsers exact path='/profile'> <ProfileSettings /> </RouteForAuthorizedUsers>
                     </Switch>                    
                 </section>

@@ -13,7 +13,7 @@ const FeedList = ({owner, data}) => {
     const [showOrderInfo, setShowOrderInfo] = useState(false);
     const [activeOrder, setActiveOrder] = useState(null);
 
-    let orders = data && data.orders;
+    const orders = data.orders;
     
     const {url} = useRouteMatch();
     const location = useLocation();
@@ -33,10 +33,9 @@ const FeedList = ({owner, data}) => {
     }
     
     return (
-
         <article className={owner==='profile' ? styles.orders__profile  : styles.orders}>
             { 
-            orders && orders.length > 0 ? 
+            orders.length > 0 ? 
             orders.map( order => ( 
                 <Link key = {order._id} to={{ pathname: `${url}/${order._id}`, state: { background: location } }} className={styles.link} >
                     <OrderCard data = {order} openModal={openModal}/> 
@@ -60,9 +59,9 @@ export default FeedList;
 FeedList.propTypes = {
     owner: PropTypes.oneOf(['profile']),
     data: PropTypes.shape({
-            orders: PropTypes.shape({
+            orders: PropTypes.arrayOf(PropTypes.shape({
                 _id: PropTypes.string.isRequired
-            }).isRequired
+            })).isRequired
         }).isRequired 
 }
 

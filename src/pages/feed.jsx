@@ -12,20 +12,22 @@ function FeedPage() {
     const {data} = useSelector( store => store.orders[socketType.allOrders]);
 
     return (
+        <>
+        { data ? 
+                <article className={styles.page}>
+                    <header> 
+                        <h2 className={styles.title}>Лента заказов</h2> 
+                    </header> 
 
-        <article className={styles.page}  >
-
-            <header> 
-                <h2 className={styles.title}>Лента заказов</h2> 
-            </header> 
-
-            <section className={styles.contentArea}>
-                <FeedList data={data}/>
-                <FeedOverview />
-            </section>
+                    <section className={styles.contentArea}>
+                        <FeedList data={data}/>
+                        <FeedOverview />
+                    </section>
+                </article>
             
-        </article>
-        
+            : <></>
+        }
+        </>   
     );
 }
 

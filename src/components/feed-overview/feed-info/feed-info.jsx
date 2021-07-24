@@ -17,5 +17,5 @@ export default FeedInfo;
 
 FeedInfo.propTypes = {
     label: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired
+    value: PropTypes.number.isRequired
 }
