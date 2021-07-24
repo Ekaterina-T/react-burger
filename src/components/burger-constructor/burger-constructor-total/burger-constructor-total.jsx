@@ -16,14 +16,10 @@ const BurgerConstructorTotal = () => {
     const dispatch = useDispatch();
     const {bun, fillings, showOrderDetails} = useSelector(store => store.cart);
     const {loginSuccess} = useSelector(store => store.user);
+    const {createOrderInProgress} = useSelector(store => store.cart);
 
-
-    
     const history = useHistory();
     const location = useLocation();
-
-    
-    console.log(bun)
 
     const handleCreateNewOrder = () => {
 
@@ -62,7 +58,8 @@ const BurgerConstructorTotal = () => {
             <span> {calcTotal} </span> 
             <CurrencyIcon/>
             <div className={styles.button_wrapper}>
-                { bun && <Button onClick={handleCreateNewOrder}>Оформить заказ</Button > }
+                { (bun && !createOrderInProgress) && <Button onClick={handleCreateNewOrder}>Оформить заказ</Button > }
+                { createOrderInProgress && <span className={styles.info_important}> Ожидайте подтверждения заказа </span> }
                 { showOrderDetails &&
                     <Modal type="order" onClose={closeModal}> 
                         <OrderDetails />

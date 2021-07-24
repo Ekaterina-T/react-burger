@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Route, Switch, useLocation, useHistory, useRouteMatch } from 'react-router-dom';
+import { Route, Switch, useLocation, useHistory } from 'react-router-dom';
 
 import './app.css';
 
@@ -19,25 +19,31 @@ function App() {
 
   const dispatch = useDispatch();  
   const { ingredientsLoadSuccess } = useSelector(store => store.ingredients);
+  const { loginSuccess } = useSelector(store => store.user);
 
   const location = useLocation();
   const history = useHistory();
-  const matchProfilePage = useRouteMatch('/profile');
   const background = history.action === 'PUSH' && location.state && location.state.background;
 
   React.useEffect( () => {
-
     dispatch(getIngredientData());
     dispatch(refreshUser());  
-    dispatch({type: ActionTypes.WS_CONNECTION_START});
+    dispatch({type: ActionTypes.wsAllOrders.wsInit}); 
     
   },[dispatch]); 
 
   React.useEffect( () => {
-    if(matchProfilePage) {
+    if(loginSuccess) {
+      dispatch({type: ActionTypes.wsUserOrders.wsInit});
+    }     
+  },[dispatch, loginSuccess]); 
+
+  React.useEffect( () => {
+    if(location.pathname.indexOf('profile')) {
       dispatch(refreshUser());
     }
-  }, [dispatch, matchProfilePage]);
+  }, [dispatch, location]);
+  
 
   if(!ingredientsLoadSuccess) {
     return <p> Данные загружаются </p>;

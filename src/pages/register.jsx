@@ -36,11 +36,11 @@ function RegisterPage() {
     }
 
     return (
-        <AppForm title='Регистрация' >
+        <AppForm title='Регистрация' onSubmit={handleRegistration}>
             <div className={styles.input} ref={name}><Input type="text" name={'name'} placeholder={'Имя'}/></div>
             <div className={styles.input} ref={email}><EmailInput name={'email'} /></div>
             <div className={styles.input} ref={password}><PasswordInput name={'password'} /></div>
-            <div className={styles.button}><Button onClick={handleRegistration}>Зарегистрироваться</Button ></div>
+            <div className={styles.button}><Button>Зарегистрироваться</Button ></div>
 
             <p className={styles.helpRedirect}>
                 Уже зарегистрированы?

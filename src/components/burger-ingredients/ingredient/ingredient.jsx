@@ -16,8 +16,12 @@ const Ingredient = ({ data, openModal}) => {
     const [, dragRef] = useDrag({type: 'ingredient', item: {id: data._id}});
 
     const ingredientCount = React.useMemo( () => {
-            return [...fillings, bun].filter( ingredient => ingredient && data._id === ingredient._id).length;
-    }, [fillings, bun, data._id]);
+            let count = [...fillings, bun].filter( ingredient => ingredient && data._id === ingredient._id).length;
+            if(data.type === 'bun' && count>0) {
+                count++;
+            }
+            return count;
+    }, [fillings, bun, data._id, data.type]);
 
     const addIngredient = (e) => {
         e.stopPropagation();

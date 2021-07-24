@@ -31,7 +31,7 @@ function ProfileSettings() {
             updatedFields.password = user.password;
         }
         dispatch(updateUser(updatedFields));
-        setUser( prevState => ({... prevState , password: PASSWORD_PLACEHOLDER}))
+        setUser( prevState => ({...prevState , password: PASSWORD_PLACEHOLDER}))
     }
 
     const cancelChanges = (e) => {

@@ -31,7 +31,7 @@ function ForgotPasswordPage() {
     };
 
     return (
-        <AppForm title='Восстановление пароля' >
+        <AppForm title='Восстановление пароля' onSubmit={ handleRestoreEmail }>
             <div className={styles.input}>
                 <Input 
                 type = "email"
@@ -41,7 +41,7 @@ function ForgotPasswordPage() {
                 value={email} />
             </div>
             <div className={styles.button}>
-                <Button onClick={ handleRestoreEmail }>Восстановить</Button >
+                <Button>Восстановить</Button >
             </div>
 
             <p className={styles.helpRedirect}>

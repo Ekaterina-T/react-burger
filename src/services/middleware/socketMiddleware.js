@@ -1,42 +1,62 @@
+import { accessTokenName } from "../../utils/constants";
 import { ActionTypes } from "../actionTypes";
+import { getCookieValue } from "../../utils/cookie";
+import { allOrdersWS, personalOrdersWS } from "../../utils/constants";
 
-export const socketMiddleware = (wsUrl, socketType) => {
+const createSocket = (type) => {
+
+  let socket,
+      wsActions;
+
+  if (type === ActionTypes.wsAllOrders.wsInit) {
+    socket = new WebSocket(allOrdersWS);
+    wsActions = ActionTypes.wsAllOrders;
+  }
+
+  if (type === ActionTypes.wsUserOrders.wsInit && getCookieValue(accessTokenName)) {
+    socket = new WebSocket(`${personalOrdersWS}?token=${getCookieValue(accessTokenName)}`);
+    wsActions = ActionTypes.wsUserOrders;
+  }
+
+  return [socket, wsActions]
+
+}
+
+export const socketMiddleware = () => {
 
     return store => {
-      let socket = null;
   
       return next => action => {
-        const { dispatch, getState } = store;
+        const { dispatch } = store;
         const { type, payload } = action;
-        if (type === ActionTypes.WS_CONNECTION_START) {
-          socket = new WebSocket(wsUrl);
-        }
+        const [socket, wsActions] = createSocket(type);
+
         if (socket) {
 
           socket.onopen = event => {
-            dispatch({ type: ActionTypes.WS_CONNECTION_SUCCESS, payload: event, socketType: socketType });
+            dispatch({ type: wsActions.onOpen, payload: event });
           };
   
           socket.onerror = event => {
-            dispatch({ type: ActionTypes.WS_CONNECTION_ERROR, payload: event, socketType: socketType });
+            dispatch({ type: wsActions.onError, payload: event });
           };
   
           socket.onmessage = event => {
             const { data } = event;
-            dispatch({ type: ActionTypes.WS_GET_MESSAGE, payload: data, socketType: socketType });
+            dispatch({ type: wsActions.onGetMessage, payload: data  });
           };
 
           socket.onclose = event => {
-            dispatch({ type: ActionTypes.WS_CONNECTION_CLOSED, payload: event, socketType: socketType });
+            dispatch({ type: wsActions.onClose, payload: event });
           };
   
-          if (type === ActionTypes.WS_SEND_MESSAGE) {
+          if (type === wsActions.wsSendMessage) {
             const message = payload;
             socket.send(JSON.stringify(message));
           }
         }
-  
         next(action);
       };
     };
+
 }; 

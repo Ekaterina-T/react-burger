@@ -202,7 +202,7 @@ export const resetPassword = (password, verificationToken) => {
     
 }
 
-const runServerRequest = (dispatch, requestFunction, requestFunctionParams) => {
+export const runServerRequest = (dispatch, requestFunction, requestFunctionParams) => {
 
     requestFunction(requestFunctionParams).then( res => {
         dispatch({type: ActionTypes.USER_REFRESH_SUCCESS, user: res.user});

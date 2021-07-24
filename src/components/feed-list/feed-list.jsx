@@ -13,7 +13,7 @@ const FeedList = ({owner, data}) => {
     const [showOrderInfo, setShowOrderInfo] = useState(false);
     const [activeOrder, setActiveOrder] = useState(null);
 
-    const orders = data && data.orders;
+    let orders = data && data.orders;
     
     const {url} = useRouteMatch();
     const location = useLocation();
@@ -59,6 +59,10 @@ export default FeedList;
 
 FeedList.propTypes = {
     owner: PropTypes.oneOf(['profile']),
-    data: PropTypes.object //TODO describe the object
+    data: PropTypes.shape({
+            orders: PropTypes.shape({
+                _id: PropTypes.string.isRequired
+            }).isRequired
+        }).isRequired 
 }
 

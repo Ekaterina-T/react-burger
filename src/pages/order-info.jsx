@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useParams, useHistory, useLocation } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 
 import styles from './order-info.module.css'
 import { formatOrderNumber } from '../components/utils/order';
@@ -18,11 +18,9 @@ const orderStatusTranslations = { done: 'Выполнен',
 const OrderInfoPage = ({activeOrder}) => { 
 
     let {id} = useParams();
-    const location = useLocation();
-    
+    const location = useLocation();    
     const ingredientsData = useSelector(store => store.ingredients.items);
     const {data} = useSelector( store => store.orders[location.pathname.indexOf('/feed')>=0 ? socketType.allOrders : socketType.personalOrders]);
-
     const orders = data && data.orders;
 
     if(!orders) {

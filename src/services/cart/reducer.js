@@ -4,7 +4,7 @@ const initialState = {
     bun: null, 
     fillings: [],
 
-    createOrder: false,
+    createOrderInProgress: false,
     createOrderSuccess: false,
     createOrderFailed: false,
     showOrderDetails: false,
@@ -32,13 +32,13 @@ export const cart = (state = initialState, action) => {
         case  ActionTypes.CREATE_NEW_ORDER_REQUEST:
             return {
                 ...state,
-                createOrder: true
+                createOrderInProgress: true
             };
 
         case  ActionTypes.CREATE_NEW_ORDER_SUCCESS:
             return {
                 ...state,
-                createOrder: false,
+                createOrderInProgress: false,
                 createOrderSuccess: true,
                 orderDetails: action.orderDetails,
                 showOrderDetails: true
@@ -47,7 +47,7 @@ export const cart = (state = initialState, action) => {
         case  ActionTypes.CREATE_NEW_ORDER_FAILED:
             return {
                 ...state,
-                createOrder: false,
+                createOrderInProgress: false,
                 createOrderFailed: true
             };
         

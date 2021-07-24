@@ -21,8 +21,7 @@ const ingredientGroups = [
  const allOrdersWS = ws+"/orders/all";
  const personalOrdersWS = ws+"/orders";
 
- const socketType = {allOrders: 'allOrdersWS', personalOrders: 'personalOrdersWS'};
-
+ const socketType = {allOrders: 'allOrders', personalOrders: 'personalOrders'};
 
  const passwordResetUrl = domain + "/password-reset";
  const resetUrl = domain + "/password-reset/reset";

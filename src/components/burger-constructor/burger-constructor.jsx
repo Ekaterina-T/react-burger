@@ -41,7 +41,7 @@ const BurgerConstructor = () => {
                         <div className = {styles.main_area}>
 
                             { bun != null && 
-                            <ConstructorElement type="top" isLocked={true} text={bun.name} price={bun.price} thumbnail={bun.image} /> 
+                            <ConstructorElement type="top" isLocked={true} text={bun.name+" (верх)"} price={bun.price} thumbnail={bun.image} /> 
                             }
 
                             <div className={styles.scrollable_area}> 
@@ -49,7 +49,7 @@ const BurgerConstructor = () => {
                             </div>
 
                             { bun != null &&
-                            <ConstructorElement type="bottom" isLocked={true} text={bun.name} price={bun.price} thumbnail={bun.image} />
+                            <ConstructorElement type="bottom" isLocked={true} text={bun.name+" (низ)"} price={bun.price} thumbnail={bun.image} />
                             }
 
                         </div>

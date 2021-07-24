@@ -37,7 +37,7 @@ function ResetPasswordPage() {
     }
 
     return (
-        <AppForm title='Восстановление пароля' >
+        <AppForm title='Восстановление пароля' onSubmit={handleResetPassword}>
             <div className={styles.input}>
                 <PasswordInput onChange={onChange} name={'password'} />
             </div>
@@ -50,7 +50,7 @@ function ResetPasswordPage() {
                 value={resetData.verificationToken}/>
             </div>
             <div className={styles.button}>
-                <Button onClick={handleResetPassword}>Сохранить</Button >
+                <Button>Сохранить</Button >
             </div>
 
             <p className={styles.helpRedirect}>

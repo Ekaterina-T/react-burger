@@ -18,20 +18,20 @@ function LoginPage() {
         setCredentials((prevVal) => ({...prevVal, [name]: value}));
     }
 
-    const handleLogin = (e) => {
-        e.preventDefault();     
+    const handleLogin = (e) => {  
+        e.preventDefault();  
         dispatch(login(credentials.email, credentials.password));         
     }
 
     return (
-        <AppForm title='Вход' >
+        <AppForm title='Вход' onSubmit={handleLogin}>
             <div className={styles.input}>
                 <EmailInput name={'email'} value={credentials.email} onChange={onInputChange}/>
             </div>
             <div className={styles.input}>
                 <PasswordInput name={'password'} value={credentials.password} onChange={onInputChange}/>
             </div>
-            <div className={styles.button}><Button onClick={handleLogin}>Войти</Button ></div>
+            <div className={styles.button}><Button >Войти</Button ></div>
 
             <p className={styles.helpRedirect}>
                 Вы новый пользователь? 

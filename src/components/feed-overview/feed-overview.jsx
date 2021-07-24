@@ -13,9 +13,9 @@ const FeedOverview = () => {
 
     const {data} = useSelector( store => store.orders[socketType.allOrders]);
 
-    const orders = data && data.orders || [];
-    const total = data && data.total || 0;
-    const totalToday = data && data.totalToday || 0;
+    const orders = (data && data.orders) || [];
+    const total = (data && data.total) || 0;
+    const totalToday = (data && data.totalToday) || 0;
   
     const readyOrders = orders.filter( (item, index) => item.status === "done" && index < MAX_NUM_OF_VISIBLE_ORDERS);
     const inProgressOrders = orders.filter( (item, index) => item.status === "inprogress" && index < MAX_NUM_OF_VISIBLE_ORDERS);

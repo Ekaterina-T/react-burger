@@ -86,9 +86,10 @@ OrderCard.propTypes = {
     data: PropTypes.shape(
         {
             _id: PropTypes.string.isRequired,
-            createdAt: PropTypes.string.isRequired,
+            updatedAt: PropTypes.string.isRequired,
             name: PropTypes.string.isRequired,
-            ingredients: PropTypes.arrayOf(PropTypes.string).isRequired
+            ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
+            number: PropTypes.number.isRequired
         } 
     ).isRequired,
     openModal: PropTypes.func.isRequired

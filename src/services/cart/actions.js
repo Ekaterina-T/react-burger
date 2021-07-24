@@ -1,5 +1,6 @@
-import {orderUrl} from '../../utils/constants';
+import {orderUrl, accessTokenName} from '../../utils/constants';
 import {ActionTypes} from '../actionTypes';
+import { getCookie } from '../../utils/cookie';
 
 export const addIngredientToCart = (ingredientID) => {
 
@@ -63,9 +64,10 @@ export const createOrder = () => {
         fetch(orderUrl, {
             method: "POST", 
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': getCookie(accessTokenName)
             },
-            body: JSON.stringify({"ingredients": [...fillings, bun].map( item => item && item._id)})
+            body: JSON.stringify({"ingredients": [...fillings, bun, bun].map( item => item && item._id)})
         })
         .then(res => res.ok ? res.json() : Promise.reject(res))
         .then(res => {
