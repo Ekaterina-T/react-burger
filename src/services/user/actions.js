@@ -39,7 +39,9 @@ export const register = (email, password, name) => {
            if(res.success) {
                setCookie(accessTokenName, res.accessToken, {expires: 20*60});
                window.localStorage.setItem(refreshTokenName, res.refreshToken);
-               dispatch({type:  ActionTypes.REGISTER_SUCCESS, data: res});
+               dispatch({type:  ActionTypes.REGISTER_SUCCESS, 
+                         data: {...res, timeStamp: new Date()}
+                        });
            } else {
                throw new Error('Registration failed');
            }

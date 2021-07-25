@@ -23,8 +23,12 @@ const initialState = {
 
     passwordResetRequest: false,
     passwordResetSuccess: false,
-    passwordResetFailed: false
+    passwordResetFailed: false,
+    refreshSuccess: false,
 
+    accessToken: null,
+    accessTokenTimeStamp: null,
+    refreshToken: null
 }
 
 export const user = (state = initialState, action) => {
@@ -44,7 +48,7 @@ export const user = (state = initialState, action) => {
                 registerSuccess: true,
 
                 accessToken: action.data.accessToken,
-                accessTokenTimeStamp: new Date(),
+                accessTokenTimeStamp: action.data.timeStamp,
                 refreshToken: action.data.refreshToken
             };
 
@@ -94,6 +98,7 @@ export const user = (state = initialState, action) => {
                 logoutRequest: false,
                 logoutSuccess: true,
                 loginSuccess: false,
+                refreshSuccess: false, 
                 name: null,
                 email: null
             };

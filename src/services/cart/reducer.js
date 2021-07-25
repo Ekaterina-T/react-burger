@@ -54,7 +54,9 @@ export const cart = (state = initialState, action) => {
         case  ActionTypes.CLOSE_ORDER: 
             return {
                 ...state,
+                createOrderSuccess: false,
                 showOrderDetails: false,
+                orderDetails: null,
                 bun: null, 
                 fillings: []
             };
