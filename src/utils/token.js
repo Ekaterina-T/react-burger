@@ -7,6 +7,9 @@ const serverRequest = (url, options) => {
     return fetch(url, options)
             .then(res => res.ok ? res.json() : Promise.reject(res))
             .then(res => res.success ? res : Promise.reject(res))
+            .catch( res => {
+                console.log('please authorize');
+            });
         
 };
 

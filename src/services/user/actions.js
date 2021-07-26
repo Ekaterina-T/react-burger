@@ -96,7 +96,8 @@ export const login = (email, password) => {
             //TODO: error handling
             console.log('Login failed'+res);            
             dispatch({type:  ActionTypes.LOGIN_FAILED});
-        });
+        })
+        .catch( () => { console.log('LOGIN_FAILED') });
 
     }
 };
@@ -213,14 +214,21 @@ export const runServerRequest = (dispatch, requestFunction, requestFunctionParam
         if(res.status === 401 || res.message === 'jwt expired') {
           refreshToken().then( res => {
               setToken(res);
-              requestFunction(requestFunctionParams).then(res => {
+              requestFunction(requestFunctionParams)
+              .then(res => {
                 dispatch({type: ActionTypes.USER_REFRESH_SUCCESS, user: res.user});
               })
+              .catch( () => {
+                  console.log('error')
+              })
+          })
+          .catch( () => {
+              console.log('token didn\'t refresh');
           });
         } else {
-          console.error('something went wrong with authorization: try re-login')
+          console.log('something went wrong with authorization: try re-login')
         }
-      });
+      })
 }
 
 export const refreshUser = () => {
