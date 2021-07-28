@@ -218,9 +218,6 @@ export const runServerRequest = (dispatch, requestFunction, requestFunctionParam
               .then(res => {
                 dispatch({type: ActionTypes.USER_REFRESH_SUCCESS, user: res.user});
               })
-              .catch( () => {
-                  console.log('error')
-              })
           })
           .catch( () => {
               console.log('token didn\'t refresh');
