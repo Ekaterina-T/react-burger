@@ -9,7 +9,7 @@ export type TIngredientState = {
     items: Array<TIngredient>,
 
     showIngredientDetails: boolean,
-    activeIngredient: string | null,
+    activeIngredient: TIngredient | null,
 }
 
 const initialState: TIngredientState = {

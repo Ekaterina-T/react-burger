@@ -28,12 +28,12 @@ const Ingredient: FC<IIngredient> = ({ data, openModal}) => {
             return count;
     }, [fillings, bun, data._id, data.type]);
 
-    const addIngredient = (e) => {
+    const addIngredient = (e: React.SyntheticEvent) => {
         e.stopPropagation();
         dispatch(addIngredientToCart(data._id));
     } 
 
-    const openIngredientDetails = (e) => {
+    const openIngredientDetails = (e: React.MouseEvent) => {
         if((e.target as Element).nodeName !== 'BUTTON') {
             openModal(data);
         }

@@ -5,11 +5,11 @@ import styles from './nav-item.module.css';
 import NavList from '../nav-list/nav-list';
 import {TNavItem} from '../../../services/types/index';
 
-interface INavItem {
+interface INavItemProps {
     data: TNavItem;
 }
 
-const NavItem: FC<INavItem> = (props) => {
+const NavItem: FC<INavItemProps> = (props) => {
 
     const  {id, title, icon, cssClass, subitems, to} = props.data;
 

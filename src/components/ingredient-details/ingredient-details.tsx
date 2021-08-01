@@ -1,17 +1,22 @@
-import React from 'react';
-import { useSelector} from 'react-redux';
+import React, {FunctionComponent} from 'react';
 import { useParams } from 'react-router-dom';
+
+import { useAppSelector } from '../../services/types';
 
 import styles from './ingredient-details.module.css';
 
-const IngredientDetails = () => {
+const IngredientDetails = (): React.ReactElement | null => {
 
-    const { id } = useParams();
-    const { items } = useSelector(store => store.ingredients);
+    const { id } = useParams<{id:string}>();
+    const { items } = useAppSelector(store => store.ingredients);
 
-    const activeIngredientFromStore = useSelector(store => store.ingredients.activeIngredient);
+    const activeIngredientFromStore = useAppSelector(store => store.ingredients.activeIngredient);
     const activeIngredientFromUrl = id ? items.find( item => item._id === id) : null;  
     const activeIngredient = activeIngredientFromUrl || activeIngredientFromStore;
+
+    if(!activeIngredient) {
+        return null;
+    }
 
     const {name, calories, proteins, fat, carbohydrates, image_large} = activeIngredient;
 

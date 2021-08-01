@@ -3,8 +3,8 @@ import { TUserActions } from './actions';
 
 
 export type TUserState = {
-    name: string | null,
-    email: string | null,
+    name?: string,
+    email?: string,
     
     registerRequest: boolean,
     registerSuccess: boolean,
@@ -34,9 +34,6 @@ export type TUserState = {
 
 const initialState: TUserState = {
 
-    name: null,
-    email: null,
-    
     registerRequest: false,
     registerSuccess: false,
     registerFailed: false,

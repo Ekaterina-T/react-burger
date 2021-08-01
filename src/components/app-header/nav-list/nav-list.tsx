@@ -4,13 +4,13 @@ import NavItem from '../nav-item/nav-item';
 
 import {TNavItem} from '../../../services/types/index';
 
-interface INavList {
+interface INavListЗкщзы {
     data: Array<TNavItem>;
     type: "main" | "nested";
     setDefault: boolean;
 }
 
-const NavList: FC<INavList> = ({data, type}) => {
+const NavList: FC<INavListЗкщзы> = ({data, type}) => {
 
     return (            
         <ul className={ type === 'main' ? styles.main_nav : styles.nested_nav}> 

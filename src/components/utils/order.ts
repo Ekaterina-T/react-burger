@@ -1,6 +1,6 @@
 //TODO: create class for order
 
-export const formatOrderNumber = num => {
+export const formatOrderNumber = (num: number): string => {
     const MAX_CHART_NUM = 5;
     const number = String(num);
     const leadingZeroCount = MAX_CHART_NUM - number.length;

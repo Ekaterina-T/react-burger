@@ -1,40 +1,52 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from '../../pages/index.module.css'
 import profileStyles from './profile-settings.module.css'
 import { updateUser } from '../../services/user/actions';
 
+import { useAppSelector, useAppDispatch } from '../../services/types';
+
 const PASSWORD_PLACEHOLDER = '******';
+
+interface IUserInfo {
+    name: string;
+    email: string;
+    password: string;
+}
+
+interface IUserInfoOptionalPassword {
+    name: string;
+    email: string;
+    password?: string;
+}
 
 function ProfileSettings() {    
 
-    const dispatch = useDispatch();
-    const {name, email} = useSelector( store => store.user);
+    const dispatch = useAppDispatch();
+    const {name, email} = useAppSelector( store => store.user);
 
     //these are not application level data, therefore don't create separate action and reducer
-    const [user, setUser] = React.useState({name: name, email: email, password: PASSWORD_PLACEHOLDER});
+    const [user, setUser] = React.useState<IUserInfo>({name: name, email: email, password: PASSWORD_PLACEHOLDER});
 
-    const updateField = (e) => {
-        setUser({...user, [e.target.name]: e.target.value});
+    const updateField = (e: React.ChangeEvent) => {
+        const elem = e.target as HTMLInputElement;
+        setUser({...user, [elem.name]: elem.value});
     }
     
-    const saveChanges = (e) => {
+    const saveChanges = (e: React.SyntheticEvent) => {
         e.preventDefault();
 
-        const updatedFields = {};
+        const updatedFields: IUserInfoOptionalPassword = {name: user.name, email: user.email};
 
-        updatedFields.name = user.name;
-        updatedFields.email = user.email;
-        if(user.password.indexOf('*') < 0) {
+        if(user.password && user.password.indexOf('*') < 0) {
             updatedFields.password = user.password;
         }
         dispatch(updateUser(updatedFields));
         setUser( prevState => ({...prevState , password: PASSWORD_PLACEHOLDER}))
     }
 
-    const cancelChanges = (e) => {
+    const cancelChanges = (e: React.SyntheticEvent) => {
         e.preventDefault();
         setUser({name: name, email: email, password: PASSWORD_PLACEHOLDER});
     }

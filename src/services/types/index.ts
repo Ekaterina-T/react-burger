@@ -10,6 +10,12 @@ import { TUserActions } from '../user/actions';
 
 import { rootReducer } from '../rootReducer';
 
+import { Location } from "history";
+
+export interface ILocation extends Location {
+    background?: any;
+}
+
 export type TNavItem = {
     id: string;
     title: string;
@@ -33,6 +39,15 @@ export type TIngredient = {
     image_large: string;
     __v: number;
     key: string;
+}
+
+export type TOrder = {
+    _id: string;
+    name: string;
+    number: string | number;
+    ingredients: string[];
+    updatedAt: string;
+    status: string;
 }
 
 export type TIngredientGroup = {

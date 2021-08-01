@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 import {useRouteMatch, Link, useLocation, useHistory} from 'react-router-dom';
 
 import styles from './feed-list.module.css';
@@ -6,12 +6,19 @@ import OrderCard from '../order-card/order-card';
 import { OrderInfoPage } from '../../pages';
 import Modal from '../modal/modal';
 
-import PropTypes from 'prop-types';
+import { TOrder } from '../../services/types/index';
 
-const FeedList = ({owner, data}) => {
+interface IFeedListProps {
+    owner: 'profile';
+    data: { 
+        orders: Array<TOrder>
+    }
+}
+
+const FeedList: FC<IFeedListProps> = ({owner, data}) => {
 
     const [showOrderInfo, setShowOrderInfo] = useState(false);
-    const [activeOrder, setActiveOrder] = useState(null);
+    const [activeOrder, setActiveOrder] = useState<string | null>(null);
 
     const orders = data.orders;
     
@@ -20,12 +27,12 @@ const FeedList = ({owner, data}) => {
     const history = useHistory();
     const fallbackMsg = owner ==='profile' ? 'Вы ещё ничего не заказывали' : 'Грузим данные';
     
-    const openModal = (id) => {
+    const openModal = (id: string) => {
         setShowOrderInfo(true);
         setActiveOrder(id);
     }
 
-    const closeModal = (e) => {
+    const closeModal = (e: React.MouseEvent | React.KeyboardEvent) => {
         e.stopPropagation();
         setShowOrderInfo(false);
         setActiveOrder(null);
@@ -46,7 +53,7 @@ const FeedList = ({owner, data}) => {
 
             { showOrderInfo && 
                 <Modal type="orderInfo" onClose={closeModal} > 
-                    <OrderInfoPage activeOrder={activeOrder} orders={orders}/>
+                    <OrderInfoPage activeOrder={activeOrder} />
                 </Modal> 
             }   
             
@@ -55,13 +62,3 @@ const FeedList = ({owner, data}) => {
 }
 
 export default FeedList;
-
-FeedList.propTypes = {
-    owner: PropTypes.oneOf(['profile']),
-    data: PropTypes.shape({
-            orders: PropTypes.arrayOf(PropTypes.shape({
-                _id: PropTypes.string.isRequired
-            })).isRequired
-        }).isRequired 
-}
-

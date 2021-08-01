@@ -25,7 +25,7 @@ export interface IShowIngredientsDetails {
 
 export interface ISetActiveIngredient {
     readonly type: typeof ActionTypes.SET_ACTIVE_INGREDIENT;
-    readonly value: string;
+    readonly value: TIngredient;
 }
 
 export type TIngredientActions = 

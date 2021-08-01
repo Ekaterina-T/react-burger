@@ -3,7 +3,7 @@ import styles from './app-form.module.css';
 
 interface IAppForm {
     title: string,
-    onSubmit: (e: any) => any,
+    onSubmit: (e: React.FormEvent) => any,
     additionalStyles: string[]
 }
 

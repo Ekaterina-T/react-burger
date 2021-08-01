@@ -14,6 +14,7 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import { getIngredientData } from '../../services/ingredients/actions';
 import { refreshUser } from '../../services/user/actions';
 import { ActionTypes } from '../../services/actionTypes';
+import { ILocation } from '../../services/types';
 
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
   const { ingredientsLoadSuccess } = useAppSelector(store => store.ingredients);
   const { loginSuccess } = useAppSelector(store => store.user);
 
-  const location = useLocation();
+  const location = useLocation<ILocation>();
   const history = useHistory();
   const background = history.action === 'PUSH' && location.state && location.state.background;
 

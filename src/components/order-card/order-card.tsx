@@ -1,5 +1,4 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, {FC} from 'react';
 
 import Price from '../price/price';
 import IngredientIconRound from '../ingredient-icon-round/ingredient-icon-round';
@@ -10,13 +9,21 @@ import PropTypes from 'prop-types';
 
 import styles from './order-card.module.css';
 
-const OrderCard = ({data: {_id, updatedAt, name, ingredients, number}, openModal }) => {
+import { useAppSelector } from '../../services/types';
+import {TOrder, TIngredient} from '../../services/types/index';
 
-    const ingredientsData = useSelector(store => store.ingredients.items);
+interface IOrderCardProps {
+    data: TOrder; 
+    openModal: (_id: string) => any;
+}
+
+const OrderCard: FC<IOrderCardProps> = ({data: {_id, updatedAt, name, ingredients, number}, openModal }) => {
+
+    const ingredientsData = useAppSelector(store => store.ingredients.items);
     const numOfIngredientsInOrder = ingredients.length;
     const MAX_NUM_OF_VISIBLE_ITEMS = 5;
 
-    const drawIngredientImage = (item, index) => {
+    const drawIngredientImage = (item: TIngredient, index: number) => {
 
         const SHIFT_OF_IMAGES_PX = 50;
 
@@ -57,8 +64,9 @@ const OrderCard = ({data: {_id, updatedAt, name, ingredients, number}, openModal
                     .reduce( (sum, ingredient) => (sum += ingredient.price), 0);
 
 
-    const openOrderInfo = (e) => {
-        if(e.target.nodeName !== 'BUTTON') {
+    const openOrderInfo = (e: React.MouseEvent) => {
+        const elem = e.target as Element;
+        if(elem.nodeName !== 'BUTTON') {
             openModal(_id);
         }
     }
@@ -81,16 +89,3 @@ const OrderCard = ({data: {_id, updatedAt, name, ingredients, number}, openModal
 }
 
 export default OrderCard;
-
-OrderCard.propTypes = {
-    data: PropTypes.shape(
-        {
-            _id: PropTypes.string.isRequired,
-            updatedAt: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
-            ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
-            number: PropTypes.number.isRequired
-        } 
-    ).isRequired,
-    openModal: PropTypes.func.isRequired
-}

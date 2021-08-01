@@ -1,28 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 import ReactDOM from 'react-dom';
 import styles from './modal.module.css';
 import {CloseIcon}  from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
-import PropTypes from 'prop-types';
 
-const Modal = ({ children, onClose, type}) => {
+interface IModalProps {
+    onClose: (e: React.MouseEvent | React.KeyboardEvent) => any;
+    type: "ingredient" | "order" | "orderInfo";
+}
+
+const Modal: FC<IModalProps> = ({ children, onClose, type}) => {
 
     //input for tab trap inside modal
-    const [activeBeforeModal, setActiveBeforeModal] = useState(null);
-    const [modalControls, setModalControls] = useState([]);
+    const [activeBeforeModal, setActiveBeforeModal] = useState<HTMLElement | null>(null);
+    const [modalControls, setModalControls] = useState<Array<any>>([]);
 
-    const modalComponent = React.useRef(null);
+    const modalComponent = React.useRef<HTMLElement>(null);
 
     React.useEffect(() => {
 
-        setActiveBeforeModal(document.activeElement);
-        setModalControls([modalComponent.current, modalComponent.current.querySelector('button')]);
+        setActiveBeforeModal(document.activeElement as HTMLElement);
 
-        modalComponent.current.focus();
+        if(modalComponent.current) {
+            setModalControls([modalComponent.current, modalComponent.current.querySelector('button')]);
+            modalComponent.current.focus();
+        }
 
     }, []);
 
-    const addTabTrap = (e) => {
+    const addTabTrap = (e: React.KeyboardEvent) => {
                 
         if(e.code === "Tab") {            
             const activeElement = document.activeElement;
@@ -39,9 +45,9 @@ const Modal = ({ children, onClose, type}) => {
         }
     }
 
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: React.KeyboardEvent) => {
 
-        if(e.code === "Escape") {
+        if(e.code === "Escape" && activeBeforeModal) {
             activeBeforeModal.focus();
             onClose(e);            
         }
@@ -49,13 +55,13 @@ const Modal = ({ children, onClose, type}) => {
         addTabTrap(e);
     }
 
-    const modalRoot = document.querySelector("#modals");  
+    const modalRoot = document.querySelector("#modals") as Element;  
 
     return ReactDOM.createPortal(
         (
             <>
                 <article className={styles.modal} tabIndex={0} ref={modalComponent} onKeyDown={handleKeyDown}>
-                    <button className={styles["close_btn_"+type]} onClick={onClose}><CloseIcon/></button>
+                    <button className={styles["close_btn_"+type]} onClick={onClose}><CloseIcon type="secondary"/></button>
                     {children}
                 </article>
                 <ModalOverlay onClose={onClose}/>
@@ -67,9 +73,3 @@ const Modal = ({ children, onClose, type}) => {
 } 
 
 export default Modal
-
-Modal.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  type: PropTypes.oneOf(["ingredient", "order", "orderInfo"]).isRequired
-};
-

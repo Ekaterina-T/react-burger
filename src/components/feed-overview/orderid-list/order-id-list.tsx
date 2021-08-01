@@ -1,11 +1,17 @@
+import { FC } from 'react'; 
 import styles from './orderid-list.module.css'
 import { formatOrderNumber } from '../../utils/order';
+import { TOrder } from '../../../services/types/index';
 
-import PropTypes from 'prop-types';
+interface IOrderIDListProps {
+    orders: Array<TOrder>;
+    title: string;
+    type?: 'green';
+}
 
-const OrderIDList = ({orders, title, type}) => {
+const OrderIDList: FC<IOrderIDListProps> = ({orders, title, type}) => {
 
-    const drawOrderItem = item => ( <li key={item._id} className={styles.listItem}>{formatOrderNumber(item.number)}</li> );
+    const drawOrderItem = (item:TOrder) => ( <li key={item._id} className={styles.listItem}>{formatOrderNumber(item.number)}</li> );
 
     return  (
         <section className={styles.orderList}> 
@@ -21,9 +27,3 @@ const OrderIDList = ({orders, title, type}) => {
 
 
 export default OrderIDList;
-
-OrderIDList.propTypes = {
-    orders: PropTypes.arrayOf(PropTypes.object).isRequired,
-    title: PropTypes.string.isRequired,
-    type: PropTypes.oneOf(['green'])
-}

@@ -2,8 +2,6 @@ import React, {FC} from 'react';
 import {Tab}  from '@ya.praktikum/react-developer-burger-ui-components';
 import {ingredientGroups} from '../../../utils/constants'
 
-import PropTypes from 'prop-types';
-
 interface ITabMenu {
     burgerIngredientsEl: {current: HTMLElement | null} ;
     currentTab: 'bun'| 'sauce'| 'main';
