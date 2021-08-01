@@ -1,30 +1,27 @@
-import { accessTokenName } from "../../utils/constants";
+import { accessTokenName, allOrdersWS, personalOrdersWS  } from "../../utils/constants";
 import { ActionTypes } from "../actionTypes";
 import { getCookieValue } from "../../utils/cookie";
-import { allOrdersWS, personalOrdersWS } from "../../utils/constants";
+import { RootState } from "../types";
+import { TWSUserOrders, TWSAllOrders } from "../actionTypes";
+import { Middleware } from 'redux'
 
-const createSocket = (type) => {
 
-  let socket,
-      wsActions;
+const createSocket = (type: string): [socket: WebSocket, wsActions: TWSAllOrders|TWSUserOrders] => {
 
   if (type === ActionTypes.wsAllOrders.wsInit) {
-    socket = new WebSocket(allOrdersWS);
-    wsActions = ActionTypes.wsAllOrders;
+    return [new WebSocket(allOrdersWS), ActionTypes.wsAllOrders];
   }
 
   if (type === ActionTypes.wsUserOrders.wsInit && getCookieValue(accessTokenName)) {
-    socket = new WebSocket(`${personalOrdersWS}?token=${getCookieValue(accessTokenName)}`);
-    wsActions = ActionTypes.wsUserOrders;
+    return [new WebSocket(`${personalOrdersWS}?token=${getCookieValue(accessTokenName)}`), ActionTypes.wsUserOrders];
   }
 
-  return [socket, wsActions]
-
+  throw new Error('Couldn\'t create socket of type '+ type);
 }
 
 export const socketMiddleware = () => {
 
-    return store => {
+    return (store: RootState) => {
   
       return next => action => {
         const { dispatch } = store;

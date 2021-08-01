@@ -1,9 +1,20 @@
 import {ActionTypes} from '../actionTypes';
+import { TIngredient, TOrderDetails } from '../types';
+import { TCartActions } from './actions';
 
-const initialState = {
+export type TCartState = {
+    bun: TIngredient | null,
+    fillings: Array<TIngredient>,
+    createOrderInProgress: boolean;
+    createOrderSuccess: boolean;
+    createOrderFailed: boolean;
+    showOrderDetails: boolean;
+    orderDetails: TOrderDetails | null;
+}
+
+const initialState: TCartState = {
     bun: null, 
     fillings: [],
-
     createOrderInProgress: false,
     createOrderSuccess: false,
     createOrderFailed: false,
@@ -11,7 +22,7 @@ const initialState = {
     orderDetails: null
 }
 
-export const cart = (state = initialState, action) => {
+export const cart = (state = initialState, action: TCartActions): TCartState => {
 
     switch (action.type) {
           
@@ -20,13 +31,6 @@ export const cart = (state = initialState, action) => {
                 ...state,
                 bun: action.updatedCart.bun,
                 fillings: action.updatedCart.fillings
-            };
-         
-        case  ActionTypes.CLEAR_CART:
-            return {
-                ...state,
-                bun: null,
-                fillings: []
             };
 
         case  ActionTypes.CREATE_NEW_ORDER_REQUEST:

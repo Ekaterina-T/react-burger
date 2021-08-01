@@ -5,10 +5,86 @@ import {ActionTypes} from '../actionTypes';
 
 import { accessTokenName,  refreshTokenName} from '../../utils/constants';
 import { getProfileSettings, updateProfileSettings, refreshToken, setToken } from '../../utils/token';
+import { AppThunk, AppDispatch } from '../types';
 
-export const register = (email, password, name) => {
 
-    return dispatch => {
+export interface IRegisterRequest {
+    readonly type: typeof ActionTypes.REGISTER_REQUEST;
+}
+export interface IRegisterSuccess {
+    readonly type: typeof ActionTypes.REGISTER_SUCCESS;
+    readonly data: {[name : string]: string };
+}
+export interface IRegisterFailed {
+    readonly type: typeof ActionTypes.REGISTER_FAILED;
+}
+
+export interface ILoginRequest {
+    readonly type: typeof ActionTypes.LOGIN_REQUEST;
+}
+export interface ILoginSuccess {
+    readonly type: typeof ActionTypes.LOGIN_SUCCESS;
+    readonly user: {[name: string]: string};
+}
+export interface ILoginFailed {
+    readonly type: typeof ActionTypes.LOGIN_FAILED;
+}
+
+export interface ILogoutRequest {
+    readonly type: typeof ActionTypes.LOGOUT_REQUEST;
+}
+export interface ILogoutSuccess {
+    readonly type: typeof ActionTypes.LOGOUT_SUCCESS;
+}
+export interface ILogoutFailed {
+    readonly type: typeof ActionTypes.LOGOUT_FAILED;
+}
+
+export interface IPasswordResetCodeRequest {
+    readonly type: typeof ActionTypes.PASSWORD_RESET_CODE_REQUEST;
+}
+export interface IPasswordResetCodeSuccess {
+    readonly type: typeof ActionTypes.PASSWORD_RESET_CODE_SUCCESS;
+}
+export interface IPasswordResetCodeFailed {
+    readonly type: typeof ActionTypes.PASSWORD_RESET_CODE_FAILED;
+}
+
+export interface IPasswordResetRequest {
+    readonly type: typeof ActionTypes.PASSWORD_RESET_REQUEST;
+}
+export interface IPasswordResetSuccess {
+    readonly type: typeof ActionTypes.PASSWORD_RESET_SUCCESS;
+}
+export interface IPasswordResetFailed {
+    readonly type: typeof ActionTypes.PASSWORD_RESET_FAILED;
+}
+
+export interface IUserRefreshSuccess {
+    readonly type: typeof ActionTypes.USER_REFRESH_SUCCESS;
+    readonly user: {[name: string]: string};
+}
+
+export type TUserActions = | IRegisterRequest
+| IRegisterSuccess
+| IRegisterFailed
+| ILoginRequest
+| ILoginSuccess
+| ILoginFailed
+| ILogoutRequest
+| ILogoutSuccess
+| ILogoutFailed
+| IPasswordResetCodeRequest
+| IPasswordResetCodeSuccess
+| IPasswordResetCodeFailed
+| IPasswordResetRequest
+| IPasswordResetSuccess
+| IPasswordResetFailed
+| IUserRefreshSuccess;
+
+export const register: AppThunk = (email: string, password: string, name: string) => {
+
+    return (dispatch: AppDispatch) => {
 
         dispatch({type: ActionTypes.REGISTER_REQUEST});
 
@@ -56,9 +132,9 @@ export const register = (email, password, name) => {
     }
 };
 
-export const login = (email, password) => {
+export const login: AppThunk = (email: string, password: string) => {
 
-    return dispatch => {
+    return (dispatch: AppDispatch) => {
 
         dispatch({type: ActionTypes.LOGIN_REQUEST});
 
@@ -102,9 +178,9 @@ export const login = (email, password) => {
     }
 };
 
-export const logout = () => {
+export const logout: AppThunk = () => {
 
-    return dispatch => {
+    return (dispatch: AppDispatch) => {
 
         dispatch({type: ActionTypes.LOGOUT_REQUEST});
 
@@ -142,9 +218,9 @@ export const logout = () => {
     }
 };
 
-export const requestPasswordResetCode = (email) => {
+export const requestPasswordResetCode: AppThunk = (email: string) => {
 
-    return dispatch => {
+    return (dispatch: AppDispatch) => {
 
         dispatch({type: ActionTypes.PASSWORD_RESET_CODE_REQUEST});
 
@@ -173,9 +249,9 @@ export const requestPasswordResetCode = (email) => {
 
 };
 
-export const resetPassword = (password, verificationToken) => {
+export const resetPassword: AppThunk = (password: string, verificationToken: string) => {
 
-    return dispatch => {
+    return (dispatch: AppDispatch) => {
 
         dispatch({type: ActionTypes.PASSWORD_RESET_REQUEST});
 
@@ -205,7 +281,7 @@ export const resetPassword = (password, verificationToken) => {
     
 }
 
-export const runServerRequest = (dispatch, requestFunction, requestFunctionParams) => {
+export const runServerRequest = (dispatch: AppDispatch, requestFunction:(f:any) => Promise<any>, requestFunctionParams: object | undefined) => {
 
     requestFunction(requestFunctionParams).then( res => {
         dispatch({type: ActionTypes.USER_REFRESH_SUCCESS, user: res.user});
@@ -228,16 +304,16 @@ export const runServerRequest = (dispatch, requestFunction, requestFunctionParam
       })
 }
 
-export const refreshUser = () => {
+export const refreshUser: AppThunk = () => {
 
-    return dispatch => {
-        runServerRequest(dispatch, getProfileSettings, null);
+    return (dispatch: AppDispatch) => {
+        runServerRequest(dispatch, getProfileSettings, undefined);
     }
 }
 
-export const updateUser = (updatedUserSettings) => {
+export const updateUser: AppThunk = (updatedUserSettings: object) => {
 
-    return dispatch => {
+    return (dispatch: AppDispatch) => {
         runServerRequest(dispatch, updateProfileSettings, updatedUserSettings);
     }
 }

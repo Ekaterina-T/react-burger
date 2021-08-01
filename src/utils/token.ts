@@ -2,7 +2,7 @@ import { refreshTokenName, accessTokenName } from "./constants";
 import { authEndpoints } from "./constants";
 import { getCookie, setCookie } from "./cookie";
 
-const serverRequest = (url, options) => {
+const serverRequest = (url: string, options: {[name: string]: any}) => {
 
     return fetch(url, options)
             .then(res => res.ok ? res.json() : Promise.reject(res))
@@ -10,7 +10,6 @@ const serverRequest = (url, options) => {
             .catch( res => {
                 console.log('please authorize');
             });
-        
 };
 
 export const refreshToken = () => {
@@ -35,7 +34,7 @@ export const getProfileSettings = () => {
     });
 }
 
-export const updateProfileSettings = (updatedUserSettings) => {
+export const updateProfileSettings = (updatedUserSettings: {[name: string]: any}) => {
 
     return serverRequest(authEndpoints.userUrl, {
         method: 'PATCH',
@@ -47,7 +46,7 @@ export const updateProfileSettings = (updatedUserSettings) => {
     });
 }
 
-export const setToken = (data) => {
+export const setToken = (data : {accessToken: string, refreshToken: string}) : void => {
     setCookie(accessTokenName, data.accessToken, {expires: 20*60});
     window.localStorage.setItem(refreshTokenName, data.refreshToken); 
 }

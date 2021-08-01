@@ -1,6 +1,6 @@
 import * as React from "react"
 
-function OrderDetailsIcon(props) {
+function OrderDetailsIcon() {
   return (
     <svg
       width={107}
@@ -8,7 +8,6 @@ function OrderDetailsIcon(props) {
       viewBox="0 0 107 102"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      {...props}
     >
       <path
         fillRule="evenodd"

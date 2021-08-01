@@ -1,6 +1,38 @@
 import {ActionTypes} from '../actionTypes';
+import { TUserActions } from './actions';
 
-const initialState = {
+
+export type TUserState = {
+    name: string | null,
+    email: string | null,
+    
+    registerRequest: boolean,
+    registerSuccess: boolean,
+    registerFailed: boolean,
+
+    loginRequest: boolean,
+    loginSuccess: boolean,
+    loginFailed: boolean,
+
+    logoutRequest: boolean,
+    logoutSuccess: boolean,
+    logoutFailed: boolean,
+
+    passwordResetCodeRequest: boolean,
+    passwordResetCodeSuccess: boolean,
+    passwordResetCodeFailed: boolean,
+
+    passwordResetRequest: boolean,
+    passwordResetSuccess: boolean,
+    passwordResetFailed: boolean,
+    refreshSuccess: boolean,
+
+    accessToken: string | null,
+    accessTokenTimeStamp: string | null,
+    refreshToken: string | null
+}
+
+const initialState: TUserState = {
 
     name: null,
     email: null,
@@ -31,7 +63,7 @@ const initialState = {
     refreshToken: null
 }
 
-export const user = (state = initialState, action) => {
+export const user = (state = initialState, action: TUserActions) => {
 
     switch (action.type) {
             

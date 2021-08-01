@@ -5,7 +5,7 @@ export const MILLISECONDS_IN_DAY = 24*MILLISECONDS_IN_HOUR;
 
 export class DateFormatter {
 
-    static getDate = (dateValue) => {
+    static getDate = (dateValue: string):Date => {
         const date = new Date(dateValue);
 
         if(!date) {
@@ -15,17 +15,17 @@ export class DateFormatter {
         return date;
     }
 
-    static getTime = date => {
+    static getTime = (date: Date): string => {
         const minutes = date.getMinutes();
         return `${date.getHours()}:${minutes < 10 ? '0' + minutes : minutes}`;
     }
 
-    static getTZ = date => {
+    static getTZ = (date: Date):string => {
         const offsetInHours = date.getTimezoneOffset()/60;
         return `i-GMT${offsetInHours < 0 ? '+' : '-'}${Math.abs(offsetInHours)}`;
     }
 
-    static getDaysDiff = (date) => {
+    static getDaysDiff = (date: Date):string => {
 
         const now = new Date();
 
@@ -35,7 +35,7 @@ export class DateFormatter {
         const cleanNow = new Date(now);        
         cleanNow.setHours(0,0,0,0);
 
-        const diffInDays = (cleanNow - cleanDate)/MILLISECONDS_IN_DAY;
+        const diffInDays = (cleanNow.getTime() - cleanDate.getTime())/MILLISECONDS_IN_DAY;
 
         if(diffInDays > 7) {
             return cleanDate.getDate()+' '+cleanDate.getMonth()+' '+cleanDate.getFullYear();
@@ -57,8 +57,8 @@ export class DateFormatter {
 
     }
     
-    static getRelativeFormat = (dateValue) => {
-        const date = this.getDate(dateValue);
-        return this.getDaysDiff(date)+', '+this.getTime(date)+' '+this.getTZ(date);
+    static getRelativeFormat = (dateValue: string) => {
+        const date = DateFormatter.getDate(dateValue);
+        return DateFormatter.getDaysDiff(date)+', '+DateFormatter.getTime(date)+' '+DateFormatter.getTZ(date);
     }
 }

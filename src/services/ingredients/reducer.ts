@@ -1,6 +1,18 @@
 import {ActionTypes} from '../actionTypes';
+import { TIngredientActions } from './actions';
+import { TIngredient } from '../types';
 
-const initialState = {
+export type TIngredientState = {
+    ingredientsLoad: boolean,
+    ingredientsLoadSuccess: boolean,
+    ingredientsLoadFailed: boolean,
+    items: Array<TIngredient>,
+
+    showIngredientDetails: boolean,
+    activeIngredient: string | null,
+}
+
+const initialState: TIngredientState = {
     ingredientsLoad: false,
     ingredientsLoadSuccess: false,
     ingredientsLoadFailed: false,
@@ -10,7 +22,7 @@ const initialState = {
     activeIngredient: null,
 }
 
-export const ingredients = (state = initialState, action) => {
+export const ingredients = (state = initialState, action: TIngredientActions): TIngredientState => {
 
     switch (action.type) {
 

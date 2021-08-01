@@ -1,12 +1,44 @@
 import {orderUrl, accessTokenName} from '../../utils/constants';
 import {ActionTypes} from '../actionTypes';
+import { TOrderDetails, TIngredient, TIngredientWithKey, AppThunk, AppDispatch, RootState } from '../types';
 import { getCookie } from '../../utils/cookie';
+import { TCartState } from './reducer';
 
-export const addIngredientToCart = (ingredientID) => {
+export interface IUpdateCart {
+    readonly type: typeof ActionTypes.UPDATE_CART;
+    readonly updatedCart: TCartState;
+}
 
-    return (dispatch, getState) => {
+export interface ICreateNewOrderRequest {
+    readonly type: typeof ActionTypes.CREATE_NEW_ORDER_REQUEST
+}
 
-        const getIngredientKey = (ingredients) => {
+export interface ICreateNewOrderSuccess {
+    readonly type: typeof ActionTypes.CREATE_NEW_ORDER_SUCCESS;
+    readonly orderDetails: TOrderDetails;
+}
+
+export interface ICreateNewOrderFailed {
+    readonly type: typeof ActionTypes.CREATE_NEW_ORDER_FAILED
+}
+
+export interface ICloseOrder {
+    readonly type: typeof ActionTypes.CLOSE_ORDER
+}
+
+export type TCartActions = 
+| IUpdateCart 
+| ICreateNewOrderFailed
+| ICreateNewOrderRequest 
+| ICreateNewOrderSuccess 
+| ICloseOrder;
+
+
+export const addIngredientToCart: AppThunk = (ingredientID: string)  => {
+
+    return (dispatch: AppDispatch, getState: RootState)  => {
+
+        const getIngredientKey = (ingredients: Array<TIngredientWithKey>):number => {
 
             const maxAvailableIndex = ingredients.reduce( (res, item) => { 
                 const currentKey = Number(item.key.split('_')[1]);
@@ -17,7 +49,7 @@ export const addIngredientToCart = (ingredientID) => {
             return maxAvailableIndex+1;
         }
 
-        const assignKeyToIngredient = (ingredient) => {
+        const assignKeyToIngredient = (ingredient: TIngredient):void => {
             if(ingredient.type === "bun") {
                 ingredient.key = ingredient._id;
                 return;
@@ -26,7 +58,7 @@ export const addIngredientToCart = (ingredientID) => {
         }
         
         const prevCart = getState().cart;
-        const newIngredient = {...getState().ingredients.items.filter( item => item._id === ingredientID )[0]};
+        const newIngredient = {...getState().ingredients.items.filter( (item: TIngredient) => item._id === ingredientID )[0]};
 
         assignKeyToIngredient(newIngredient);
 
@@ -38,12 +70,12 @@ export const addIngredientToCart = (ingredientID) => {
     }
 };
 
-export const removeIngredientFromCart = (ingredientKey) => {
+export const removeIngredientFromCart: AppThunk = (ingredientKey: string) => {
 
-    return (dispatch, getState) => {
+    return (dispatch: AppDispatch, getState: RootState) => {
 
         const prevCart = getState().cart;
-        const removedIngredientIndex = prevCart.fillings.findIndex((item) => item.key === ingredientKey);
+        const removedIngredientIndex = prevCart.fillings.findIndex((item: TIngredient) => item.key === ingredientKey);
         const updatedFillings = [...prevCart.fillings];
 
         updatedFillings.splice(removedIngredientIndex, 1);
@@ -52,13 +84,13 @@ export const removeIngredientFromCart = (ingredientKey) => {
     }
 };
 
-export const createOrder = () => {
+export const createOrder: AppThunk = () => {
     
-    return (dispatch, getState) => {
+    return (dispatch: AppDispatch, getState:RootState) => {
 
         dispatch({type:  ActionTypes.CREATE_NEW_ORDER_REQUEST});
 
-        const prevCart = getState().cart;
+        const prevCart: TCartState = getState().cart;
         const {bun, fillings} = {...prevCart};
 
         fetch(orderUrl, {
@@ -79,8 +111,8 @@ export const createOrder = () => {
     }  
 };
 
-export const sortFillingsOrder = (oldItemIndex, newItemIndex) => {
-    return (dispatch, getState) => {
+export const sortFillingsOrder: AppThunk = (oldItemIndex: number, newItemIndex: number) => {
+    return (dispatch: AppDispatch, getState:RootState) => {
 
         const prevCart = getState().cart;
         const newFillings = [...prevCart.fillings];
