@@ -1,13 +1,20 @@
-import React from 'react';
+import React, {FC} from 'react';
 import styles from './nav-list.module.css';
 import NavItem from '../nav-item/nav-item';
-import PropTypes from 'prop-types';
 
-const NavList = ({data, type}) => {
+import {TNavItem} from '../../../services/types/index';
+
+interface INavList {
+    data: Array<TNavItem>;
+    type: "main" | "nested";
+    setDefault: boolean;
+}
+
+const NavList: FC<INavList> = ({data, type}) => {
 
     return (            
         <ul className={ type === 'main' ? styles.main_nav : styles.nested_nav}> 
-            { data.map( item => (
+            { data && data.map( item => (
                 <NavItem 
                 key={item.id} 
                 data={item} />
@@ -17,10 +24,6 @@ const NavList = ({data, type}) => {
     
 }
 
-NavList.propTypes = {
-    data: PropTypes.arrayOf(PropTypes.object).isRequired,
-    type: PropTypes.oneOf(["main", "nested"]).isRequired
-};
 
 export default NavList;
 

@@ -1,18 +1,23 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, {FC} from 'react';
 import { useDrag } from "react-dnd";
 
 import styles from './ingredient.module.css';
 import {Counter, CurrencyIcon, Button}  from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
-import {isImageLink} from '../../../utils/prop-type-custom-checks';
 
-import {addIngredientToCart} from '../../../services/cart/actions'
+import {addIngredientToCart} from '../../../services/cart/actions';
 
-const Ingredient = ({ data, openModal}) => {
+import { useAppSelector, useAppDispatch } from '../../../services/types';
+import { TIngredient } from '../../../services/types/index';
+
+interface IIngredient {
+    data: TIngredient;
+    openModal: any;
+}
+
+const Ingredient: FC<IIngredient> = ({ data, openModal}) => {
     
-    const dispatch = useDispatch();
-    const {bun, fillings} = useSelector(store => store.cart);
+    const dispatch = useAppDispatch();
+    const {bun, fillings} = useAppSelector(store => store.cart);
     const [, dragRef] = useDrag({type: 'ingredient', item: {id: data._id}});
 
     const ingredientCount = React.useMemo( () => {
@@ -29,7 +34,7 @@ const Ingredient = ({ data, openModal}) => {
     } 
 
     const openIngredientDetails = (e) => {
-        if(e.target.nodeName !== 'BUTTON') {
+        if((e.target as Element).nodeName !== 'BUTTON') {
             openModal(data);
         }
     }
@@ -41,22 +46,12 @@ const Ingredient = ({ data, openModal}) => {
  
             { ingredientCount>0 && <Counter count={ingredientCount}  size="default"/> }
             <img src={image} alt={name} className={styles.image}/>
-            <div className={styles.price}> <span className={styles.price_num}>{price}</span> <CurrencyIcon/> </div>
+            <div className={styles.price}> <span className={styles.price_num}>{price}</span> <CurrencyIcon type="secondary" /> </div>
             <div className={styles.name}>{name}</div>
             <div className={styles.add_btn}><Button type="secondary" size="medium" onClick={addIngredient}>Добавить</Button></div>
 
         </li>
     );
 }
-
-Ingredient.propTypes = {
-    data: PropTypes.shape({
-        image: isImageLink,
-        name: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired
-        }
-    ).isRequired,
-    openModal: PropTypes.func.isRequired
-};
 
 export default Ingredient;

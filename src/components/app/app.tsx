@@ -1,6 +1,7 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { FC } from 'react';
 import { Route, Switch, useLocation, useHistory } from 'react-router-dom';
+
+import { useAppSelector, useAppDispatch } from '../../services/types';
 
 import './app.css';
 
@@ -17,9 +18,9 @@ import { ActionTypes } from '../../services/actionTypes';
 
 function App() {
 
-  const dispatch = useDispatch();  
-  const { ingredientsLoadSuccess } = useSelector(store => store.ingredients);
-  const { loginSuccess } = useSelector(store => store.user);
+  const dispatch = useAppDispatch();  
+  const { ingredientsLoadSuccess } = useAppSelector(store => store.ingredients);
+  const { loginSuccess } = useAppSelector(store => store.user);
 
   const location = useLocation();
   const history = useHistory();

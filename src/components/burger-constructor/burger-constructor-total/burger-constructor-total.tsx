@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import styles from './burger-constructor-total.module.css';
@@ -10,13 +9,15 @@ import {CurrencyIcon, Button}  from '@ya.praktikum/react-developer-burger-ui-com
 import {ActionTypes} from '../../../services/actionTypes';
 import {createOrder} from '../../../services/cart/actions';
 
+import { useAppSelector, useAppDispatch } from '../../../services/types';
+
 
 const BurgerConstructorTotal = () => {
 
-    const dispatch = useDispatch();
-    const {bun, fillings, showOrderDetails} = useSelector(store => store.cart);
-    const {loginSuccess} = useSelector(store => store.user);
-    const {createOrderInProgress} = useSelector(store => store.cart);
+    const dispatch = useAppDispatch();
+    const {bun, fillings, showOrderDetails} = useAppSelector(store => store.cart);
+    const {loginSuccess} = useAppSelector(store => store.user);
+    const {createOrderInProgress} = useAppSelector(store => store.cart);
 
     const history = useHistory();
     const location = useLocation();
@@ -31,7 +32,7 @@ const BurgerConstructorTotal = () => {
         dispatch(createOrder());
     }
     
-    const closeModal = (e) => {
+    const closeModal = (e: React.MouseEvent | React.KeyboardEvent) => {
         e.stopPropagation();
         dispatch({type:  ActionTypes.CLOSE_ORDER});
     };
@@ -56,7 +57,7 @@ const BurgerConstructorTotal = () => {
     return (
         <section className={styles.constructor_total}>
             <span> {calcTotal} </span> 
-            <CurrencyIcon/>
+            <CurrencyIcon type="secondary"/>
             <div className={styles.button_wrapper}>
                 { (bun && !createOrderInProgress) && <Button onClick={handleCreateNewOrder}>Оформить заказ</Button > }
                 { createOrderInProgress && <span className={styles.info_important}> Ожидайте подтверждения заказа </span> }

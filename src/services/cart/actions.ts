@@ -4,6 +4,8 @@ import { TOrderDetails, TIngredient, TIngredientWithKey, AppThunk, AppDispatch, 
 import { getCookie } from '../../utils/cookie';
 import { TCartState } from './reducer';
 
+import { rootReducer } from '../rootReducer';
+
 export interface IUpdateCart {
     readonly type: typeof ActionTypes.UPDATE_CART;
     readonly updatedCart: TCartState;
@@ -33,10 +35,9 @@ export type TCartActions =
 | ICreateNewOrderSuccess 
 | ICloseOrder;
 
-
 export const addIngredientToCart: AppThunk = (ingredientID: string)  => {
 
-    return (dispatch: AppDispatch, getState: RootState)  => {
+    return (dispatch: AppDispatch, getState)  => {
 
         const getIngredientKey = (ingredients: Array<TIngredientWithKey>):number => {
 
@@ -72,7 +73,7 @@ export const addIngredientToCart: AppThunk = (ingredientID: string)  => {
 
 export const removeIngredientFromCart: AppThunk = (ingredientKey: string) => {
 
-    return (dispatch: AppDispatch, getState: RootState) => {
+    return (dispatch: AppDispatch, getState) => {
 
         const prevCart = getState().cart;
         const removedIngredientIndex = prevCart.fillings.findIndex((item: TIngredient) => item.key === ingredientKey);
@@ -86,7 +87,7 @@ export const removeIngredientFromCart: AppThunk = (ingredientKey: string) => {
 
 export const createOrder: AppThunk = () => {
     
-    return (dispatch: AppDispatch, getState:RootState) => {
+    return (dispatch: AppDispatch, getState) => {
 
         dispatch({type:  ActionTypes.CREATE_NEW_ORDER_REQUEST});
 
@@ -112,7 +113,7 @@ export const createOrder: AppThunk = () => {
 };
 
 export const sortFillingsOrder: AppThunk = (oldItemIndex: number, newItemIndex: number) => {
-    return (dispatch: AppDispatch, getState:RootState) => {
+    return (dispatch: AppDispatch, getState) => {
 
         const prevCart = getState().cart;
         const newFillings = [...prevCart.fillings];

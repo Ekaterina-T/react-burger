@@ -1,8 +1,7 @@
 import { accessTokenName, allOrdersWS, personalOrdersWS  } from "../../utils/constants";
-import { ActionTypes } from "../actionTypes";
+import { ActionTypes, TWSUserOrders, TWSAllOrders } from "../actionTypes";
 import { getCookieValue } from "../../utils/cookie";
 import { RootState } from "../types";
-import { TWSUserOrders, TWSAllOrders } from "../actionTypes";
 import { Middleware } from 'redux'
 
 
@@ -19,41 +18,37 @@ const createSocket = (type: string): [socket: WebSocket, wsActions: TWSAllOrders
   throw new Error('Couldn\'t create socket of type '+ type);
 }
 
-export const socketMiddleware = () => {
+export const socketMiddleware: Middleware<{}, RootState> = 
 
-    return (store: RootState) => {
-  
-      return next => action => {
-        const { dispatch } = store;
-        const { type, payload } = action;
-        const [socket, wsActions] = createSocket(type);
+  store => next => action => {
+  const { dispatch } = store;
+  const { type, payload } = action;
+  const [socket, wsActions] = createSocket(type);
 
-        if (socket) {
+  if (socket) {
 
-          socket.onopen = event => {
-            dispatch({ type: wsActions.onOpen, payload: event });
-          };
-  
-          socket.onerror = event => {
-            dispatch({ type: wsActions.onError, payload: event });
-          };
-  
-          socket.onmessage = event => {
-            const { data } = event;
-            dispatch({ type: wsActions.onGetMessage, payload: data  });
-          };
-
-          socket.onclose = event => {
-            dispatch({ type: wsActions.onClose, payload: event });
-          };
-  
-          if (type === wsActions.wsSendMessage) {
-            const message = payload;
-            socket.send(JSON.stringify(message));
-          }
-        }
-        next(action);
-      };
+    socket.onopen = event => {
+      dispatch({ type: wsActions.onOpen, payload: event });
     };
 
-}; 
+    socket.onerror = event => {
+      dispatch({ type: wsActions.onError, payload: event });
+    };
+
+    socket.onmessage = event => {
+      const { data } = event;
+      dispatch({ type: wsActions.onGetMessage, payload: data  });
+    };
+
+    socket.onclose = event => {
+      dispatch({ type: wsActions.onClose, payload: event });
+    };
+
+    if (type === wsActions.wsSendMessage) {
+      const message = payload;
+      socket.send(JSON.stringify(message));
+    }
+  }
+  next(action);
+
+};

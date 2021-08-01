@@ -1,8 +1,13 @@
-import React, { useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import styles from './app-form.module.css';
-import PropTypes from 'prop-types';
 
-function AppForm ({children, title, onSubmit, additionalStyles}) {
+interface IAppForm {
+    title: string,
+    onSubmit: (e: any) => any,
+    additionalStyles: string[]
+}
+
+const AppForm:FC<IAppForm> = ({children, title, onSubmit, additionalStyles}) => {
 
     const getFormStyles = useMemo( () => {
 
@@ -25,9 +30,3 @@ function AppForm ({children, title, onSubmit, additionalStyles}) {
 }
 
 export default AppForm;
-
-AppForm.propTypes = {
-    title: PropTypes.string,
-    onSubmit: PropTypes.func,
-    additionalStyles: PropTypes.arrayOf(PropTypes.string)
-}

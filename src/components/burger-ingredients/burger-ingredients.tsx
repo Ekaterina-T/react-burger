@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 
 import styles from './burger-ingredients.module.css';
@@ -14,32 +13,34 @@ import {ingredientGroups} from '../../utils/constants';
 
 import {ActionTypes} from '../../services/actionTypes';
 
+import { useAppDispatch, useAppSelector, TIngredient, TIngredientGroup } from '../../services/types';
+
 
 const BurgerIngredients = () => {
 
     const location = useLocation();
     const history = useHistory();
 
-    const [currentTab, setCurrentTab] = React.useState('bun');
+    const [currentTab, setCurrentTab] = React.useState<'bun'| 'sauce'| 'main'>('bun');
     
-    const dispatch = useDispatch();
-    const {items, showIngredientDetails} = useSelector(store => store.ingredients);
+    const dispatch = useAppDispatch();
+    const {items, showIngredientDetails} = useAppSelector(store => store.ingredients);
 
-    const burgerIngredientsEl = React.useRef(null);  
+    const burgerIngredientsEl = React.useRef<HTMLElement>(null);  
     
-    const openModal = (ingredient) => {
+    const openModal = (ingredient: TIngredient) => {
         dispatch({type:  ActionTypes.SET_ACTIVE_INGREDIENT, value: ingredient});
         dispatch({type:  ActionTypes.SHOW_INGREDIENT_DETAILS, value: true});
     }
 
-    const closeModal = (e) => {
+    const closeModal = (e: React.MouseEvent | React.KeyboardEvent) => {
         e.stopPropagation();
         dispatch({type:  ActionTypes.SHOW_INGREDIENT_DETAILS, value: false});
         dispatch({type:  ActionTypes.SET_ACTIVE_INGREDIENT, value: null});
         history.goBack();
     }
 
-    const getIngredientsFrom = (group) => (
+    const getIngredientsFrom = (group: TIngredientGroup) => (
         items
         .filter(ingredient => ingredient.type === group.type)
         .map((ingredient) => {
@@ -53,19 +54,22 @@ const BurgerIngredients = () => {
             })
     );
 
-    const updateActiveTabOnScroll = (e) => {
+    const updateActiveTabOnScroll = (e: React.UIEvent) => {
+        if(!e.target) {
+            return;
+        }
 
-        const isClosestHeaderVisible = (section, sectionIndex, allSections) => {
+        const isClosestHeaderVisible = (section: Element, sectionIndex: number, allSections: Array<object>) => {
 
             if(sectionIndex === allSections.length-1) { //last section is active
                 return true;
             }
             
-            const sectionRect = section.querySelector('ul').getBoundingClientRect();
+            const sectionRect = section.querySelector('ul')!.getBoundingClientRect();
             return sectionRect.y >= scrollableAreaTop;
         }
 
-        const scrollableArea = e.target;
+        const scrollableArea = e.target as Element;
         const scrollableAreaTop = scrollableArea.getBoundingClientRect().y;
         const ingredientGroups = Array.prototype.slice.call(scrollableArea.querySelectorAll('section'));
 

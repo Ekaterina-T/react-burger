@@ -53,7 +53,7 @@ export interface IWSOnSendMessage_UserOrders {
     readonly type: typeof ActionTypes.wsUserOrders.wsSendMessage;
 }
 
-export type TWSOrderActions =  IWSInit_AllOrders| IWSOnOpen_AllOrders | IWSOnError_AllOrders 
+export type TWSOrderActions =  | IWSInit_AllOrders| IWSOnOpen_AllOrders | IWSOnError_AllOrders 
 | IWSOnClose_AllOrders |IWSOnGetMessage_AllOrders | IWSOnSendMessage_AllOrders
 | IWSInit_UserOrders |IWSOnOpen_UserOrders | IWSOnError_UserOrders 
 | IWSOnClose_UserOrders | IWSOnGetMessage_UserOrders | IWSOnSendMessage_UserOrders;

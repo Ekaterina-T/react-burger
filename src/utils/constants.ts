@@ -1,6 +1,7 @@
 import { socketList } from "../services/types";
+import { TIngredientGroup } from "../services/types";
 
-const ingredientGroups = [
+const ingredientGroups: Array<TIngredientGroup> = [
     { type: 'bun', name: 'Булки' },
     { type: 'sauce', name: 'Соусы' },
     { type: 'main', name: 'Начинки' }

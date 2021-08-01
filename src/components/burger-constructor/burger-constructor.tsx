@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from "react-dnd";
 
 import styles from './burger-constructor.module.css';
@@ -7,16 +6,28 @@ import {ConstructorElement}  from '@ya.praktikum/react-developer-burger-ui-compo
 import BurgerConstructorTotal  from './burger-constructor-total/burger-constructor-total';
 import BurgerConstructorItem from './burger-constructor-item/burger-constructor-item';
 
-import {addIngredientToCart} from '../../services/cart/actions'
+import {addIngredientToCart} from '../../services/cart/actions';
+
+import { useAppSelector, useAppDispatch } from '../../services/types';
+
+interface IDropItem {
+    key: string; 
+    index: string;
+    id: string;
+    isLocked: boolean;
+    text: string;
+    price: string;
+    thumbnail: string;
+}
 
 const BurgerConstructor = () => {
 
-    const dispatch = useDispatch();
-    const {bun, fillings} = useSelector(store => store.cart);
+    const dispatch = useAppDispatch();
+    const {bun, fillings} = useAppSelector(store => store.cart);
 
     const [, dropTarget] = useDrop({
         accept:'ingredient',
-        drop(item) {
+        drop(item: IDropItem) {
             dispatch(addIngredientToCart(item.id));
         } 
     });
@@ -35,7 +46,7 @@ const BurgerConstructor = () => {
     const cartHasItems = bun || fillings.length > 0;    
 
     return (
-        <article className={styles.constructor} ref={dropTarget} >
+        <article className={styles.constructor_area} ref={dropTarget} >
             { cartHasItems 
                 ? (<>
                         <div className = {styles.main_area}>

@@ -1,9 +1,13 @@
-import React from 'react';
+import React, {FC} from 'react';
 import styles from './ingredient-group.module.css';
-import PropTypes from 'prop-types';
 
+import TIngredientGroup from '../../../services/types/index';
 
-const IngredientGroup = (props) => {
+interface IIngredientGroupProps {
+    data: TIngredientGroup
+}
+
+const IngredientGroup: FC<IIngredientGroupProps> = (props) => {
     
     const {type, name} = props.data;
 
@@ -21,14 +25,5 @@ const IngredientGroup = (props) => {
         </section>                       
     );
 }
-
-
-IngredientGroup.propTypes = {
-    data: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        type: PropTypes.oneOf(["bun","sauce","main"]).isRequired
-        }).isRequired,
-    
-};
 
 export default IngredientGroup;

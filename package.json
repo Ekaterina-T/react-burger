@@ -50,6 +50,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-router-dom": "^5.1.8",
     "cypress": "^8.0.0",
     "eslint-plugin-cypress": "^2.11.3",
     "redux-mock-store": "^1.5.4"

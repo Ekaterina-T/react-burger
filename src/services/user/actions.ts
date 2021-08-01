@@ -82,7 +82,7 @@ export type TUserActions = | IRegisterRequest
 | IPasswordResetFailed
 | IUserRefreshSuccess;
 
-export const register: AppThunk = (email: string, password: string, name: string) => {
+export const register = (email: string, password: string, name: string) => {
 
     return (dispatch: AppDispatch) => {
 

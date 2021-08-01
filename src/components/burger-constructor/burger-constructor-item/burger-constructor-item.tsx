@@ -1,19 +1,26 @@
-import React from 'react';
+import React, {FC} from 'react';
 import styles from './burger-constructor-item.module.css';
-import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from "react-dnd";
 
 import {ConstructorElement, DragIcon}  from '@ya.praktikum/react-developer-burger-ui-components';
 
 import {removeIngredientFromCart, sortFillingsOrder} from '../../../services/cart/actions'
+import { useAppDispatch  } from '../../../services/types';
 
-import PropTypes from 'prop-types';
-import {isImageLink} from '../../../utils/prop-type-custom-checks'
 
-const BurgerConstructorItem = ({index, id, text, price, thumbnail, isLocked}) => {
+interface IBurgerConstructorItem {
+    index: number;
+    id: string;
+    text: string;
+    price: number;
+    thumbnail: string;
+    isLocked: boolean;
+}
+
+const BurgerConstructorItem: FC<IBurgerConstructorItem> = ({index, id, text, price, thumbnail, isLocked}) => {
     
-    const dispatch = useDispatch();
-    const ref = React.useRef(null);
+    const dispatch = useAppDispatch();
+    const ref = React.useRef<HTMLDivElement>(null);
     
     const [{isDragging}, drag] = useDrag({
 
@@ -26,7 +33,7 @@ const BurgerConstructorItem = ({index, id, text, price, thumbnail, isLocked}) =>
 
     const [, drop] = useDrop({
         accept:'fillings',
-        hover(item, monitor) {
+        hover(item: any, monitor: any) {
 
             const dragIndex = item.index;
             const hoverIndex = index;
@@ -55,7 +62,7 @@ const BurgerConstructorItem = ({index, id, text, price, thumbnail, isLocked}) =>
         }
     });
 
-    const removeIngredient = (ingredientKey) => {
+    const removeIngredient = (ingredientKey: string) => {
         dispatch(removeIngredientFromCart(ingredientKey));
     }
 
@@ -78,12 +85,3 @@ const BurgerConstructorItem = ({index, id, text, price, thumbnail, isLocked}) =>
 }
 
 export default BurgerConstructorItem
-
-BurgerConstructorItem.propTypes = {
-    index: PropTypes.number.isRequired,
-    id: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired, 
-    thumbnail: isImageLink, 
-    isLocked: PropTypes.bool.isRequired
-};

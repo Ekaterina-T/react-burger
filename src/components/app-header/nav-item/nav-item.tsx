@@ -1,16 +1,19 @@
-import React from 'react';
-import {NavLink, } from 'react-router-dom';
+import React , {FC} from 'react';
+import {NavLink } from 'react-router-dom';
 
 import styles from './nav-item.module.css';
 import NavList from '../nav-list/nav-list';
-import PropTypes from 'prop-types';
+import {TNavItem} from '../../../services/types/index';
 
-const NavItem = (props) => {
+interface INavItem {
+    data: TNavItem;
+}
 
-    const  {id, title, icon, cssClass, subitems, to}= props.data;
-    const hasSubItems = !!subitems;
+const NavItem: FC<INavItem> = (props) => {
 
-    const isActive = (match) => {
+    const  {id, title, icon, cssClass, subitems, to} = props.data;
+
+    const isActive = (match: any) => {
 
         if (id === 'logo_desktop' || !match || !match.isExact) {
           return false;
@@ -30,19 +33,10 @@ const NavItem = (props) => {
                 {props.children}
                 <span className={styles.link_text}>{title}</span>
             </NavLink>
-            { hasSubItems && <NavList data = {subitems} type="nested" setDefault={false}/>}
+            { !!subitems && <NavList data = {subitems} type="nested" setDefault={false}/>}
         </li>
     );
      
 }
-
-NavItem.propTypes = {
-    data: PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        subitems: PropTypes.arrayOf(PropTypes.object)
-        }
-    ).isRequired
-};
 
 export default NavItem;

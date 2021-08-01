@@ -10,6 +10,15 @@ import { TUserActions } from '../user/actions';
 
 import { rootReducer } from '../rootReducer';
 
+export type TNavItem = {
+    id: string;
+    title: string;
+    to?: string;
+    icon?: any;
+    cssClass?: string;
+    subitems?: Array<{id: string, title: string}>;
+}
+
 export type TIngredient = {
     _id: string;
     name: string;
@@ -24,6 +33,11 @@ export type TIngredient = {
     image_large: string;
     __v: number;
     key: string;
+}
+
+export type TIngredientGroup = {
+    type:  'bun' | 'sauce' | 'main';
+    name?: string;
 }
 
 export type TIngredientWithKey = TIngredient & {
@@ -44,16 +58,16 @@ export type socketList = {
     [name:string]: string;
 }
 
-export type RootState = ReturnType<typeof store.getState>;
+//export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof rootReducer>;
 
 type TApplicationActions = TCartActions & TIngredientActions & TWSOrderActions & TUserActions;
 
 export type AppDispatch = typeof store.dispatch; 
 
-export type AppThunk<TReturn = void> = ActionCreator<
-  ThunkAction<TReturn, RootState, unknown, TApplicationActions>
->;
+export type AppThunk<TReturn = void> = ActionCreator< ThunkAction<TReturn, RootState, unknown, TApplicationActions> >;
+//export type AppThunk<ReturnType = void> = ThunkAction< ReturnType, RootState, unknown, TApplicationActions >
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
-export const useAppDispatch = () => useDispatch<AppDispatch>()
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+export const useAppDispatch = () => useDispatch<AppDispatch | AppThunk>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
