@@ -44,7 +44,7 @@ export type TIngredient = {
 export type TOrder = {
     _id: string;
     name: string;
-    number: string | number;
+    number: number;
     ingredients: string[];
     updatedAt: string;
     status: string;

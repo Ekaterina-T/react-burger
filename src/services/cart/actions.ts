@@ -1,10 +1,10 @@
 import {orderUrl, accessTokenName} from '../../utils/constants';
 import {ActionTypes} from '../actionTypes';
-import { TOrderDetails, TIngredient, TIngredientWithKey, AppThunk, AppDispatch, RootState } from '../types';
+import { TOrderDetails, TIngredient, TIngredientWithKey, AppThunk, AppDispatch } from '../types';
 import { getCookie } from '../../utils/cookie';
 import { TCartState } from './reducer';
 
-import { rootReducer } from '../rootReducer';
+//import { rootReducer } from '../rootReducer';
 
 export interface IUpdateCart {
     readonly type: typeof ActionTypes.UPDATE_CART;

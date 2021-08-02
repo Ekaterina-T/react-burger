@@ -19,7 +19,7 @@ const orderStatusTranslations: {[name:string]: string} =
                                 };
 
 interface IOrderInfoPageProps {
-    activeOrder?: string; 
+    activeOrder?: string | null; 
 }
 
 const OrderInfoPage: FC<IOrderInfoPageProps> = ({activeOrder}) => { 
@@ -34,7 +34,9 @@ const OrderInfoPage: FC<IOrderInfoPageProps> = ({activeOrder}) => {
         return <>Loading</>;
     }
 
-    id = id || activeOrder;
+    if((id ===null || id === undefined) && activeOrder) {
+        id = activeOrder;
+    }
 
     const [order] = orders.filter( (item:TOrder) => item._id === id);
 

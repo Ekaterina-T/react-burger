@@ -5,8 +5,6 @@ import IngredientIconRound from '../ingredient-icon-round/ingredient-icon-round'
 import { DateFormatter } from '../../utils/date-formatter/date-formatter';
 import { formatOrderNumber } from '../utils/order';
 
-import PropTypes from 'prop-types';
-
 import styles from './order-card.module.css';
 
 import { useAppSelector } from '../../services/types';

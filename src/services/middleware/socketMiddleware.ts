@@ -18,7 +18,7 @@ const createSocket = (type: string): [socket: WebSocket, wsActions: TWSAllOrders
   throw new Error('Couldn\'t create socket of type '+ type);
 }
 
-export const socketMiddleware: Middleware<{}, RootState> = 
+export const socketMiddleware: Middleware<{}/*, RootState*/> = 
 
   store => next => action => {
   const { dispatch } = store;

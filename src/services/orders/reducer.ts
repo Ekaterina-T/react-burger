@@ -1,6 +1,9 @@
 import { ActionTypes } from "../actionTypes";
 import { socketType } from "../../utils/constants";
-import { TWSOrderActions } from "./actions";
+import { TWSOrderActions, IWSOnError_AllOrders, 
+         IWSOnError_UserOrders, 
+         IWSOnGetMessage_AllOrders, IWSOnGetMessage_UserOrders,
+         IWSInit_AllOrders, IWSInit_UserOrders } from "./actions";
 
 export type TSocketState = {
     wsConnected: boolean;
@@ -33,7 +36,7 @@ const wsInit = (state: TAllSocketsState, action: TWSOrderActions, socketName: st
     }
 });
 
-const onError = (state: TAllSocketsState, action: TWSOrderActions, socketName: string) => ({
+const onError = (state: TAllSocketsState, action: IWSOnError_AllOrders | IWSOnError_UserOrders, socketName: string) => ({
     ...state,
     [socketName]: {
         ...state[socketName],
@@ -51,7 +54,7 @@ const onClose = (state: TAllSocketsState, action: TWSOrderActions, socketName: s
     }
 });
 
-const onGetMessage = (state: TAllSocketsState, action: TWSOrderActions, socketName: string) => ({
+const onGetMessage = (state: TAllSocketsState, action: IWSOnGetMessage_AllOrders | IWSOnGetMessage_UserOrders, socketName: string) => ({
     ...state,
     [socketName]: {
         ...state[socketName],
@@ -62,6 +65,10 @@ const onGetMessage = (state: TAllSocketsState, action: TWSOrderActions, socketNa
 });
 
 const getSocketName = (action: TWSOrderActions): string => {
+//debugger;
+
+//console.log(action typeof ActionTypes.wsAllOrders.wsInit);
+console.log(typeof action)
 
     if(action.type.indexOf('ALL_ORDERS')>0) {
         return socketType.allOrders;
@@ -70,8 +77,9 @@ const getSocketName = (action: TWSOrderActions): string => {
     if(action.type.indexOf('USER_ORDERS')>0) {
         return socketType.personalOrders;
     }
+    return '';
 
-    throw new Error('Socket name cannot be defined;')
+    //throw new Error('Socket name cannot be defined;')
 }
 
 export const orders = (state = initialState, action: TWSOrderActions) => {

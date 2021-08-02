@@ -1,11 +1,11 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { Route, Switch, useLocation, useHistory } from 'react-router-dom';
 
 import { useAppSelector, useAppDispatch } from '../../services/types';
 
 import './app.css';
 
-import AppHeader from '../app-header/app-header.jsx';
+import AppHeader from '../app-header/app-header';
 import RouteForAuthorizedUsers from '../route-auth-users/route-auth-users';
 import RouteForUnauthorizedUsers from '../route-unauth-users/route-unauth-users';
 import { MainPage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, FeedPage, NotFoundPage, OrderInfoPage } from '../../pages';
@@ -30,13 +30,13 @@ function App() {
   React.useEffect( () => {
     dispatch(getIngredientData());
     dispatch(refreshUser());  
-    dispatch({type: ActionTypes.wsAllOrders.wsInit}); 
+    //dispatch({type: ActionTypes.wsAllOrders.wsInit}); 
     
   },[dispatch]); 
 
   React.useEffect( () => {
     if(loginSuccess) {
-      dispatch({type: ActionTypes.wsUserOrders.wsInit});
+      //dispatch({type: ActionTypes.wsUserOrders.wsInit});
     }     
   },[dispatch, loginSuccess]); 
 

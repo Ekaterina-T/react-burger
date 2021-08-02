@@ -19,7 +19,7 @@ export interface IWSOnClose_AllOrders {
 
 export interface IWSOnGetMessage_AllOrders {
     readonly type: typeof ActionTypes.wsAllOrders.onGetMessage;
-    readonly payload: {[name:string]: any};
+    readonly payload: string;
 }
 
 export interface IWSOnSendMessage_AllOrders {
@@ -46,7 +46,7 @@ export interface IWSOnClose_UserOrders {
 
 export interface IWSOnGetMessage_UserOrders {
     readonly type: typeof ActionTypes.wsUserOrders.onGetMessage;
-    readonly payload: {[name:string]: any};
+    readonly payload: string;
 }
 
 export interface IWSOnSendMessage_UserOrders {

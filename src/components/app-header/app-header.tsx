@@ -1,10 +1,10 @@
-import React, {FC} from 'react';
+import React from 'react';
 import styles from './app-header.module.css';
 import {Logo, BurgerIcon, ListIcon, ProfileIcon, CloseIcon}  from '@ya.praktikum/react-developer-burger-ui-components';
 import {MenuIcon} from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/menu-icon';
 import NavList from './nav-list/nav-list';
 
-const AppHeader = () => {
+const AppHeader = (): React.ReactElement | null => {
 
     const menuItems = [
         {id: "constructor", title: "Конструктор", to: '/', icon: <BurgerIcon type="secondary"/> }, 
