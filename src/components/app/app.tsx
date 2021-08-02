@@ -30,13 +30,13 @@ function App() {
   React.useEffect( () => {
     dispatch(getIngredientData());
     dispatch(refreshUser());  
-    //dispatch({type: ActionTypes.wsAllOrders.wsInit}); 
+    dispatch({type: ActionTypes.wsAllOrders.wsInit}); 
     
   },[dispatch]); 
 
   React.useEffect( () => {
     if(loginSuccess) {
-      //dispatch({type: ActionTypes.wsUserOrders.wsInit});
+      dispatch({type: ActionTypes.wsUserOrders.wsInit});
     }     
   },[dispatch, loginSuccess]); 
 

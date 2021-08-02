@@ -23,7 +23,6 @@ const initialState: TCartState = {
 }
 
 export const cart = (state = initialState, action: TCartActions): TCartState => {
-//debugger;
     switch (action.type) {
           
         case  ActionTypes.UPDATE_CART:

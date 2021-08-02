@@ -2,8 +2,7 @@ import { ActionTypes } from "../actionTypes";
 import { socketType } from "../../utils/constants";
 import { TWSOrderActions, IWSOnError_AllOrders, 
          IWSOnError_UserOrders, 
-         IWSOnGetMessage_AllOrders, IWSOnGetMessage_UserOrders,
-         IWSInit_AllOrders, IWSInit_UserOrders } from "./actions";
+         IWSOnGetMessage_AllOrders, IWSOnGetMessage_UserOrders} from "./actions";
 
 export type TSocketState = {
     wsConnected: boolean;
@@ -64,45 +63,25 @@ const onGetMessage = (state: TAllSocketsState, action: IWSOnGetMessage_AllOrders
     } 
 });
 
-const getSocketName = (action: TWSOrderActions): string => {
-//debugger;
-
-//console.log(action typeof ActionTypes.wsAllOrders.wsInit);
-console.log(typeof action)
-
-    if(action.type.indexOf('ALL_ORDERS')>0) {
-        return socketType.allOrders;
-    }
-
-    if(action.type.indexOf('USER_ORDERS')>0) {
-        return socketType.personalOrders;
-    }
-    return '';
-
-    //throw new Error('Socket name cannot be defined;')
-}
-
 export const orders = (state = initialState, action: TWSOrderActions) => {
-
-    const socketName = getSocketName(action);
 
     switch (action.type) {
 
         case ActionTypes.wsAllOrders.onOpen:
         case ActionTypes.wsUserOrders.onOpen:
-            return wsInit(state, action, socketName);
+            return wsInit(state, action, action.socketName);
 
         case ActionTypes.wsAllOrders.onError:
         case ActionTypes.wsUserOrders.onError:
-            return onError(state, action, socketName);
+            return onError(state, action, action.socketName);
 
         case ActionTypes.wsAllOrders.onClose:
         case ActionTypes.wsUserOrders.onClose:
-            return onClose(state, action, socketName);
+            return onClose(state, action, action.socketName);
 
         case ActionTypes.wsAllOrders.onGetMessage:
         case ActionTypes.wsUserOrders.onGetMessage:
-            return onGetMessage(state, action, socketName);
+            return onGetMessage(state, action, action.socketName);
 
         default:
         return state;
