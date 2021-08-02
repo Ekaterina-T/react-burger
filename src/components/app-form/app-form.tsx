@@ -2,9 +2,9 @@ import React, { FC, useMemo } from 'react';
 import styles from './app-form.module.css';
 
 interface IAppForm {
-    title: string,
-    onSubmit: (e: React.FormEvent) => any,
-    additionalStyles: string[]
+    title?: string,
+    onSubmit?: (e: React.FormEvent) => any,
+    additionalStyles?: string[]
 }
 
 const AppForm:FC<IAppForm> = ({children, title, onSubmit, additionalStyles}) => {

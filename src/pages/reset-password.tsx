@@ -8,12 +8,14 @@ import { resetPassword } from '../services/user/actions';
 
 import styles from './index.module.css';
 
+import { useAppDispatch, useAppSelector } from '../services/types';
+
 function ResetPasswordPage() {
 
     const history = useHistory();
-    const dispatch = useDispatch();
-    const { passwordResetCodeSuccess, passwordResetSuccess } = useSelector(store => store.user);
-    const [resetData, setResetData] = React.useState({password: null, verificationToken: ''});
+    const dispatch = useAppDispatch();
+    const { passwordResetCodeSuccess, passwordResetSuccess } = useAppSelector(store => store.user);
+    const [resetData, setResetData] = React.useState({password: '', verificationToken: ''});
 
     React.useEffect( () => {
         if(!passwordResetCodeSuccess) {
@@ -25,13 +27,13 @@ function ResetPasswordPage() {
     }, 
     [passwordResetCodeSuccess, passwordResetSuccess,  history]);
 
-    const onChange = (e) => {
-        const name = e.target.name;
-        const value = e.target.value;
+    const onChange = (e: React.ChangeEvent) => {
+        const name = (e.target as HTMLInputElement).name;
+        const value = (e.target as HTMLInputElement).value;
         setResetData({...resetData, [name]: value});
     }
 
-    const handleResetPassword = (e) => {
+    const handleResetPassword = (e: React.FormEvent) => {
         e.preventDefault();
         dispatch(resetPassword(resetData.password, resetData.verificationToken));
     }
@@ -39,7 +41,7 @@ function ResetPasswordPage() {
     return (
         <AppForm title='Восстановление пароля' onSubmit={handleResetPassword}>
             <div className={styles.input}>
-                <PasswordInput onChange={onChange} name={'password'} />
+                <PasswordInput onChange={onChange} name={'password'} value={resetData.password}/>
             </div>
             <div className={styles.input}>
                 <Input

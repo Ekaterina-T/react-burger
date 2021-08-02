@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { FC } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 
 import styles from './order-info.module.css'
@@ -8,19 +8,26 @@ import { socketType } from '../utils/constants';
 
 import Price from '../components/price/price';
 import IngredientIconRound from '../components/ingredient-icon-round/ingredient-icon-round';
-import PropTypes from 'prop-types';
+import { useAppSelector } from '../services/types';
 
-const orderStatusTranslations = { done: 'Выполнен', 
+import { TOrder, TIngredient } from '../services/types';
+
+const orderStatusTranslations: {[name:string]: string} = 
+                                { done: 'Выполнен', 
                                   inprogress: 'В работе',
                                   cancelled: 'Отменён'
-                                }
+                                };
 
-const OrderInfoPage = ({activeOrder}) => { 
+interface IOrderInfoPageProps {
+    activeOrder?: string; 
+}
 
-    let {id} = useParams();
+const OrderInfoPage: FC<IOrderInfoPageProps> = ({activeOrder}) => { 
+
+    let {id} = useParams<{id: string | undefined}>();
     const location = useLocation();    
-    const ingredientsData = useSelector(store => store.ingredients.items);
-    const {data} = useSelector( store => store.orders[location.pathname.indexOf('/feed')>=0 ? socketType.allOrders : socketType.personalOrders]);
+    const ingredientsData = useAppSelector(store => store.ingredients.items);
+    const {data} = useAppSelector( store => store.orders[location.pathname.indexOf('/feed')>=0 ? socketType.allOrders : socketType.personalOrders]);
     const orders = data && data.orders;
 
     if(!orders) {
@@ -29,12 +36,12 @@ const OrderInfoPage = ({activeOrder}) => {
 
     id = id || activeOrder;
 
-    const [order] = orders.filter( item => item._id === id);
+    const [order] = orders.filter( (item:TOrder) => item._id === id);
 
-    const getOrderContent = (ingredientsData, order) => {
+    const getOrderContent = (ingredientsData: TIngredient[], order:TOrder) => {
 
-        const ingredientsInOrder = ingredientsData.filter( item => order.ingredients.indexOf(item._id) >= 0);
-        const ingredientCounts = order.ingredients.reduce( (counts, item) => {
+        const ingredientsInOrder = ingredientsData.filter( (item:TIngredient) => order.ingredients.indexOf(item._id) >= 0);
+        const ingredientCounts = order.ingredients.reduce( (counts: {[name: string] : number}, item: string) => {
                                                                 if(counts.hasOwnProperty(item)) {
                                                                     counts[item] += 1;
                                                                 } else {
@@ -78,7 +85,3 @@ const OrderInfoPage = ({activeOrder}) => {
 }
 
 export default OrderInfoPage;
-
-OrderInfoPage.propTypes = {
-    activeOrder: PropTypes.string
-}

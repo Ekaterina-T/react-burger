@@ -9,7 +9,7 @@ import Modal from '../modal/modal';
 import { TOrder } from '../../services/types/index';
 
 interface IFeedListProps {
-    owner: 'profile';
+    owner?: 'profile';
     data: { 
         orders: Array<TOrder>
     }

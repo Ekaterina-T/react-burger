@@ -11,17 +11,19 @@ import { socketType } from '../utils/constants';
 
 import styles from './profile.module.css';
 
-function ProfilePage() { 
+import { useAppSelector, useAppDispatch } from '../services/types';
+
+const ProfilePage = () => { 
     
-    const dispatch = useDispatch();
-    const {loginSuccess} = useSelector(store => store.user); 
-    const {data} = useSelector( store => store.orders[socketType.personalOrders]);
+    const dispatch = useAppDispatch();
+    const {loginSuccess} = useAppSelector(store => store.user); 
+    const {data} = useAppSelector( store => store.orders[socketType.personalOrders]);
 
     const {pathname} = useLocation();
         
     const profileMenuItems = React.useMemo( () => { 
 
-        const exitHandler = (e) => {
+        const exitHandler = (e: React.MouseEvent) => {
             e.preventDefault();
             dispatch(logout());
         };

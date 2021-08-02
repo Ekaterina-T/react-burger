@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 
 import FeedList from '../components/feed-list/feed-list';
 import FeedOverview from '../components/feed-overview/feed-overview';
@@ -7,9 +6,11 @@ import { socketType } from '../utils/constants';
 
 import styles from './feed.module.css';
 
-function FeedPage() {
+import { useAppSelector } from '../services/types';
 
-    const {data} = useSelector( store => store.orders[socketType.allOrders]);
+const FeedPage = (): React.ReactElement | null => {
+
+    const {data} = useAppSelector( store => store.orders[socketType.allOrders]);
 
     return (
         <>

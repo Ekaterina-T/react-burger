@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { Link , useHistory} from 'react-router-dom';
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -8,10 +7,12 @@ import { requestPasswordResetCode } from '../services/user/actions';
 
 import styles from './index.module.css';
 
-function ForgotPasswordPage() {
+import { useAppSelector, useAppDispatch } from '../services/types';
 
-    const dispatch = useDispatch();
-    const { passwordResetCodeSuccess } = useSelector(store => store.user);
+const ForgotPasswordPage = (): React.ReactElement | null => {
+
+    const dispatch = useAppDispatch();
+    const { passwordResetCodeSuccess } = useAppSelector(store => store.user);
     const history = useHistory();
     const [email, setEmail] = React.useState('');
 
@@ -21,11 +22,11 @@ function ForgotPasswordPage() {
         }
     }, [passwordResetCodeSuccess, history]);
 
-    const onEmailUpdate = (e) => {
-        setEmail(e.target.value);
+    const onEmailUpdate = (e: React.SyntheticEvent) => {
+        setEmail((e.target as HTMLInputElement).value);
     };
 
-    const handleRestoreEmail = (e) => {
+    const handleRestoreEmail = (e: React.FormEvent) => {
         e.preventDefault();
         dispatch(requestPasswordResetCode(email));
     };

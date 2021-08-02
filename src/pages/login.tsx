@@ -1,5 +1,4 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {EmailInput, PasswordInput, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -7,18 +6,20 @@ import AppForm from '../components/app-form/app-form';
 import {login} from '../services/user/actions';
 import styles from './index.module.css';
 
+import { useAppDispatch } from '../services/types';
+
 function LoginPage() {
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const [credentials, setCredentials] = React.useState({email: '', password: ''}); 
 
-    const onInputChange = (e) => {
-        const name = e.target.name;
-        const value = e.target.value;
+    const onInputChange = (e: React.ChangeEvent) => {
+        const name = (e.target as HTMLInputElement).name;
+        const value = (e.target as HTMLInputElement).value;
         setCredentials((prevVal) => ({...prevVal, [name]: value}));
     }
 
-    const handleLogin = (e) => {  
+    const handleLogin = (e: React.FormEvent) => {  
         e.preventDefault();  
         dispatch(login(credentials.email, credentials.password));         
     }

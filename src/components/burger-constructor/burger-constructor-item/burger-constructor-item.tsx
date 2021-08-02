@@ -38,12 +38,12 @@ const BurgerConstructorItem: FC<IBurgerConstructorItem> = ({index, id, text, pri
             const dragIndex = item.index;
             const hoverIndex = index;
 
-            if(dragIndex === hoverIndex) {
+            if(dragIndex === hoverIndex ) {
                 return;
             }
 
-            const node = ref.current.querySelector('div');
-            const hoverBoundingRect = node.getBoundingClientRect();            
+            const node = ref.current!.querySelector('div');
+            const hoverBoundingRect = node!.getBoundingClientRect();            
             const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
 
             const clientOffset = monitor.getClientOffset(); //cursor position when it intersects drop target
