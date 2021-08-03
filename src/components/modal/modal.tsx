@@ -5,7 +5,7 @@ import {CloseIcon}  from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 
 interface IModalProps {
-    onClose: (e: React.MouseEvent | React.KeyboardEvent) => any;
+    onClose: (e: React.MouseEvent | React.KeyboardEvent) => void;
     type: "ingredient" | "order" | "orderInfo";
 }
 

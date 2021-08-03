@@ -11,7 +11,7 @@ import { TIngredient } from '../../../services/types/index';
 
 interface IIngredient {
     data: TIngredient;
-    openModal: any;
+    openModal: (data:TIngredient) => void;
 }
 
 const Ingredient: FC<IIngredient> = ({ data, openModal}) => {

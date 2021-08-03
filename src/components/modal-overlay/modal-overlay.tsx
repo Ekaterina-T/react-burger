@@ -3,7 +3,7 @@ import styles from './modal-overlay.module.css';
 import PropTypes from 'prop-types';
 
 interface IModalOverlayProps {
-  onClose: (e: React.MouseEvent | React.KeyboardEvent) => any;
+  onClose: (e: React.MouseEvent | React.KeyboardEvent) => void;
 }
 
 const ModalOverlay: FC<IModalOverlayProps> = ({onClose}) => {

@@ -41,10 +41,8 @@ function App() {
   },[dispatch, loginSuccess]); 
 
   React.useEffect( () => {
-    if(location.pathname.indexOf('profile')) {
       dispatch(refreshUser());
-    }
-  }, [dispatch, location]);
+  }, [dispatch]);
   
 
   if(!ingredientsLoadSuccess) {

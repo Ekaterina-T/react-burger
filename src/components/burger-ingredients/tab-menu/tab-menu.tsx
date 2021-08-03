@@ -5,7 +5,7 @@ import {ingredientGroups} from '../../../utils/constants'
 interface ITabMenu {
     burgerIngredientsEl: {current: HTMLElement | null} ;
     currentTab: 'bun'| 'sauce'| 'main';
-    updateCurrentTab: any;
+    updateCurrentTab: (tabValue:'bun'| 'sauce'| 'main') => any;
 }
 
 const TabMenu: FC<ITabMenu> = ({burgerIngredientsEl, currentTab, updateCurrentTab}) => {
@@ -14,7 +14,7 @@ const TabMenu: FC<ITabMenu> = ({burgerIngredientsEl, currentTab, updateCurrentTa
         const section = burgerIngredientsEl.current && burgerIngredientsEl.current.querySelector(`section[id=${tabValue}]`);
         if(section) {
             section.scrollIntoView({ behavior: "smooth" });
-            updateCurrentTab(tabValue);
+            updateCurrentTab(tabValue as 'bun'| 'sauce'| 'main');
         }
     };
 

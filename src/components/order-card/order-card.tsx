@@ -12,7 +12,7 @@ import {TOrder, TIngredient} from '../../services/types/index';
 
 interface IOrderCardProps {
     data: TOrder; 
-    openModal: (_id: string) => any;
+    openModal: (_id: string) => void;
 }
 
 const OrderCard: FC<IOrderCardProps> = ({data: {_id, updatedAt, name, ingredients, number}, openModal }) => {
