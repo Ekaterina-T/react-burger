@@ -35,6 +35,8 @@ const wsInit = (state: TAllSocketsState, action: TWSOrderActions, socketName: st
     }
 });
 
+//это странно, но пришлось явно прописать юнион для экшенов с payload
+//компилятор не видит это свойство, я не понимаю в чём проблема, т.к. в другом месте всё то же самое работает :(
 const onError = (state: TAllSocketsState, action: IWSOnError_AllOrders | IWSOnError_UserOrders, socketName: string) => ({
     ...state,
     [socketName]: {
