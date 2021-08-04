@@ -20,7 +20,7 @@ export const refreshToken = () => {
           'Content-Type': 'application/json'
       },
       body: JSON.stringify({"token": window.localStorage.getItem(refreshTokenName)})
-    });
+    }).catch( res => {console.log('refresh token')});
 }
 
 export const getProfileSettings = () => {
@@ -31,10 +31,10 @@ export const getProfileSettings = () => {
             'Content-Type': 'application/json',
             'Authorization': getCookie(accessTokenName)
         }
-    });
+    }).catch( res => {console.log('profile setting')});
 }
 
-export const updateProfileSettings = (updatedUserSettings: {[name: string]: any}) => {
+export const updateProfileSettings = (updatedUserSettings: object) => {
 
     return serverRequest(authEndpoints.userUrl, {
         method: 'PATCH',
@@ -43,7 +43,7 @@ export const updateProfileSettings = (updatedUserSettings: {[name: string]: any}
             authorization: getCookie(accessTokenName)
         },
         body: JSON.stringify(updatedUserSettings)
-    });
+    }).catch( res => {console.log('updateProfileSettings')});
 }
 
 export const setToken = (data : {accessToken: string, refreshToken: string}) : void => {

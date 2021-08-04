@@ -12,7 +12,7 @@ export interface IWSOnOpen_AllOrders {
 
 export interface IWSOnError_AllOrders {
     readonly type: typeof ActionTypes.wsAllOrders.onError;
-    readonly payload: {[name:string]: any};
+    readonly payload: {[name:string]: string};
     readonly socketName: string;
 }
 
@@ -45,7 +45,7 @@ export interface IWSOnOpen_UserOrders {
 
 export interface IWSOnError_UserOrders {
     readonly type: typeof ActionTypes.wsUserOrders.onError;
-    readonly payload: {[name:string]: any};
+    readonly payload: {[name:string]: string};
     readonly socketName: string;
 }
 

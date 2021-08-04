@@ -3,6 +3,7 @@ import { Redirect, Route} from 'react-router-dom';
 
 import { useAppSelector } from '../../services/types';
 
+
 interface IRouteForAuthorizedUsersProps {
   [name: string]: any;
 }

@@ -13,7 +13,7 @@ const Modal: FC<IModalProps> = ({ children, onClose, type}) => {
 
     //input for tab trap inside modal
     const [activeBeforeModal, setActiveBeforeModal] = useState<HTMLElement | null>(null);
-    const [modalControls, setModalControls] = useState<Array<any>>([]);
+    const [modalControls, setModalControls] = useState<Array<HTMLElement>>([]);
 
     const modalComponent = React.useRef<HTMLElement>(null);
 
@@ -22,7 +22,7 @@ const Modal: FC<IModalProps> = ({ children, onClose, type}) => {
         setActiveBeforeModal(document.activeElement as HTMLElement);
 
         if(modalComponent.current) {
-            setModalControls([modalComponent.current, modalComponent.current.querySelector('button')]);
+            setModalControls([modalComponent.current, modalComponent.current.querySelector('button') as HTMLElement]);
             modalComponent.current.focus();
         }
 

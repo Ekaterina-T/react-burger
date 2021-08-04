@@ -3,8 +3,8 @@ import {user} from './reducer';
 
 const state = {
 
-    name: null,
-    email: null,
+    //name: null,
+   // email: null,
     
     registerRequest: false,
     registerSuccess: false,
@@ -47,14 +47,14 @@ describe('Action creators for user', () => {
         const testDate = new Date();
 
         const testAction = {type: ActionTypes.REGISTER_SUCCESS,
-                            data: {accessToken: 'accessToken', refreshToken: 'refreshToken', timeStamp: testDate}
+                            data: {accessToken: 'accessToken', refreshToken: 'refreshToken', timeStamp: testDate.toDateString()}
                            };
         const initialState = {...state, registerRequest: true };
         const expectedState = {...state, 
                                 registerRequest: false, 
                                 registerSuccess: true,
                                 accessToken: 'accessToken',
-                                accessTokenTimeStamp: testDate,
+                                accessTokenTimeStamp: testDate.toDateString(),
                                 refreshToken: 'refreshToken'
                               }
 

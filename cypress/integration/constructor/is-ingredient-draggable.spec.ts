@@ -3,7 +3,7 @@ describe('drag and drop of ingredients works', function() {
   const FILLING_INDEX = 3;
   const BUN_INDEX = 1;
 
-  function dropIngredientIntoTarget(ingredientIndex, targetSelector) {
+  function dropIngredientIntoTarget(ingredientIndex: number, targetSelector: string) {
     cy.get('[class^=ingredient_card]')
     .eq(ingredientIndex)
     .trigger('dragstart')
@@ -12,7 +12,7 @@ describe('drag and drop of ingredients works', function() {
     .trigger('drop')
   }
 
-  function checkDragIsCorrect(ingredientIndex, expectedCount) {
+  function checkDragIsCorrect(ingredientIndex: number, expectedCount: number) {
     cy.get('[class^=ingredient_card]').eq(ingredientIndex).as('draggableElement');
 
     cy.get('@draggableElement')
@@ -22,13 +22,13 @@ describe('drag and drop of ingredients works', function() {
       cy.get('[class^=burger-constructor_constructor]').as('targetArea');
       
       cy.get('@targetArea')
-      .first('[class^=constructor-element__text]')
+      .first()
       .contains(ingredientTitle);
 
     });
 
-    cy.get('@draggableElement')    
-    .first('class^=counter_counter__num')
+    cy.get('@draggableElement')
+    .first()
     .contains(expectedCount);
   }
 
@@ -60,7 +60,7 @@ describe('drag and drop of ingredients works', function() {
 
     cy.get('[class^=ingredient_card]')
     .eq(ingredientIndex)
-    .first('class^=counter_counter__num')
+    .first()
     .contains(2);
 
   });

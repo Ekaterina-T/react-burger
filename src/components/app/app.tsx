@@ -29,7 +29,7 @@ function App() {
 
   React.useEffect( () => {
     dispatch(getIngredientData());
-    dispatch(refreshUser());  
+    dispatch(refreshUser());
     dispatch({type: ActionTypes.wsAllOrders.wsInit}); 
     
   },[dispatch]); 
@@ -40,10 +40,6 @@ function App() {
     }     
   },[dispatch, loginSuccess]); 
 
-  React.useEffect( () => {
-      dispatch(refreshUser());
-  }, [dispatch]);
-  
 
   if(!ingredientsLoadSuccess) {
     return <p> Данные загружаются </p>;

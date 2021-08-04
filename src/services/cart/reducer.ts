@@ -5,11 +5,11 @@ import { TCartActions } from './actions';
 export type TCartState = {
     bun: TIngredient | null,
     fillings: Array<TIngredient>,
-    createOrderInProgress: boolean;
-    createOrderSuccess: boolean;
-    createOrderFailed: boolean;
-    showOrderDetails: boolean;
-    orderDetails: TOrderDetails | null;
+    createOrderInProgress?: boolean;
+    createOrderSuccess?: boolean;
+    createOrderFailed?: boolean;
+    showOrderDetails?: boolean;
+    orderDetails?: TOrderDetails | null;
 }
 
 const initialState: TCartState = {

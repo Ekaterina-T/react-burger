@@ -1,6 +1,5 @@
 import React, {FC} from 'react';
 import styles from './modal-overlay.module.css';
-import PropTypes from 'prop-types';
 
 interface IModalOverlayProps {
   onClose: (e: React.MouseEvent | React.KeyboardEvent) => void;
@@ -15,7 +14,3 @@ const ModalOverlay: FC<IModalOverlayProps> = ({onClose}) => {
 } 
 
 export default ModalOverlay
-
-ModalOverlay.propTypes = {
-  onClose: PropTypes.func.isRequired
-};

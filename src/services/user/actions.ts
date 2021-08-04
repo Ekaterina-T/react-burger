@@ -173,7 +173,6 @@ export const login: AppThunk = (email: string, password: string) => {
             console.log('Login failed'+res);            
             dispatch({type:  ActionTypes.LOGIN_FAILED});
         })
-        .catch( () => { console.log('LOGIN_FAILED') });
 
     }
 };
@@ -270,7 +269,7 @@ export const resetPassword: AppThunk = (password: string, verificationToken: str
             if(res.success) {
                 dispatch({type: ActionTypes.PASSWORD_RESET_SUCCESS});
             } else {
-                throw new Error('resetPassword failed');
+                console.log('resetPassword failed');
             }
         })
         .catch( res => {
@@ -287,7 +286,10 @@ export const runServerRequest = (dispatch: AppDispatch, requestFunction:(f:any) 
         dispatch({type: ActionTypes.USER_REFRESH_SUCCESS, user: res.user});
       })
       .catch( res => {
+
+
         if(res.status === 401 || res.message === 'jwt expired') {
+
           refreshToken().then( res => {
               setToken(res);
               requestFunction(requestFunctionParams)
@@ -298,9 +300,11 @@ export const runServerRequest = (dispatch: AppDispatch, requestFunction:(f:any) 
           .catch( () => {
               console.log('token didn\'t refresh');
           });
+
         } else {
           console.log('something went wrong with authorization: try re-login')
         }
+
       })
 }
 
