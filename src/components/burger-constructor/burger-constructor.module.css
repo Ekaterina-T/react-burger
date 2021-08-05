@@ -1,4 +1,4 @@
-.constructor {
+.constructor_area {
     composes: pt-25 ml-5 mr-5 from global;
     box-sizing: border-box;
     width: 600px;

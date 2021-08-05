@@ -8,3 +8,8 @@
 .button_wrapper {
     composes: ml-10 from global;
 }
+
+.info_important {
+    composes: text text_type_main-default from global;
+    color: #9b3226;
+}
