@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/react-burger/static/css/main.dde07536.chunk.css",
+    "main.js": "/react-burger/static/js/main.b968ea23.chunk.js",
+    "main.js.map": "/react-burger/static/js/main.b968ea23.chunk.js.map",
+    "runtime-main.js": "/react-burger/static/js/runtime-main.9726c1cd.js",
+    "runtime-main.js.map": "/react-burger/static/js/runtime-main.9726c1cd.js.map",
+    "static/css/2.8bae46ed.chunk.css": "/react-burger/static/css/2.8bae46ed.chunk.css",
+    "static/js/2.fdb56dd9.chunk.js": "/react-burger/static/js/2.fdb56dd9.chunk.js",
+    "static/js/2.fdb56dd9.chunk.js.map": "/react-burger/static/js/2.fdb56dd9.chunk.js.map",
+    "static/js/3.cd9cecf4.chunk.js": "/react-burger/static/js/3.cd9cecf4.chunk.js",
+    "static/js/3.cd9cecf4.chunk.js.map": "/react-burger/static/js/3.cd9cecf4.chunk.js.map",
+    "index.html": "/react-burger/index.html",
+    "static/css/2.8bae46ed.chunk.css.map": "/react-burger/static/css/2.8bae46ed.chunk.css.map",
+    "static/css/main.dde07536.chunk.css.map": "/react-burger/static/css/main.dde07536.chunk.css.map",
+    "static/js/2.fdb56dd9.chunk.js.LICENSE.txt": "/react-burger/static/js/2.fdb56dd9.chunk.js.LICENSE.txt",
+    "static/media/fonts.css": "/react-burger/static/media/iceland.77ad7fc2.woff"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.9726c1cd.js",
+    "static/css/2.8bae46ed.chunk.css",
+    "static/js/2.fdb56dd9.chunk.js",
+    "static/css/main.dde07536.chunk.css",
+    "static/js/main.b968ea23.chunk.js"
+  ]
+}
