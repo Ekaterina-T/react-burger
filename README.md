@@ -1,5 +1,12 @@
 # Link to the site
 
+React learing project:
+- css modules
+- redux
+- type script
+- testing
+- web-sockets
+
 https://ekaterina-t.github.io/react-burger/
 
 # Getting Started with Create React App
