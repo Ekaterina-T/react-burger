@@ -8,4 +8,4 @@ React learing project:
 - testing
 - web-sockets
 
-https://ekaterina-t.github.io/react-burger/
+https://ekaterina-t.github.io/
