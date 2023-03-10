@@ -1,7 +1,8 @@
 import translationsRU from "../vocabulary/ru";
 
-export const MILLISECONDS_IN_HOUR = 60*60*1000;
-export const MILLISECONDS_IN_DAY = 24*MILLISECONDS_IN_HOUR;
+export const MILLISECONDS_IN_MINUTE = 60 * 1000
+export const MILLISECONDS_IN_HOUR = 60 * MILLISECONDS_IN_MINUTE;
+export const MILLISECONDS_IN_DAY = 24 * MILLISECONDS_IN_HOUR;
 
 export class DateFormatter {
 
@@ -32,7 +33,7 @@ export class DateFormatter {
         const cleanDate = new Date(date);
         cleanDate.setHours(0,0,0,0);
 
-        const cleanNow = new Date(now);        
+        const cleanNow = new Date(now);
         cleanNow.setHours(0,0,0,0);
 
         const diffInDays = (cleanNow.getTime() - cleanDate.getTime())/MILLISECONDS_IN_DAY;
@@ -41,11 +42,11 @@ export class DateFormatter {
             return cleanDate.getDate()+' '+cleanDate.getMonth()+' '+cleanDate.getFullYear();
         }
 
-        if(diffInDays === 0) {            
+        if(diffInDays === 0) {
             return translationsRU['today'];
         }
 
-        if(diffInDays === 1) {            
+        if(diffInDays === 1) {
             return translationsRU['yesterday'];
         }
 
@@ -56,7 +57,7 @@ export class DateFormatter {
         return diffInDays+' '+translationsRU['daysAgo'];
 
     }
-    
+
     static getRelativeFormat = (dateValue: string) => {
         const date = DateFormatter.getDate(dateValue);
         return DateFormatter.getDaysDiff(date)+', '+DateFormatter.getTime(date)+' '+DateFormatter.getTZ(date);
