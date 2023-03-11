@@ -1,20 +1,18 @@
-import {FC} from 'react';
+import React from 'react';
 import styles from './ingredient-icon-round.module.css';
 
 interface IIngredientIconRoundProps {
-    image_mobile: string,
-    name: string,
-    customStyle: object
+  image_mobile: string,
+  name: string,
+  customStyle: object
 }
 
-const IngredientIconRound: FC<IIngredientIconRoundProps> = ({image_mobile, name, customStyle}) => {
+function IngredientIconRound({ image_mobile, name, customStyle }: IIngredientIconRoundProps) {
+  return (
+    <span className={styles.ingredientContainer} style={customStyle}>
+      <img src={image_mobile} alt={name} className={styles.ingredientImg} />
+    </span>
+  );
+}
 
-    return  <span className={styles.ingredientContainer} style = {customStyle} >
-                <img src = {image_mobile} alt = {name}  className={styles.ingredientImg}/>
-            </span>
-
-} 
-
-export default IngredientIconRound
-
-
+export default IngredientIconRound;

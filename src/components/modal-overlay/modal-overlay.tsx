@@ -1,16 +1,14 @@
-import React, {FC} from 'react';
+import React from 'react';
 import styles from './modal-overlay.module.css';
 
 interface IModalOverlayProps {
   onClose: (e: React.MouseEvent | React.KeyboardEvent) => void;
 }
 
-const ModalOverlay: FC<IModalOverlayProps> = ({onClose}) => {
+function ModalOverlay({ onClose }: IModalOverlayProps) {
+  // eslint-disable-next-line max-len
+  // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
+  return <div className={styles.backdrop} onClick={onClose} />;
+}
 
-    return (
-        <div className={styles.backdrop} onClick={onClose}></div>
-    );
-
-} 
-
-export default ModalOverlay
+export default ModalOverlay;
