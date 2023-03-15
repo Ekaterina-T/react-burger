@@ -6,6 +6,7 @@
     max-width: 270px;
     cursor: grab;
     color: #ffffff;
+    text-align: center;
 }
 
 
@@ -32,5 +33,4 @@
 
 .add_btn {
     display: none;
-    text-align: center;
 }

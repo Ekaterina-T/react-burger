@@ -1,29 +1,26 @@
-import React, {FC} from 'react';
+/* eslint-disable import/no-cycle */
+import React, { ReactElement } from 'react';
 import styles from './nav-list.module.css';
 import NavItem from '../nav-item/nav-item';
 
-import {TNavItem} from '../../../services/types/index';
+import { TNavItem } from '../../../services/types/index';
 
-interface INavListЗкщзы {
-    data: Array<TNavItem>;
-    type: "main" | "nested";
-    setDefault: boolean;
+interface INavListProps {
+  data: Array<TNavItem>;
+  type: 'main' | 'nested';
 }
 
-const NavList: FC<INavListЗкщзы> = ({data, type}) => {
-
-    return (            
-        <ul className={ type === 'main' ? styles.main_nav : styles.nested_nav}> 
-            { data && data.map( item => (
-                <NavItem 
-                key={item.id} 
-                data={item} />
-            ))}
-        </ul>
-    );
-    
+function NavList({ data, type }: INavListProps): ReactElement {
+  return (
+    <ul className={type === 'main' ? styles.main_nav : styles.nested_nav}>
+      { data && data.map((item: TNavItem) => (
+        <NavItem
+          key={item.id}
+          data={item}
+        />
+      ))}
+    </ul>
+  );
 }
-
 
 export default NavList;
-

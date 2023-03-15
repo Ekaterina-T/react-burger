@@ -5,14 +5,14 @@
 }
 
 .main_area {
-    display: flex; 
+    display: flex;
     flex-direction: column;
     align-items: stretch;
     min-width: calc( 100% - 24px );
 }
 
 .emptyConstructor {
-    composes: m-10 p-10 text text_type_main-default  from global;
+    composes: m-10 p-10 text text_type_main-default from global;
     border: 1px dashed #2f2f37;
     border-radius: 40px;
     text-align: center;
@@ -20,7 +20,7 @@
 
 .scrollable_area {
     composes: main_area;
-    composes: pr-2 from global;  
+    composes: pr-2 from global;
     max-height: 450px;
-    overflow-y: scroll;  
+    overflow-y: scroll;
 }

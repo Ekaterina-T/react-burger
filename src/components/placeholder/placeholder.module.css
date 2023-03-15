@@ -1,0 +1,6 @@
+.placeholder {
+    composes: m-10 p-10 text text_type_main-default from global;
+    border: 1px dashed #2f2f37;
+    border-radius: 40px;
+    text-align: center;
+}

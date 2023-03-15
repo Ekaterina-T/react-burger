@@ -1,87 +1,167 @@
-import React, {FC} from 'react';
+import React, { ReactElement } from 'react';
+import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
+
+import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor-item.module.css';
-import { useDrag, useDrop } from "react-dnd";
 
-import {ConstructorElement, DragIcon}  from '@ya.praktikum/react-developer-burger-ui-components';
-
-import {removeIngredientFromCart, sortFillingsOrder} from '../../../services/cart/actions'
-import { useAppDispatch  } from '../../../services/types';
-
+import { removeIngredientFromCart, sortFillingsOrder, addIngredientToCart } from '../../../services/cart/actions';
+import { useAppDispatch } from '../../../services/types';
+import Placeholder from '../../placeholder/placeholder';
 
 interface IBurgerConstructorItem {
-    index: number;
-    id: string;
-    text: string;
-    price: number;
-    thumbnail: string;
-    isLocked: boolean;
+  type?: 'top' | 'bottom' | undefined;
+  index: number;
+  id: string;
+  text: string;
+  price: number;
+  thumbnail: string;
+  isLocked: boolean;
 }
 
-const BurgerConstructorItem: FC<IBurgerConstructorItem> = ({index, id, text, price, thumbnail, isLocked}) => {
-    
-    const dispatch = useAppDispatch();
-    const ref = React.useRef<HTMLDivElement>(null);
-    
-    const [{isDragging}, drag] = useDrag({
+interface IItem {
+  id: string;
+  index?: number;
+  type: 'bun' | 'filling' | 'sauce'
+}
 
-        type: "fillings", 
-        item: {id, index},
-        collect: monitor => ({
-            isDragging: monitor.isDragging()
-        })
-    });
+function BurgerConstructorItem({
+  type, index, id, text, price, thumbnail, isLocked,
+}: IBurgerConstructorItem): ReactElement {
+  const dispatch = useAppDispatch();
+  const refWrapper = React.useRef<HTMLDivElement>(null);
+  const refIngredient = React.useRef<HTMLDivElement>(null);
 
-    const [, drop] = useDrop({
-        accept:'fillings',
-        hover(item: any, monitor: any) {
+  const isHoverOver = (monitor: DropTargetMonitor):boolean => {
+    if (!monitor.isOver()) return false;
 
-            const dragIndex = item.index;
-            const hoverIndex = index;
+    const draggedItem: IItem = monitor.getItem();
 
-            if(dragIndex === hoverIndex ) {
-                return;
-            }
+    if (draggedItem.type === 'bun') return false;
 
-            const node = ref.current!.querySelector('div');
-            const hoverBoundingRect = node!.getBoundingClientRect();            
-            const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+    const draggedIndex = (!draggedItem.index && draggedItem.index !== 0) ? null : draggedItem.index;
 
-            const clientOffset = monitor.getClientOffset(); //cursor position when it intersects drop target
-            const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-
-            if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) { //downwards
-                return;
-            }
-
-            if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) { //upwards
-                return;
-            }
-
-            dispatch(sortFillingsOrder(dragIndex, hoverIndex));
-            monitor.getItem().index = hoverIndex;
-        }
-    });
-
-    const removeIngredient = (ingredientKey: string) => {
-        dispatch(removeIngredientFromCart(ingredientKey));
+    // moving around an already added ingredient
+    if (draggedIndex !== null && draggedIndex >= 0 && draggedIndex === index) {
+      return false;
     }
 
-    const style = { cursor: "grabbing"};
-    const opacity = isDragging ? 0 : 1;
-    drag(drop(ref));
+    return true;
+  };
 
-    return (
-            <div id={id} className={styles.burgerIngredient} ref={ref}  style={{ ...style, opacity}}>
-                <div className={styles.dragIcon}><DragIcon type="primary" /></div>
-                <ConstructorElement
-                isLocked={isLocked}
-                text={text}
-                price={price}
-                thumbnail={thumbnail}
-                handleClose={() => removeIngredient(id)}/>
-            </div>
-    )
+  const swapFillings = (item: any, monitor: any) => {
+    if (!isHoverOver(monitor)) return;
 
+    const dragIndex = item.index;
+    const hoverIndex = index;
+
+    if ((hoverIndex !== 0 && !hoverIndex) || dragIndex === hoverIndex) return;
+
+    dispatch(sortFillingsOrder(dragIndex, hoverIndex));
+    // eslint-disable-next-line no-param-reassign
+    monitor.getItem().index = hoverIndex;
+  };
+
+  const addNewFilling = (item: any, monitor: any) => {
+    if (!isHoverOver(monitor)) return;
+    const hoverIndex = index;
+
+    if (hoverIndex !== 0 && !hoverIndex) return;
+
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    dispatch(addIngredientToCart(item.id, isDragUp ? hoverIndex : hoverIndex + 1));
+    // eslint-disable-next-line no-param-reassign
+    monitor.getItem().index = hoverIndex;
+  };
+
+  const isDraggingDown = (monitor: DropTargetMonitor):boolean => {
+    if (!isHoverOver(monitor)) return false;
+
+    /**
+     * When the dragged element crosses drop-target element for the 1st time,
+     * DnD fires event and calls isDraggingDown.
+     * When the pointer leaves current drop-target no event fires.
+     * At 1st time we define pointer direction and render "empty placeholder" in new position.
+     * After that re-render happens => wrapper container !== drop-target container.
+     * => We need to re-confirm direction of pointer.
+     */
+
+    const wrapperRect = refWrapper.current && refWrapper.current.getBoundingClientRect();
+    const dropTargetRect = refIngredient.current && refIngredient.current.getBoundingClientRect();
+
+    const dragCursorPos = monitor.getClientOffset();
+
+    if (!wrapperRect || !dropTargetRect || !dragCursorPos) return false;
+
+    if (wrapperRect.top === dropTargetRect.top && wrapperRect.bottom === dropTargetRect.bottom) {
+      // 1st render - before empty space is rendered
+      const distToTop = Math.abs(dragCursorPos.y - wrapperRect.top);
+      const distToBottom = Math.abs(dragCursorPos.y - wrapperRect.bottom);
+      return distToTop < distToBottom;
+    }
+    // 2nd render - after empty space is rendered
+    return wrapperRect.top === dropTargetRect.top;
+  };
+
+  const [{
+    isDragDown, isDragUp,
+  }, drop] = useDrop({
+    accept: ['fillings', 'ingredient'],
+    drop(item: any, monitor: DropTargetMonitor) {
+      if (monitor.getItemType() === 'fillings') {
+        swapFillings(item, monitor);
+      } else {
+        addNewFilling(item, monitor);
+      }
+    },
+    collect: (monitor) => {
+      const isDown = isDraggingDown(monitor);
+      return { isDragDown: isDown, isDragUp: isHoverOver(monitor) && !isDown };
+    },
+  });
+
+  const [{ isDragging }, drag] = useDrag({
+    type: 'fillings',
+    item: { id, index },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+
+  const removeIngredient = (ingredientKey: string) => {
+    dispatch(removeIngredientFromCart(ingredientKey));
+  };
+
+  const style = { cursor: 'grabbing' };
+  const opacity = isDragging ? 0 : 1;
+  drag(drop(refWrapper));
+
+  return (
+    <div ref={refWrapper}>
+      { isDragUp && <Placeholder /> }
+
+      <div
+        ref={refIngredient}
+        id={id}
+        className={styles.burgerIngredient}
+        style={{ ...style, opacity }}
+      >
+        <div className={styles.dragIcon}>
+          <DragIcon type="primary" />
+        </div>
+        <ConstructorElement
+          type={type}
+          isLocked={isLocked}
+          text={text}
+          price={price}
+          thumbnail={thumbnail}
+          handleClose={() => removeIngredient(id)}
+        />
+      </div>
+
+      { isDragDown && <Placeholder /> }
+
+    </div>
+  );
 }
 
-export default BurgerConstructorItem
+export default BurgerConstructorItem;

@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from 'react';
 
 function OrderDetailsIcon() {
   return (
@@ -72,7 +72,7 @@ function OrderDetailsIcon() {
         </radialGradient>
       </defs>
     </svg>
-  )
+  );
 }
 
-export default OrderDetailsIcon
+export default OrderDetailsIcon;

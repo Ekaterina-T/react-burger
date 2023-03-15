@@ -2,26 +2,24 @@ import React from 'react';
 import { useAppSelector } from '../../services/types';
 
 import styles from './order-details.module.css';
-import OrderDetailsIcon from './order-details-icon'
+import OrderDetailsIcon from './order-details-icon';
 
-const OrderDetails = () => {
+function OrderDetails() {
+  const { orderDetails } = useAppSelector((store) => store.cart);
+  const notesMain = orderDetails?.success ? 'Ваш заказ начали готовить' : 'Заказ не может быть выполнен';
+  const notesSec = orderDetails?.success ? 'Дождитесь готовности на орбитальной станции' : 'Обратитесь в поддержку';
 
-    const {orderDetails} = useAppSelector(store => store.cart);
-    const notes_main = orderDetails?.success ? "Ваш заказ начали готовить": "Заказ не может быть выполнен";
-    const notes_sec = orderDetails?.success ? "Дождитесь готовности на орбитальной станции": "Обратитесь в поддержку";
+  return (
+    <section className={styles.info_section}>
+      <header className={styles.orderId}>{orderDetails?.order.number}</header>
+      <p className={styles.orderId_note}>идентификатор заказа</p>
 
-    return (      
-        <section className={styles.info_section}>
-            <header className={styles.orderId}>{orderDetails?.order.number}</header>
-            <p className={styles.orderId_note}>идентификатор заказа</p>
+      <OrderDetailsIcon />
 
-            <OrderDetailsIcon />
+      <p className={styles.common_notes_main}>{notesMain}</p>
+      <p className={styles.common_notes_sec}>{notesSec}</p>
+    </section>
+  );
+}
 
-            <p className={styles.common_notes_main}>{notes_main}</p>
-            <p className={styles.common_notes_sec}>{notes_sec}</p>
-        </section>
-    );
-} 
-
-export default OrderDetails
-
+export default OrderDetails;

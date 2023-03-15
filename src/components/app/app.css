@@ -1,6 +1,7 @@
-main {  
+main {
   position: relative; /* to position nested elements relative to main */
-  background-color: #131316;display: flex;
+  background-color: #131316;
+  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
