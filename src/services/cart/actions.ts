@@ -3,10 +3,11 @@
 import { orderUrl, accessTokenName } from '../../utils/constants';
 import { ActionTypes } from '../actionTypes';
 import {
-  TOrderDetails, TIngredient, TIngredientWithKey, AppThunk, AppDispatch,
+  TOrderDetails, TIngredient, AppThunk, AppDispatch,
 } from '../types';
 import { getCookie } from '../../utils/cookie';
 import { TCartState } from './reducer';
+import CartActions from './CartActions';
 
 export interface IUpdateCart {
   readonly type: typeof ActionTypes.UPDATE_CART;
@@ -38,38 +39,27 @@ export type TCartActions =
 | ICloseOrder;
 
 // eslint-disable-next-line max-len
-export const addIngredientToCart: AppThunk = (ingredientID: string) => (dispatch: AppDispatch, getState) => {
-  const getNextIngredientKey = (ingredients: Array<TIngredientWithKey>):number => {
-    const maxAvailableIndex = ingredients.reduce(
-      (res, item) => {
-        const currentKey = Number(item.key.split('_')[1]);
-        return res < currentKey ? currentKey : res;
-      },
-      -1,
-    );
-
-    return maxAvailableIndex + 1;
-  };
-
-  const getIngredientKey = (ingredient: TIngredient, fillings: TIngredient[]): string => (
-    ingredient.type === 'bun'
-      ? ingredient._id
-      : [ingredient._id, getNextIngredientKey(fillings)].join('_')
+export const addIngredientToCart: AppThunk = (ingredientID: string, positionIndex: number | null = null) => (dispatch: AppDispatch, getState) => {
+  const newIngredient = CartActions.createNewIngredient(
+    getState().ingredients.items,
+    ingredientID,
   );
-
-  const prevCart = getState().cart;
-  const newIngredient = {
-    ...getState()
-      .ingredients
-      .items
-      .filter((item: TIngredient) => item._id === ingredientID)[0],
-  };
-
-  newIngredient.key = getIngredientKey(newIngredient, prevCart.fillings);
-
-  const updatedCart = (newIngredient.type === 'bun')
-    ? { ...prevCart, bun: newIngredient }
-    : { ...prevCart, fillings: [...prevCart.fillings, newIngredient] };
+  const updatedCart = { ...getState().cart };
+  if (newIngredient.type === 'bun') {
+    // buns are the same => we need info about only one bun
+    updatedCart.bun = newIngredient;
+  } else if (!updatedCart.fillings.length) {
+    // no fillings => no re-order of the fillings
+    updatedCart.fillings.push(newIngredient);
+  } else if (positionIndex === null) {
+    // some fillings defined, but new one has no special position => no re-order
+    updatedCart.fillings.push(newIngredient);
+  } else {
+    // there are fillings and position of the new one is defined explicitly
+    const updatedFillings = [...updatedCart.fillings];
+    updatedFillings.splice(positionIndex, 0, newIngredient);
+    updatedCart.fillings = updatedFillings;
+  }
 
   dispatch({ type: ActionTypes.UPDATE_CART, updatedCart });
 };

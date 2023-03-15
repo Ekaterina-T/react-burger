@@ -17,7 +17,7 @@ interface IIngredient {
 function Ingredient({ data, openModal }: IIngredient) {
   const dispatch = useAppDispatch();
   const { bun, fillings } = useAppSelector((store) => store.cart);
-  const [, dragRef] = useDrag({ type: 'ingredient', item: { id: data._id } });
+  const [, dragRef] = useDrag({ type: 'ingredient', item: { id: data._id, type: data.type } });
 
   const ingredientCount = React.useMemo(() => {
     let count = [...fillings, bun]
@@ -29,7 +29,7 @@ function Ingredient({ data, openModal }: IIngredient) {
     return count;
   }, [fillings, bun, data._id, data.type]);
 
-  const addIngredient = (e: React.SyntheticEvent) => {
+  const addIngredientViaButton = (e: React.SyntheticEvent) => {
     e.stopPropagation();
     dispatch(addIngredientToCart(data._id));
   };
@@ -54,7 +54,9 @@ function Ingredient({ data, openModal }: IIngredient) {
         <CurrencyIcon type="secondary" />
       </div>
       <div className={styles.name}>{name}</div>
-      <div className={styles.add_btn}><Button type="secondary" size="medium" onClick={addIngredient}>Добавить</Button></div>
+      <div className={styles.add_btn}>
+        <Button type="secondary" size="medium" onClick={addIngredientViaButton}>Добавить</Button>
+      </div>
 
     </li>
   );

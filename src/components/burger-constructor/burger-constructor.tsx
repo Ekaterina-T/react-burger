@@ -1,34 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
 import BurgerConstructorTotal from './burger-constructor-total/burger-constructor-total';
 import BurgerConstructorItem from './burger-constructor-item/burger-constructor-item';
+import Placeholder from '../placeholder/placeholder';
 
 import { addIngredientToCart } from '../../services/cart/actions';
 
 import { useAppSelector, useAppDispatch } from '../../services/types';
 
 interface IDropItem {
-  key: string;
-  index: string;
   id: string;
-  isLocked: boolean;
-  text: string;
-  price: string;
-  thumbnail: string;
+  type: string;
 }
 
 function BurgerConstructor() {
   const dispatch = useAppDispatch();
   const { bun, fillings } = useAppSelector((store) => store.cart);
+  const [cartHasItems, setCartHasItems] = useState<boolean>(false);
+  const [isBunAdded, setIsBunAdded] = useState<boolean>(false);
 
-  const [, dropTarget] = useDrop({
+  const [{ isOver, isBun }, dropTarget] = useDrop({
     accept: 'ingredient',
     drop(item: IDropItem) {
-      dispatch(addIngredientToCart(item.id));
+      if (item.type === 'bun' || !fillings.length) {
+        dispatch(addIngredientToCart(item.id));
+      }
     },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      isBun: monitor.getItemType() === 'bun',
+    }),
   });
 
   const fillingsItems = fillings.map((filling, index) => (
@@ -43,7 +47,10 @@ function BurgerConstructor() {
     />
   ));
 
-  const cartHasItems = bun || fillings.length > 0;
+  useEffect(() => {
+    setCartHasItems(!!bun || fillings.length > 0);
+    setIsBunAdded(!!bun);
+  }, [bun, fillings]);
 
   return (
     <article className={styles.constructor_area} ref={dropTarget}>
@@ -52,21 +59,38 @@ function BurgerConstructor() {
           <>
             <div className={styles.main_area}>
 
-              { bun != null
-                            && <ConstructorElement type="top" isLocked text={`${bun.name} (верх)`} price={bun.price} thumbnail={bun.image} />}
+              { isBunAdded
+              && (
+                <ConstructorElement
+                  type="top"
+                  isLocked
+                  text={`${bun!.name} (верх)`}
+                  price={bun!.price}
+                  thumbnail={bun!.image}
+                />
+              )}
 
               <div className={styles.scrollable_area}>
-                {fillingsItems}
+                {fillingsItems.length > 0 && fillingsItems}
+                {!fillingsItems.length && isOver && isBunAdded && !isBun && <Placeholder /> }
               </div>
 
-              { bun != null
-                            && <ConstructorElement type="bottom" isLocked text={`${bun.name} (низ)`} price={bun.price} thumbnail={bun.image} />}
+              { isBunAdded
+              && (
+                <ConstructorElement
+                  type="bottom"
+                  isLocked
+                  text={`${bun!.name} (низ)`}
+                  price={bun!.price}
+                  thumbnail={bun!.image}
+                />
+              )}
 
             </div>
             <BurgerConstructorTotal />
           </>
         )
-        : <p className={styles.emptyConstructor}>Добавьте сюда ингредиенты</p>}
+        : <Placeholder>Добавьте сюда ингредиенты</Placeholder>}
     </article>
   );
 }
