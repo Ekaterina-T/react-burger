@@ -50,7 +50,7 @@ function BurgerConstructor() {
   useEffect(() => {
     setCartHasItems(!!bun || fillings.length > 0);
     setIsBunAdded(!!bun);
-  }, [bun, fillings]);
+  }, [bun, fillings.length]);
 
   return (
     <article className={styles.constructor_area} ref={dropTarget}>
