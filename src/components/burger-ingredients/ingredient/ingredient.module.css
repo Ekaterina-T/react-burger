@@ -20,17 +20,21 @@
     composes: pt-1 pb-1 from global;
     display: flex;
     justify-content: center;
+    color: #ffffff;
 }
 
 .price_num {
     composes: pr-1 text text_type_digits-default from global;
+    color: #ffffff;
 }
 
 .name {
     composes: text text_type_main-default from global;
     text-align: center;
+    color: #ffffff;
 }
 
 .add_btn {
     display: none;
+    color: #ffffff;
 }

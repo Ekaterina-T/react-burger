@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import React from 'react';
-import { Link, useLocation, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import styles from './burger-ingredients.module.css';
 
@@ -19,7 +19,6 @@ import {
 } from '../../services/types';
 
 function BurgerIngredients() {
-  const location = useLocation();
   const history = useHistory();
 
   const [currentTab, setCurrentTab] = React.useState<'bun' | 'sauce' | 'main'>('bun');
@@ -45,12 +44,11 @@ function BurgerIngredients() {
     items
       .filter((ingredient) => ingredient.type === group.type)
       .map((ingredient) => (
-        <Link key={ingredient._id} to={{ pathname: `/ingredients/${ingredient._id}`, state: { background: location } }}>
-          <Ingredient
-            data={ingredient}
-            openModal={openModal}
-          />
-        </Link>
+        <Ingredient
+          key={ingredient._id}
+          data={ingredient}
+          openModal={openModal}
+        />
       ))
   );
 
